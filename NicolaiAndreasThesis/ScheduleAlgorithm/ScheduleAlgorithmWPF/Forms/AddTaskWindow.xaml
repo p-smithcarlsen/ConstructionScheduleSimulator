@@ -1,0 +1,69 @@
+﻿<Window x:Class="ScheduleAlgorithmWPF.Forms.AddTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScheduleAlgorithmWPF.Forms"
+        mc:Ignorable="d"
+        Title="AddTaskWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0 0 0 20" 
+                   HorizontalAlignment="Center" FontSize="48">New Construction Task</TextBlock>
+
+        <!-- Task ID -->
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0 0 0 10" FontSize="14" HorizontalAlignment="Right">Task ID</TextBlock>
+        <TextBox x:Name="TxtTaskID" Grid.Row="1" Grid.Column="2" MinWidth="150" MinHeight="22" Margin="0 0 0 10"
+                 HorizontalAlignment="Center"></TextBox>
+
+        <!-- Zone -->
+        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0 0 0 10" FontSize="14" HorizontalAlignment="Right" >Zone</TextBlock>
+        <TextBox x:Name="TxtZone" Grid.Row="2" Grid.Column="2" MinWidth="150" MinHeight="22" Margin="0 0 0 10" HorizontalAlignment="Center"></TextBox>
+
+        <!-- Task Operation -->
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0 0 0 10" FontSize="14" HorizontalAlignment="Right" >Task Operation</TextBlock>
+        <TextBox x:Name="TxtTaskOperation" Grid.Row="3" Grid.Column="2" MinWidth="150" MinHeight="22" Margin="0 0 0 10" HorizontalAlignment="Center"></TextBox>
+
+        <!-- Duration -->
+        <TextBlock Grid.Row="4" Grid.Column="1" Margin="0 0 0 10" FontSize="14" HorizontalAlignment="Right" >Estimated Duration</TextBlock>
+        <TextBox x:Name="TxtEstimatedDuration" Grid.Row="4" Grid.Column="2" MinWidth="150" MinHeight="22" Margin="0 0 0 10" HorizontalAlignment="Center"></TextBox>
+
+        <!-- Craft -->
+        <TextBlock Grid.Row="5" Grid.Column="1" Margin="0 0 0 10" FontSize="14" HorizontalAlignment="Right" >Craft</TextBlock>
+        <TextBox x:Name="TxtCraft" Grid.Row="5" Grid.Column="2" MinWidth="150" MinHeight="22" Margin="0 0 0 10" HorizontalAlignment="Center"></TextBox>
+
+        <!-- Progress -->
+        <TextBlock Grid.Row="6" Grid.Column="1" Margin="0 0 0 10" FontSize="14" HorizontalAlignment="Right" >Progress</TextBlock>
+        <ComboBox x:Name="CbProgress" Grid.Row="6" Grid.Column="2" MinWidth="150" MinHeight="22" Margin="0 0 0 10" HorizontalAlignment="Center"></ComboBox>
+
+        <!-- Precedence -->
+        <TextBlock Grid.Row="7" Grid.Column="1" Margin="0 0 0 10" FontSize="14" HorizontalAlignment="Right" >Precedence</TextBlock>
+        <TextBox x:Name="TxtPrecedence" Grid.Row="7" Grid.Column="2" MinWidth="150" MinHeight="22" Margin="0 0 0 10" HorizontalAlignment="Center"></TextBox>
+
+        <!-- Button Row -->
+        <Button x:Name="BtnCreateTask" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Padding="20 5"
+                HorizontalAlignment="Center" Height="27" VerticalAlignment="Bottom" Click="BtnCreateTask_Click">Create Task</Button>
+
+
+    </Grid>
+</Window>

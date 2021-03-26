@@ -1,0 +1,42 @@
+﻿<Application x:Class="ScheduleAlgorithmWPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ScheduleAlgorithmWPF" 
+             xmlns:viewmodels="clr-namespace:ScheduleAlgorithmWPF.ViewModels"
+             xmlns:views="clr-namespace:ScheduleAlgorithmWPF.Views"
+             xmlns:views1="clr-namespace:ScheduleAlgorithmWPF.Views.Schedules">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Common.xaml"/>
+                <ResourceDictionary Source="/Styles/NavigationBar.xaml"/>
+         
+       
+            </ResourceDictionary.MergedDictionaries>            
+            <!--List all views here-->
+            <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
+                <views:HomeView/>
+            </DataTemplate>            
+
+            <DataTemplate DataType="{x:Type viewmodels:DataViewModel}">
+                <views:DataView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:EarliestStartViewModel}">
+                <views1:EarliestStart/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:LatestStartViewModel}">
+                <views1:LatestStart/>
+            </DataTemplate>
+
+
+
+        </ResourceDictionary>
+
+
+
+
+    </Application.Resources>
+</Application>

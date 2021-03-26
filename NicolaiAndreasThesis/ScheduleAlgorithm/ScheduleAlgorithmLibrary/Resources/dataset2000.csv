@@ -1,0 +1,2001 @@
+Id,Zone,Task operation,Duration,Resources,Craft,Construciton order
+0.0,z0,Floor,1,1,Electrician,
+1.0,z0,Structural Foundation,3,2,Carpenter,0.0
+2.0,z0,Structural Walls,3,2,Electrician,1.0
+3.0,z0,Sewage,8,1,Carpenter,2.0
+4.0,z0,Interior Walls,3,1,VVS,3.0
+5.0,z0,Sewage,4,3,Carpenter,4.0
+6.0,z0,Gypsum,7,3,Painter,5.0
+7.0,z0,Interior Walls,6,3,Painter,6.0
+8.0,z0,Gypsum,4,1,VVS,7.0
+9.0,z0,Piping,7,2,Painter,8.0
+10.0,z0,Piping,6,3,Concrete,9.0
+11.0,z0,Sewage,2,1,Electrician,10.0
+12.0,z0,Electricity,3,2,Carpenter,11.0
+13.0,z0,Floor,5,1,Electrician,12.0
+14.0,z0,Electricity,3,1,Painter,13.0
+15.0,z0,Electricity,7,2,Electrician,14.0
+16.0,z0,Piping,8,2,Carpenter,15.0
+17.0,z0,Gypsum,7,3,Concrete,16.0
+18.0,z0,Structural Walls,2,2,Painter,17.0
+19.0,z0,Floor,5,1,Painter,18.0
+20.0,z0,Sewage,8,3,Concrete,19.0
+21.0,z0,Floor,1,3,Electrician,20.0
+22.0,z0,Sewage,6,1,Electrician,21.0
+23.0,z0,Electricity,3,1,VVS,22.0
+24.0,z0,Gypsum,6,1,Carpenter,23.0
+25.0,z0,Interior Walls,3,1,Painter,24.0
+26.0,z0,Floor,8,2,Painter,25.0
+27.0,z0,Structural Foundation,5,2,Painter,26.0
+28.0,z0,Structural Foundation,8,2,VVS,27.0
+29.0,z0,Sewage,2,1,Carpenter,28.0
+30.0,z0,Floor,9,1,Concrete,29.0
+31.0,z0,Gypsum,9,2,Carpenter,30.0
+32.0,z0,Electricity,4,1,Carpenter,31.0
+33.0,z0,Structural Foundation,5,3,Electrician,32.0
+34.0,z0,Structural Foundation,8,1,Electrician,33.0
+35.0,z0,Sewage,6,3,Concrete,34.0
+36.0,z0,Sewage,6,2,Concrete,35.0
+37.0,z0,Electricity,9,1,VVS,36.0
+38.0,z0,Structural Foundation,6,2,Electrician,37.0
+39.0,z0,Sewage,8,2,VVS,38.0
+40.0,z0,Structural Walls,9,2,Painter,39.0
+41.0,z0,Interior Walls,9,3,Painter,40.0
+42.0,z0,Interior Walls,5,1,VVS,41.0
+43.0,z0,Floor,5,1,Electrician,42.0
+44.0,z0,Gypsum,1,2,Electrician,43.0
+45.0,z0,Gypsum,3,2,Electrician,44.0
+46.0,z0,Gypsum,7,3,Electrician,45.0
+47.0,z0,Gypsum,8,2,Painter,46.0
+48.0,z0,Interior Walls,8,1,Electrician,47.0
+49.0,z0,Electricity,1,3,VVS,48.0
+50.0,z0,Floor,6,3,Electrician,49.0
+51.0,z0,Floor,3,1,VVS,50.0
+52.0,z0,Gypsum,8,1,VVS,51.0
+53.0,z0,Electricity,7,3,Electrician,52.0
+54.0,z0,Structural Walls,7,2,Carpenter,53.0
+55.0,z0,Interior Walls,2,2,Painter,54.0
+56.0,z0,Electricity,3,3,Electrician,55.0
+57.0,z0,Interior Walls,5,2,Painter,56.0
+58.0,z0,Floor,7,1,Painter,57.0
+59.0,z0,Sewage,6,3,Concrete,58.0
+60.0,z0,Floor,2,1,Electrician,59.0
+61.0,z0,Electricity,7,1,Concrete,60.0
+62.0,z0,Interior Walls,2,1,Concrete,61.0
+63.0,z0,Gypsum,8,1,Carpenter,62.0
+64.0,z0,Sewage,9,2,Carpenter,63.0
+65.0,z0,Interior Walls,6,1,Carpenter,64.0
+66.0,z0,Electricity,2,2,Concrete,65.0
+67.0,z0,Gypsum,2,2,Concrete,66.0
+68.0,z0,Structural Foundation,2,3,Painter,67.0
+69.0,z0,Structural Walls,5,3,VVS,68.0
+70.0,z0,Floor,2,3,Painter,69.0
+71.0,z0,Structural Walls,4,3,Carpenter,70.0
+72.0,z0,Floor,3,1,Painter,71.0
+73.0,z0,Structural Foundation,6,2,VVS,72.0
+74.0,z0,Gypsum,1,3,VVS,73.0
+75.0,z0,Electricity,9,1,Concrete,74.0
+76.0,z0,Structural Walls,7,1,VVS,75.0
+77.0,z0,Piping,4,3,Carpenter,76.0
+78.0,z0,Gypsum,5,3,Painter,77.0
+79.0,z0,Gypsum,1,1,Carpenter,78.0
+80.0,z0,Gypsum,6,1,VVS,79.0
+81.0,z0,Structural Foundation,2,2,Electrician,80.0
+82.0,z0,Structural Foundation,2,2,Electrician,81.0
+83.0,z0,Sewage,9,3,Concrete,82.0
+84.0,z0,Piping,6,3,VVS,83.0
+85.0,z0,Interior Walls,7,2,Concrete,84.0
+86.0,z0,Structural Walls,7,2,Electrician,85.0
+87.0,z0,Electricity,4,2,Painter,86.0
+88.0,z0,Piping,4,3,Electrician,87.0
+89.0,z0,Interior Walls,5,1,VVS,88.0
+90.0,z0,Interior Walls,6,3,Carpenter,89.0
+91.0,z0,Interior Walls,2,3,Electrician,90.0
+92.0,z0,Sewage,7,2,Painter,91.0
+93.0,z0,Piping,7,2,Electrician,92.0
+94.0,z0,Structural Foundation,5,2,Painter,93.0
+95.0,z0,Sewage,1,2,Carpenter,94.0
+96.0,z0,Piping,7,3,VVS,95.0
+97.0,z0,Interior Walls,5,2,Painter,96.0
+98.0,z0,Floor,1,2,Carpenter,97.0
+99.0,z0,Gypsum,9,3,VVS,98.0
+100.0,z0,Piping,2,1,Painter,99.0
+101.0,z0,Interior Walls,5,3,Concrete,100.0
+102.0,z0,Electricity,3,2,Concrete,101.0
+103.0,z0,Structural Walls,1,2,Electrician,102.0
+104.0,z0,Floor,5,3,Concrete,103.0
+105.0,z0,Structural Walls,7,2,VVS,104.0
+106.0,z0,Piping,2,3,VVS,105.0
+107.0,z0,Interior Walls,3,1,Carpenter,106.0
+108.0,z0,Floor,3,1,Concrete,107.0
+109.0,z0,Gypsum,7,1,VVS,108.0
+110.0,z0,Interior Walls,1,3,VVS,109.0
+111.0,z0,Structural Foundation,5,1,VVS,110.0
+112.0,z0,Sewage,1,3,Painter,111.0
+113.0,z0,Piping,9,3,Electrician,112.0
+114.0,z0,Electricity,9,3,Painter,113.0
+115.0,z0,Structural Walls,6,2,VVS,114.0
+116.0,z0,Structural Walls,2,3,Carpenter,115.0
+117.0,z0,Piping,5,2,VVS,116.0
+118.0,z0,Structural Walls,5,3,VVS,117.0
+119.0,z0,Structural Foundation,1,3,Electrician,118.0
+120.0,z0,Sewage,9,3,Painter,119.0
+121.0,z0,Piping,4,3,Electrician,120.0
+122.0,z0,Structural Walls,1,2,Carpenter,121.0
+123.0,z0,Piping,6,2,Concrete,122.0
+124.0,z0,Piping,3,2,Electrician,123.0
+125.0,z0,Piping,9,1,Painter,124.0
+126.0,z0,Piping,2,1,Painter,125.0
+127.0,z0,Piping,4,2,VVS,126.0
+128.0,z0,Interior Walls,1,1,Electrician,127.0
+129.0,z0,Floor,3,1,Electrician,128.0
+130.0,z0,Piping,7,3,VVS,129.0
+131.0,z0,Interior Walls,9,3,Concrete,130.0
+132.0,z0,Gypsum,5,3,Carpenter,131.0
+133.0,z0,Electricity,4,2,Concrete,132.0
+134.0,z0,Interior Walls,9,2,Concrete,133.0
+135.0,z0,Structural Walls,2,3,Concrete,134.0
+136.0,z0,Gypsum,7,2,Carpenter,135.0
+137.0,z0,Structural Walls,3,2,Concrete,136.0
+138.0,z0,Sewage,3,2,Electrician,137.0
+139.0,z0,Structural Walls,8,1,Carpenter,138.0
+140.0,z0,Sewage,3,2,Electrician,139.0
+141.0,z0,Structural Walls,8,3,Painter,140.0
+142.0,z0,Floor,7,2,Painter,141.0
+143.0,z0,Gypsum,1,1,Carpenter,142.0
+144.0,z0,Structural Foundation,5,2,VVS,143.0
+145.0,z0,Sewage,3,3,Painter,144.0
+146.0,z0,Structural Foundation,9,3,Concrete,145.0
+147.0,z0,Sewage,7,3,Painter,146.0
+148.0,z0,Gypsum,7,3,Electrician,147.0
+149.0,z0,Interior Walls,3,2,Electrician,148.0
+150.0,z0,Sewage,6,1,Electrician,149.0
+151.0,z0,Floor,5,2,Concrete,150.0
+152.0,z0,Sewage,3,1,VVS,151.0
+153.0,z0,Sewage,5,2,Electrician,152.0
+154.0,z0,Interior Walls,6,1,Electrician,153.0
+155.0,z0,Floor,3,3,VVS,154.0
+156.0,z0,Piping,7,2,Electrician,155.0
+157.0,z0,Sewage,8,1,Concrete,156.0
+158.0,z0,Interior Walls,9,2,VVS,157.0
+159.0,z0,Floor,4,2,VVS,158.0
+160.0,z0,Interior Walls,1,2,Painter,159.0
+161.0,z0,Interior Walls,3,2,Painter,160.0
+162.0,z0,Floor,1,3,Electrician,161.0
+163.0,z0,Floor,1,1,Painter,162.0
+164.0,z0,Piping,3,1,VVS,163.0
+165.0,z0,Structural Foundation,3,3,Carpenter,164.0
+166.0,z0,Gypsum,8,3,Electrician,165.0
+167.0,z0,Structural Foundation,3,2,Painter,166.0
+168.0,z0,Piping,5,1,Painter,167.0
+169.0,z0,Structural Foundation,3,3,VVS,168.0
+170.0,z0,Piping,8,1,Carpenter,169.0
+171.0,z0,Interior Walls,7,2,Electrician,170.0
+172.0,z0,Piping,8,2,VVS,171.0
+173.0,z0,Gypsum,1,3,Concrete,172.0
+174.0,z0,Electricity,8,1,Concrete,173.0
+175.0,z0,Piping,1,3,VVS,174.0
+176.0,z0,Gypsum,6,1,Concrete,175.0
+177.0,z0,Structural Foundation,8,2,Electrician,176.0
+178.0,z0,Sewage,6,1,Painter,177.0
+179.0,z0,Electricity,2,1,Painter,178.0
+180.0,z0,Sewage,6,2,Electrician,179.0
+181.0,z0,Gypsum,5,3,VVS,180.0
+182.0,z0,Interior Walls,5,3,VVS,181.0
+183.0,z0,Structural Foundation,2,3,Painter,182.0
+184.0,z0,Gypsum,2,3,Painter,183.0
+185.0,z0,Electricity,8,1,Concrete,184.0
+186.0,z0,Piping,2,1,VVS,185.0
+187.0,z0,Floor,2,2,Electrician,186.0
+188.0,z0,Floor,4,3,Painter,187.0
+189.0,z0,Sewage,9,1,Carpenter,188.0
+190.0,z0,Sewage,7,3,Electrician,189.0
+191.0,z0,Interior Walls,7,2,Painter,190.0
+192.0,z0,Electricity,6,1,Painter,191.0
+193.0,z0,Piping,8,1,VVS,192.0
+194.0,z0,Structural Foundation,8,3,Electrician,193.0
+195.0,z0,Interior Walls,3,1,VVS,194.0
+196.0,z0,Piping,4,3,Carpenter,195.0
+197.0,z0,Electricity,1,1,Electrician,196.0
+198.0,z0,Structural Foundation,4,3,Carpenter,197.0
+199.0,z0,Structural Foundation,3,3,Carpenter,198.0
+200.0,z0,Interior Walls,1,3,Carpenter,199.0
+201.0,z0,Structural Foundation,1,1,Electrician,200.0
+202.0,z0,Structural Walls,2,2,Electrician,201.0
+203.0,z0,Structural Walls,2,3,Electrician,202.0
+204.0,z0,Piping,1,1,VVS,203.0
+205.0,z0,Piping,6,2,VVS,204.0
+206.0,z0,Electricity,2,1,Carpenter,205.0
+207.0,z0,Floor,4,2,Painter,206.0
+208.0,z0,Sewage,5,3,Concrete,207.0
+209.0,z0,Electricity,3,3,Electrician,208.0
+210.0,z0,Sewage,7,3,Electrician,209.0
+211.0,z0,Floor,8,1,Carpenter,210.0
+212.0,z0,Sewage,2,2,Concrete,211.0
+213.0,z0,Electricity,7,3,Electrician,212.0
+214.0,z0,Piping,3,3,Electrician,213.0
+215.0,z0,Structural Walls,5,1,VVS,214.0
+216.0,z0,Gypsum,4,1,Painter,215.0
+217.0,z0,Piping,2,2,Electrician,216.0
+218.0,z0,Electricity,8,1,Carpenter,217.0
+219.0,z0,Gypsum,6,2,Painter,218.0
+220.0,z0,Sewage,3,3,VVS,219.0
+221.0,z0,Structural Walls,5,3,Electrician,220.0
+222.0,z0,Electricity,4,1,Concrete,221.0
+223.0,z0,Electricity,9,1,VVS,222.0
+224.0,z0,Sewage,6,2,Concrete,223.0
+225.0,z0,Interior Walls,1,3,Concrete,224.0
+226.0,z0,Sewage,2,3,Concrete,225.0
+227.0,z0,Sewage,5,3,Carpenter,226.0
+228.0,z0,Gypsum,3,3,VVS,227.0
+229.0,z0,Floor,9,1,Carpenter,228.0
+230.0,z0,Electricity,3,3,Painter,229.0
+231.0,z0,Gypsum,9,3,VVS,230.0
+232.0,z0,Electricity,8,1,Painter,231.0
+233.0,z0,Electricity,8,3,Concrete,232.0
+234.0,z0,Interior Walls,9,1,Concrete,233.0
+235.0,z0,Structural Walls,1,1,Painter,234.0
+236.0,z0,Interior Walls,6,2,VVS,235.0
+237.0,z0,Structural Foundation,1,1,Painter,236.0
+238.0,z0,Sewage,4,2,Concrete,237.0
+239.0,z0,Interior Walls,3,1,Concrete,238.0
+240.0,z0,Piping,3,3,Electrician,239.0
+241.0,z0,Floor,7,2,Carpenter,240.0
+242.0,z0,Gypsum,3,1,Concrete,241.0
+243.0,z0,Floor,2,1,Painter,242.0
+244.0,z0,Structural Foundation,3,1,Electrician,243.0
+245.0,z0,Floor,3,3,VVS,244.0
+246.0,z0,Structural Foundation,6,1,Painter,245.0
+247.0,z0,Sewage,2,1,Concrete,246.0
+248.0,z0,Gypsum,4,1,VVS,247.0
+249.0,z0,Structural Foundation,4,2,Carpenter,248.0
+250.0,z0,Floor,9,1,VVS,249.0
+251.0,z0,Floor,9,2,Concrete,250.0
+252.0,z0,Electricity,7,1,Carpenter,251.0
+253.0,z0,Floor,4,2,Electrician,252.0
+254.0,z0,Gypsum,5,2,Painter,253.0
+255.0,z0,Floor,4,3,Painter,254.0
+256.0,z0,Interior Walls,2,2,Carpenter,255.0
+257.0,z0,Gypsum,9,3,Concrete,256.0
+258.0,z0,Structural Walls,7,3,Concrete,257.0
+259.0,z0,Sewage,6,1,Electrician,258.0
+260.0,z0,Sewage,9,1,VVS,259.0
+261.0,z0,Gypsum,2,2,Carpenter,260.0
+262.0,z0,Structural Foundation,6,1,Electrician,261.0
+263.0,z0,Piping,6,2,Electrician,262.0
+264.0,z0,Structural Walls,1,2,Carpenter,263.0
+265.0,z0,Interior Walls,7,2,Electrician,264.0
+266.0,z0,Gypsum,4,1,Electrician,265.0
+267.0,z0,Piping,1,3,VVS,266.0
+268.0,z0,Floor,6,3,VVS,267.0
+269.0,z0,Sewage,9,1,Concrete,268.0
+270.0,z0,Floor,8,1,Electrician,269.0
+271.0,z0,Interior Walls,7,1,Electrician,270.0
+272.0,z0,Electricity,8,1,VVS,271.0
+273.0,z0,Electricity,9,3,Concrete,272.0
+274.0,z0,Structural Foundation,6,1,Painter,273.0
+275.0,z0,Electricity,9,1,Painter,274.0
+276.0,z0,Structural Walls,8,2,Concrete,275.0
+277.0,z0,Interior Walls,4,3,Painter,276.0
+278.0,z0,Structural Walls,3,3,Painter,277.0
+279.0,z0,Piping,5,1,Electrician,278.0
+280.0,z0,Structural Walls,6,2,Painter,279.0
+281.0,z0,Piping,3,3,Concrete,280.0
+282.0,z0,Structural Foundation,9,1,Painter,281.0
+283.0,z0,Interior Walls,9,2,Electrician,282.0
+284.0,z0,Piping,9,1,Carpenter,283.0
+285.0,z0,Structural Foundation,5,1,VVS,284.0
+286.0,z0,Gypsum,6,2,Electrician,285.0
+287.0,z0,Piping,2,1,Painter,286.0
+288.0,z0,Gypsum,1,1,Concrete,287.0
+289.0,z0,Piping,2,2,Carpenter,288.0
+290.0,z0,Electricity,3,3,Concrete,289.0
+291.0,z0,Sewage,8,3,Painter,290.0
+292.0,z0,Structural Walls,1,3,Electrician,291.0
+293.0,z0,Structural Foundation,6,2,Carpenter,292.0
+294.0,z0,Floor,3,1,VVS,293.0
+295.0,z0,Electricity,5,2,Electrician,294.0
+296.0,z0,Structural Walls,7,2,Concrete,295.0
+297.0,z0,Sewage,1,1,Concrete,296.0
+298.0,z0,Structural Foundation,3,3,Concrete,297.0
+299.0,z0,Structural Walls,6,2,Carpenter,298.0
+300.0,z0,Sewage,8,1,VVS,299.0
+301.0,z0,Electricity,8,1,Electrician,300.0
+302.0,z0,Electricity,4,1,Electrician,301.0
+303.0,z0,Gypsum,2,3,Concrete,302.0
+304.0,z0,Electricity,2,3,Concrete,303.0
+305.0,z0,Structural Walls,7,2,VVS,304.0
+306.0,z0,Structural Walls,1,1,Painter,305.0
+307.0,z0,Piping,3,1,Painter,306.0
+308.0,z0,Interior Walls,8,1,Electrician,307.0
+309.0,z0,Structural Foundation,6,3,Painter,308.0
+310.0,z0,Gypsum,5,2,Concrete,309.0
+311.0,z0,Floor,9,3,Concrete,310.0
+312.0,z0,Electricity,5,2,Carpenter,311.0
+313.0,z0,Gypsum,6,1,VVS,312.0
+314.0,z0,Structural Foundation,4,3,Painter,313.0
+315.0,z0,Structural Foundation,6,2,VVS,314.0
+316.0,z0,Piping,5,1,Electrician,315.0
+317.0,z0,Floor,2,2,VVS,316.0
+318.0,z0,Structural Foundation,3,1,Concrete,317.0
+319.0,z0,Gypsum,8,1,Painter,318.0
+320.0,z0,Electricity,4,2,Concrete,319.0
+321.0,z0,Electricity,6,3,Electrician,320.0
+322.0,z0,Gypsum,2,3,Carpenter,321.0
+323.0,z0,Electricity,1,2,Carpenter,322.0
+324.0,z0,Interior Walls,3,1,Carpenter,323.0
+325.0,z0,Electricity,1,2,Painter,324.0
+326.0,z0,Gypsum,9,2,VVS,325.0
+327.0,z0,Structural Walls,4,2,Electrician,326.0
+328.0,z0,Electricity,1,2,Carpenter,327.0
+329.0,z0,Sewage,8,2,Electrician,328.0
+330.0,z0,Electricity,9,1,Electrician,329.0
+331.0,z0,Piping,9,1,Carpenter,330.0
+332.0,z0,Piping,2,3,VVS,331.0
+333.0,z0,Structural Walls,7,3,Carpenter,332.0
+334.0,z0,Floor,3,1,Painter,333.0
+335.0,z0,Structural Foundation,6,1,VVS,334.0
+336.0,z0,Sewage,4,2,Carpenter,335.0
+337.0,z0,Structural Walls,1,1,Carpenter,336.0
+338.0,z0,Gypsum,3,3,Carpenter,337.0
+339.0,z0,Structural Foundation,3,3,Electrician,338.0
+340.0,z0,Piping,3,2,VVS,339.0
+341.0,z0,Electricity,5,1,VVS,340.0
+342.0,z0,Gypsum,5,2,Electrician,341.0
+343.0,z0,Electricity,6,2,Concrete,342.0
+344.0,z0,Electricity,8,1,VVS,343.0
+345.0,z0,Structural Foundation,7,2,Electrician,344.0
+346.0,z0,Piping,2,3,Carpenter,345.0
+347.0,z0,Sewage,5,1,Electrician,346.0
+348.0,z0,Electricity,7,2,VVS,347.0
+349.0,z0,Floor,9,3,VVS,348.0
+350.0,z0,Electricity,5,1,Carpenter,349.0
+351.0,z0,Floor,5,2,Painter,350.0
+352.0,z0,Floor,7,3,Concrete,351.0
+353.0,z0,Sewage,3,1,Painter,352.0
+354.0,z0,Electricity,4,3,Electrician,353.0
+355.0,z0,Piping,4,3,Painter,354.0
+356.0,z0,Gypsum,5,3,Painter,355.0
+357.0,z0,Piping,6,2,Painter,356.0
+358.0,z0,Electricity,8,2,Painter,357.0
+359.0,z0,Structural Foundation,1,1,Painter,358.0
+360.0,z0,Floor,8,3,Painter,359.0
+361.0,z0,Sewage,1,2,Concrete,360.0
+362.0,z0,Interior Walls,8,2,Carpenter,361.0
+363.0,z0,Piping,9,1,Electrician,362.0
+364.0,z0,Electricity,4,2,Carpenter,363.0
+365.0,z0,Interior Walls,3,3,Painter,364.0
+366.0,z0,Structural Foundation,1,3,VVS,365.0
+367.0,z0,Structural Walls,9,1,Electrician,366.0
+368.0,z0,Structural Walls,2,1,Painter,367.0
+369.0,z0,Floor,2,3,VVS,368.0
+370.0,z0,Floor,3,2,Painter,369.0
+371.0,z0,Piping,9,2,Painter,370.0
+372.0,z0,Electricity,1,2,Electrician,371.0
+373.0,z0,Piping,5,3,Electrician,372.0
+374.0,z0,Interior Walls,5,3,VVS,373.0
+375.0,z0,Structural Foundation,6,1,Painter,374.0
+376.0,z0,Structural Walls,6,1,Painter,375.0
+377.0,z0,Sewage,6,3,Concrete,376.0
+378.0,z0,Structural Foundation,9,1,Concrete,377.0
+379.0,z0,Interior Walls,6,2,Painter,378.0
+380.0,z0,Structural Walls,8,1,Painter,379.0
+381.0,z0,Floor,8,3,Carpenter,380.0
+382.0,z0,Electricity,4,1,Carpenter,381.0
+383.0,z0,Piping,5,2,Painter,382.0
+384.0,z0,Floor,2,3,VVS,383.0
+385.0,z0,Structural Walls,9,1,Painter,384.0
+386.0,z0,Interior Walls,9,3,Painter,385.0
+387.0,z0,Floor,2,3,Electrician,386.0
+388.0,z0,Piping,3,3,Concrete,387.0
+389.0,z0,Sewage,3,2,Electrician,388.0
+390.0,z0,Floor,8,3,Painter,389.0
+391.0,z0,Structural Walls,2,1,VVS,390.0
+392.0,z0,Gypsum,7,3,VVS,391.0
+393.0,z0,Gypsum,7,2,Carpenter,392.0
+394.0,z0,Structural Walls,9,3,Concrete,393.0
+395.0,z0,Floor,5,3,Electrician,394.0
+396.0,z0,Floor,1,2,Concrete,395.0
+397.0,z0,Floor,9,1,VVS,396.0
+398.0,z0,Interior Walls,6,1,Concrete,397.0
+399.0,z0,Interior Walls,5,1,Carpenter,398.0
+400.0,z1,Electricity,4,1,Carpenter,399.0
+401.0,z1,Structural Walls,7,3,Painter,400.0
+402.0,z1,Interior Walls,4,2,Carpenter,401.0
+403.0,z1,Sewage,5,3,Electrician,402.0
+404.0,z1,Piping,2,2,Concrete,403.0
+405.0,z1,Floor,8,2,Electrician,404.0
+406.0,z1,Sewage,8,1,VVS,405.0
+407.0,z1,Piping,4,3,Painter,406.0
+408.0,z1,Electricity,1,3,Painter,407.0
+409.0,z1,Floor,9,2,VVS,408.0
+410.0,z1,Structural Foundation,2,1,VVS,409.0
+411.0,z1,Structural Foundation,2,1,Painter,410.0
+412.0,z1,Gypsum,7,3,VVS,411.0
+413.0,z1,Electricity,3,3,VVS,412.0
+414.0,z1,Interior Walls,4,1,Electrician,413.0
+415.0,z1,Piping,7,2,VVS,414.0
+416.0,z1,Piping,5,3,Painter,415.0
+417.0,z1,Sewage,6,3,Concrete,416.0
+418.0,z1,Structural Foundation,5,2,VVS,417.0
+419.0,z1,Piping,1,2,Electrician,418.0
+420.0,z1,Sewage,4,3,Carpenter,419.0
+421.0,z1,Gypsum,9,1,Electrician,420.0
+422.0,z1,Structural Foundation,1,1,Painter,421.0
+423.0,z1,Structural Walls,1,1,Electrician,422.0
+424.0,z1,Gypsum,8,3,Concrete,423.0
+425.0,z1,Floor,1,1,VVS,424.0
+426.0,z1,Structural Foundation,2,3,Painter,425.0
+427.0,z1,Structural Foundation,8,2,Carpenter,426.0
+428.0,z1,Sewage,4,2,Painter,427.0
+429.0,z1,Interior Walls,4,2,Carpenter,428.0
+430.0,z1,Interior Walls,8,3,Electrician,429.0
+431.0,z1,Gypsum,5,2,VVS,430.0
+432.0,z1,Structural Walls,7,1,VVS,431.0
+433.0,z1,Sewage,8,3,Concrete,432.0
+434.0,z1,Structural Walls,4,3,Concrete,433.0
+435.0,z1,Structural Foundation,2,2,Concrete,434.0
+436.0,z1,Interior Walls,2,3,Painter,435.0
+437.0,z1,Gypsum,1,1,Concrete,436.0
+438.0,z1,Floor,5,2,Painter,437.0
+439.0,z1,Structural Walls,8,2,Painter,438.0
+440.0,z1,Electricity,4,2,Painter,439.0
+441.0,z1,Gypsum,5,3,Painter,440.0
+442.0,z1,Electricity,6,1,Painter,441.0
+443.0,z1,Floor,5,1,Electrician,442.0
+444.0,z1,Electricity,4,2,Electrician,443.0
+445.0,z1,Piping,8,1,Electrician,444.0
+446.0,z1,Sewage,3,2,Carpenter,445.0
+447.0,z1,Gypsum,2,2,Painter,446.0
+448.0,z1,Gypsum,9,1,Carpenter,447.0
+449.0,z1,Electricity,4,1,Concrete,448.0
+450.0,z1,Structural Foundation,8,1,Painter,449.0
+451.0,z1,Interior Walls,6,3,Electrician,450.0
+452.0,z1,Gypsum,5,1,Painter,451.0
+453.0,z1,Structural Walls,5,2,Carpenter,452.0
+454.0,z1,Sewage,7,3,VVS,453.0
+455.0,z1,Electricity,9,1,Painter,454.0
+456.0,z1,Interior Walls,3,3,Painter,455.0
+457.0,z1,Structural Walls,2,3,Carpenter,456.0
+458.0,z1,Electricity,3,2,VVS,457.0
+459.0,z1,Piping,1,1,Electrician,458.0
+460.0,z1,Electricity,9,3,Electrician,459.0
+461.0,z1,Structural Foundation,1,2,Carpenter,460.0
+462.0,z1,Structural Foundation,8,1,Concrete,461.0
+463.0,z1,Interior Walls,7,3,VVS,462.0
+464.0,z1,Piping,8,2,Electrician,463.0
+465.0,z1,Structural Foundation,3,1,VVS,464.0
+466.0,z1,Sewage,1,3,Electrician,465.0
+467.0,z1,Floor,9,3,Concrete,466.0
+468.0,z1,Sewage,2,2,Painter,467.0
+469.0,z1,Sewage,9,3,Concrete,468.0
+470.0,z1,Structural Walls,2,2,Electrician,469.0
+471.0,z1,Electricity,4,3,Concrete,470.0
+472.0,z1,Gypsum,9,3,Painter,471.0
+473.0,z1,Structural Walls,4,1,VVS,472.0
+474.0,z1,Structural Walls,6,1,Carpenter,473.0
+475.0,z1,Piping,8,2,Electrician,474.0
+476.0,z1,Interior Walls,7,1,VVS,475.0
+477.0,z1,Floor,3,2,VVS,476.0
+478.0,z1,Interior Walls,5,2,Concrete,477.0
+479.0,z1,Gypsum,9,2,Concrete,478.0
+480.0,z1,Sewage,6,1,Carpenter,479.0
+481.0,z1,Interior Walls,5,2,Painter,480.0
+482.0,z1,Floor,9,3,Carpenter,481.0
+483.0,z1,Sewage,3,2,Carpenter,482.0
+484.0,z1,Floor,4,3,VVS,483.0
+485.0,z1,Structural Walls,8,3,Painter,484.0
+486.0,z1,Floor,7,3,Carpenter,485.0
+487.0,z1,Piping,1,2,Painter,486.0
+488.0,z1,Structural Walls,6,2,Concrete,487.0
+489.0,z1,Structural Foundation,9,3,VVS,488.0
+490.0,z1,Electricity,1,3,Electrician,489.0
+491.0,z1,Electricity,4,2,Concrete,490.0
+492.0,z1,Structural Walls,5,2,Electrician,491.0
+493.0,z1,Floor,1,2,Carpenter,492.0
+494.0,z1,Piping,6,3,Painter,493.0
+495.0,z1,Structural Walls,3,3,Carpenter,494.0
+496.0,z1,Sewage,6,2,Carpenter,495.0
+497.0,z1,Interior Walls,9,3,Painter,496.0
+498.0,z1,Gypsum,6,1,Carpenter,497.0
+499.0,z1,Gypsum,9,2,VVS,498.0
+500.0,z1,Gypsum,4,1,Carpenter,499.0
+501.0,z1,Sewage,8,1,Painter,500.0
+502.0,z1,Sewage,9,1,Concrete,501.0
+503.0,z1,Floor,5,1,Concrete,502.0
+504.0,z1,Piping,2,1,Electrician,503.0
+505.0,z1,Structural Walls,9,2,Carpenter,504.0
+506.0,z1,Structural Walls,1,2,Electrician,505.0
+507.0,z1,Structural Walls,3,2,Carpenter,506.0
+508.0,z1,Gypsum,1,1,VVS,507.0
+509.0,z1,Interior Walls,7,1,Electrician,508.0
+510.0,z1,Structural Walls,9,2,Painter,509.0
+511.0,z1,Piping,1,3,Electrician,510.0
+512.0,z1,Floor,2,1,Concrete,511.0
+513.0,z1,Floor,6,1,Painter,512.0
+514.0,z1,Electricity,8,3,Electrician,513.0
+515.0,z1,Structural Foundation,1,1,Carpenter,514.0
+516.0,z1,Interior Walls,4,1,Carpenter,515.0
+517.0,z1,Sewage,5,3,Carpenter,516.0
+518.0,z1,Piping,8,3,Painter,517.0
+519.0,z1,Electricity,8,3,VVS,518.0
+520.0,z1,Piping,1,2,Carpenter,519.0
+521.0,z1,Electricity,2,2,Electrician,520.0
+522.0,z1,Piping,5,1,VVS,521.0
+523.0,z1,Electricity,2,1,Carpenter,522.0
+524.0,z1,Electricity,8,2,VVS,523.0
+525.0,z1,Electricity,1,2,Painter,524.0
+526.0,z1,Interior Walls,9,1,Electrician,525.0
+527.0,z1,Piping,3,2,Painter,526.0
+528.0,z1,Structural Walls,9,1,Painter,527.0
+529.0,z1,Floor,1,3,VVS,528.0
+530.0,z1,Sewage,3,2,Painter,529.0
+531.0,z1,Interior Walls,1,3,Electrician,530.0
+532.0,z1,Sewage,9,2,Painter,531.0
+533.0,z1,Structural Walls,1,3,VVS,532.0
+534.0,z1,Sewage,5,1,Electrician,533.0
+535.0,z1,Structural Walls,4,2,Electrician,534.0
+536.0,z1,Electricity,7,3,Electrician,535.0
+537.0,z1,Structural Foundation,8,1,Electrician,536.0
+538.0,z1,Gypsum,2,3,Concrete,537.0
+539.0,z1,Interior Walls,7,1,Painter,538.0
+540.0,z1,Electricity,4,2,Carpenter,539.0
+541.0,z1,Structural Foundation,6,2,Electrician,540.0
+542.0,z1,Structural Walls,4,3,VVS,541.0
+543.0,z1,Structural Foundation,3,1,VVS,542.0
+544.0,z1,Electricity,4,3,Painter,543.0
+545.0,z1,Floor,4,1,Concrete,544.0
+546.0,z1,Structural Foundation,2,1,Electrician,545.0
+547.0,z1,Structural Foundation,6,2,VVS,546.0
+548.0,z1,Interior Walls,3,2,Electrician,547.0
+549.0,z1,Sewage,3,1,Electrician,548.0
+550.0,z1,Piping,1,1,Concrete,549.0
+551.0,z1,Sewage,8,1,Painter,550.0
+552.0,z1,Structural Foundation,8,1,Electrician,551.0
+553.0,z1,Floor,1,1,Painter,552.0
+554.0,z1,Floor,5,3,Painter,553.0
+555.0,z1,Gypsum,8,2,Carpenter,554.0
+556.0,z1,Structural Foundation,8,1,Electrician,555.0
+557.0,z1,Structural Walls,7,2,Carpenter,556.0
+558.0,z1,Floor,6,1,Concrete,557.0
+559.0,z1,Structural Foundation,4,3,Electrician,558.0
+560.0,z1,Sewage,9,1,VVS,559.0
+561.0,z1,Gypsum,8,3,Concrete,560.0
+562.0,z1,Interior Walls,8,1,Concrete,561.0
+563.0,z1,Sewage,8,2,Painter,562.0
+564.0,z1,Structural Foundation,3,3,Concrete,563.0
+565.0,z1,Sewage,9,3,Concrete,564.0
+566.0,z1,Electricity,1,2,VVS,565.0
+567.0,z1,Interior Walls,2,1,Painter,566.0
+568.0,z1,Gypsum,2,1,Painter,567.0
+569.0,z1,Gypsum,4,2,Electrician,568.0
+570.0,z1,Structural Foundation,5,3,Painter,569.0
+571.0,z1,Structural Walls,7,3,Carpenter,570.0
+572.0,z1,Floor,3,3,VVS,571.0
+573.0,z1,Sewage,5,1,Electrician,572.0
+574.0,z1,Electricity,9,2,Electrician,573.0
+575.0,z1,Interior Walls,4,2,Carpenter,574.0
+576.0,z1,Electricity,4,1,Carpenter,575.0
+577.0,z1,Gypsum,6,3,Carpenter,576.0
+578.0,z1,Structural Walls,9,2,Electrician,577.0
+579.0,z1,Structural Walls,8,2,VVS,578.0
+580.0,z1,Interior Walls,1,3,Carpenter,579.0
+581.0,z1,Floor,4,2,Painter,580.0
+582.0,z1,Piping,4,2,VVS,581.0
+583.0,z1,Structural Walls,1,1,Painter,582.0
+584.0,z1,Structural Foundation,7,2,VVS,583.0
+585.0,z1,Electricity,7,3,Electrician,584.0
+586.0,z1,Floor,5,1,Painter,585.0
+587.0,z1,Floor,1,3,VVS,586.0
+588.0,z1,Piping,5,3,VVS,587.0
+589.0,z1,Interior Walls,2,3,Concrete,588.0
+590.0,z1,Interior Walls,4,3,VVS,589.0
+591.0,z1,Floor,6,2,Painter,590.0
+592.0,z1,Piping,8,2,Concrete,591.0
+593.0,z1,Interior Walls,4,3,VVS,592.0
+594.0,z1,Sewage,4,1,VVS,593.0
+595.0,z1,Interior Walls,7,2,VVS,594.0
+596.0,z1,Floor,7,1,Carpenter,595.0
+597.0,z1,Gypsum,3,2,Painter,596.0
+598.0,z1,Sewage,4,1,Electrician,597.0
+599.0,z1,Sewage,8,2,VVS,598.0
+600.0,z1,Electricity,4,3,VVS,599.0
+601.0,z1,Interior Walls,7,1,Concrete,600.0
+602.0,z1,Sewage,9,2,Electrician,601.0
+603.0,z1,Electricity,7,2,Carpenter,602.0
+604.0,z1,Sewage,2,3,Electrician,603.0
+605.0,z1,Sewage,8,1,Concrete,604.0
+606.0,z1,Sewage,3,3,Carpenter,605.0
+607.0,z1,Structural Walls,7,1,Carpenter,606.0
+608.0,z1,Electricity,5,3,Carpenter,607.0
+609.0,z1,Electricity,7,1,Carpenter,608.0
+610.0,z1,Structural Walls,9,2,Carpenter,609.0
+611.0,z1,Structural Walls,9,3,Electrician,610.0
+612.0,z1,Floor,5,1,VVS,611.0
+613.0,z1,Structural Foundation,9,1,Concrete,612.0
+614.0,z1,Interior Walls,1,3,Carpenter,613.0
+615.0,z1,Structural Foundation,6,3,Electrician,614.0
+616.0,z1,Interior Walls,8,1,VVS,615.0
+617.0,z1,Structural Foundation,6,3,Concrete,616.0
+618.0,z1,Floor,9,3,Electrician,617.0
+619.0,z1,Interior Walls,1,2,Concrete,618.0
+620.0,z1,Piping,1,2,Concrete,619.0
+621.0,z1,Structural Foundation,5,1,Electrician,620.0
+622.0,z1,Structural Walls,1,2,Concrete,621.0
+623.0,z1,Structural Walls,5,2,Electrician,622.0
+624.0,z1,Interior Walls,9,3,Carpenter,623.0
+625.0,z1,Sewage,1,3,VVS,624.0
+626.0,z1,Sewage,8,2,VVS,625.0
+627.0,z1,Gypsum,3,1,Carpenter,626.0
+628.0,z1,Electricity,5,1,VVS,627.0
+629.0,z1,Interior Walls,9,2,Carpenter,628.0
+630.0,z1,Structural Walls,3,1,Painter,629.0
+631.0,z1,Structural Walls,2,2,Painter,630.0
+632.0,z1,Interior Walls,5,3,Carpenter,631.0
+633.0,z1,Sewage,6,1,Concrete,632.0
+634.0,z1,Piping,5,1,Carpenter,633.0
+635.0,z1,Floor,3,1,Carpenter,634.0
+636.0,z1,Sewage,6,2,Concrete,635.0
+637.0,z1,Structural Foundation,1,1,Painter,636.0
+638.0,z1,Piping,8,1,Concrete,637.0
+639.0,z1,Electricity,5,1,Painter,638.0
+640.0,z1,Sewage,2,2,Carpenter,639.0
+641.0,z1,Structural Foundation,9,3,Electrician,640.0
+642.0,z1,Structural Foundation,4,1,Carpenter,641.0
+643.0,z1,Structural Walls,8,3,Carpenter,642.0
+644.0,z1,Electricity,2,2,Painter,643.0
+645.0,z1,Interior Walls,9,3,Painter,644.0
+646.0,z1,Structural Foundation,1,1,Concrete,645.0
+647.0,z1,Structural Foundation,6,1,Electrician,646.0
+648.0,z1,Electricity,7,2,VVS,647.0
+649.0,z1,Floor,5,1,Painter,648.0
+650.0,z1,Piping,9,3,Carpenter,649.0
+651.0,z1,Floor,5,2,Concrete,650.0
+652.0,z1,Floor,2,2,Carpenter,651.0
+653.0,z1,Sewage,1,3,Electrician,652.0
+654.0,z1,Electricity,2,3,Concrete,653.0
+655.0,z1,Structural Foundation,3,3,VVS,654.0
+656.0,z1,Structural Foundation,3,1,Electrician,655.0
+657.0,z1,Gypsum,1,3,VVS,656.0
+658.0,z1,Structural Foundation,7,3,VVS,657.0
+659.0,z1,Structural Foundation,9,1,VVS,658.0
+660.0,z1,Piping,2,1,Concrete,659.0
+661.0,z1,Piping,3,2,Concrete,660.0
+662.0,z1,Structural Foundation,2,1,Carpenter,661.0
+663.0,z1,Floor,8,3,VVS,662.0
+664.0,z1,Structural Walls,3,2,VVS,663.0
+665.0,z1,Structural Foundation,1,3,Electrician,664.0
+666.0,z1,Electricity,3,2,Painter,665.0
+667.0,z1,Electricity,1,1,Electrician,666.0
+668.0,z1,Gypsum,7,3,Electrician,667.0
+669.0,z1,Gypsum,9,1,Painter,668.0
+670.0,z1,Structural Foundation,4,1,Concrete,669.0
+671.0,z1,Structural Foundation,3,3,Painter,670.0
+672.0,z1,Structural Foundation,4,2,Electrician,671.0
+673.0,z1,Floor,2,1,Painter,672.0
+674.0,z1,Floor,9,3,VVS,673.0
+675.0,z1,Structural Walls,7,3,Painter,674.0
+676.0,z1,Piping,6,2,Concrete,675.0
+677.0,z1,Electricity,2,3,VVS,676.0
+678.0,z1,Piping,3,2,Carpenter,677.0
+679.0,z1,Structural Walls,6,1,Painter,678.0
+680.0,z1,Electricity,1,2,Painter,679.0
+681.0,z1,Gypsum,2,3,VVS,680.0
+682.0,z1,Structural Foundation,5,1,VVS,681.0
+683.0,z1,Gypsum,5,2,Carpenter,682.0
+684.0,z1,Interior Walls,3,1,Painter,683.0
+685.0,z1,Floor,1,1,Painter,684.0
+686.0,z1,Interior Walls,2,2,Concrete,685.0
+687.0,z1,Structural Foundation,6,3,Concrete,686.0
+688.0,z1,Sewage,8,2,Painter,687.0
+689.0,z1,Structural Walls,2,2,Concrete,688.0
+690.0,z1,Structural Foundation,6,1,Painter,689.0
+691.0,z1,Electricity,2,2,Painter,690.0
+692.0,z1,Structural Walls,8,3,VVS,691.0
+693.0,z1,Structural Walls,6,3,Electrician,692.0
+694.0,z1,Floor,4,2,Carpenter,693.0
+695.0,z1,Interior Walls,5,1,Painter,694.0
+696.0,z1,Structural Foundation,7,1,Electrician,695.0
+697.0,z1,Floor,1,2,VVS,696.0
+698.0,z1,Sewage,2,1,Electrician,697.0
+699.0,z1,Interior Walls,8,3,Carpenter,698.0
+700.0,z1,Electricity,1,1,Concrete,699.0
+701.0,z1,Structural Foundation,8,3,Electrician,700.0
+702.0,z1,Gypsum,3,1,Carpenter,701.0
+703.0,z1,Interior Walls,3,3,VVS,702.0
+704.0,z1,Structural Foundation,3,3,Electrician,703.0
+705.0,z1,Floor,9,1,VVS,704.0
+706.0,z1,Floor,5,2,Concrete,705.0
+707.0,z1,Piping,9,3,Carpenter,706.0
+708.0,z1,Gypsum,3,1,Painter,707.0
+709.0,z1,Piping,6,1,Painter,708.0
+710.0,z1,Sewage,8,2,Painter,709.0
+711.0,z1,Gypsum,5,2,Electrician,710.0
+712.0,z1,Gypsum,8,2,Carpenter,711.0
+713.0,z1,Gypsum,1,1,Carpenter,712.0
+714.0,z1,Structural Foundation,6,1,Electrician,713.0
+715.0,z1,Electricity,8,2,Carpenter,714.0
+716.0,z1,Structural Walls,7,2,Painter,715.0
+717.0,z1,Piping,6,1,Concrete,716.0
+718.0,z1,Electricity,2,1,Electrician,717.0
+719.0,z1,Structural Walls,8,3,Electrician,718.0
+720.0,z1,Sewage,3,3,Carpenter,719.0
+721.0,z1,Floor,3,3,VVS,720.0
+722.0,z1,Structural Foundation,4,2,Painter,721.0
+723.0,z1,Interior Walls,2,2,Painter,722.0
+724.0,z1,Structural Foundation,3,1,VVS,723.0
+725.0,z1,Piping,7,1,Carpenter,724.0
+726.0,z1,Piping,1,2,Electrician,725.0
+727.0,z1,Structural Walls,7,2,Electrician,726.0
+728.0,z1,Electricity,1,1,Carpenter,727.0
+729.0,z1,Sewage,4,1,Painter,728.0
+730.0,z1,Gypsum,2,2,Painter,729.0
+731.0,z1,Gypsum,1,3,Painter,730.0
+732.0,z1,Floor,1,2,Carpenter,731.0
+733.0,z1,Sewage,4,3,Concrete,732.0
+734.0,z1,Gypsum,8,1,Electrician,733.0
+735.0,z1,Structural Foundation,9,3,VVS,734.0
+736.0,z1,Structural Foundation,1,3,Carpenter,735.0
+737.0,z1,Interior Walls,1,3,Carpenter,736.0
+738.0,z1,Structural Walls,6,1,VVS,737.0
+739.0,z1,Piping,9,1,Carpenter,738.0
+740.0,z1,Piping,2,1,Carpenter,739.0
+741.0,z1,Floor,8,1,Painter,740.0
+742.0,z1,Piping,6,3,Painter,741.0
+743.0,z1,Sewage,9,3,VVS,742.0
+744.0,z1,Gypsum,5,2,VVS,743.0
+745.0,z1,Floor,7,3,Carpenter,744.0
+746.0,z1,Interior Walls,6,2,Carpenter,745.0
+747.0,z1,Structural Walls,7,2,Electrician,746.0
+748.0,z1,Structural Foundation,7,1,VVS,747.0
+749.0,z1,Interior Walls,7,1,VVS,748.0
+750.0,z1,Interior Walls,8,2,VVS,749.0
+751.0,z1,Structural Walls,4,3,Carpenter,750.0
+752.0,z1,Gypsum,3,1,Electrician,751.0
+753.0,z1,Interior Walls,6,1,Electrician,752.0
+754.0,z1,Structural Foundation,6,2,Electrician,753.0
+755.0,z1,Structural Walls,5,2,Concrete,754.0
+756.0,z1,Piping,1,1,Concrete,755.0
+757.0,z1,Sewage,6,2,Concrete,756.0
+758.0,z1,Structural Foundation,4,1,Painter,757.0
+759.0,z1,Electricity,4,2,Painter,758.0
+760.0,z1,Piping,6,2,VVS,759.0
+761.0,z1,Interior Walls,4,1,Carpenter,760.0
+762.0,z1,Structural Walls,6,3,Carpenter,761.0
+763.0,z1,Electricity,3,3,VVS,762.0
+764.0,z1,Electricity,6,3,VVS,763.0
+765.0,z1,Structural Walls,1,2,Concrete,764.0
+766.0,z1,Floor,6,2,Electrician,765.0
+767.0,z1,Gypsum,9,1,VVS,766.0
+768.0,z1,Structural Walls,5,3,Painter,767.0
+769.0,z1,Electricity,7,3,Carpenter,768.0
+770.0,z1,Interior Walls,3,1,Concrete,769.0
+771.0,z1,Floor,7,2,Electrician,770.0
+772.0,z1,Electricity,3,3,VVS,771.0
+773.0,z1,Piping,3,2,Electrician,772.0
+774.0,z1,Gypsum,4,1,Painter,773.0
+775.0,z1,Sewage,2,2,Painter,774.0
+776.0,z1,Floor,5,3,Electrician,775.0
+777.0,z1,Electricity,5,3,Concrete,776.0
+778.0,z1,Piping,3,2,VVS,777.0
+779.0,z1,Structural Walls,2,1,Carpenter,778.0
+780.0,z1,Gypsum,4,1,Concrete,779.0
+781.0,z1,Structural Foundation,1,2,Painter,780.0
+782.0,z1,Structural Walls,1,2,Concrete,781.0
+783.0,z1,Electricity,7,1,Carpenter,782.0
+784.0,z1,Electricity,1,3,Concrete,783.0
+785.0,z1,Structural Walls,9,1,Electrician,784.0
+786.0,z1,Gypsum,9,2,VVS,785.0
+787.0,z1,Gypsum,9,2,Carpenter,786.0
+788.0,z1,Electricity,6,2,VVS,787.0
+789.0,z1,Interior Walls,1,2,Carpenter,788.0
+790.0,z1,Floor,5,3,Carpenter,789.0
+791.0,z1,Floor,2,2,Painter,790.0
+792.0,z1,Structural Walls,8,1,Painter,791.0
+793.0,z1,Sewage,1,3,Carpenter,792.0
+794.0,z1,Piping,9,3,Concrete,793.0
+795.0,z1,Structural Walls,6,1,Carpenter,794.0
+796.0,z1,Piping,4,1,Concrete,795.0
+797.0,z1,Electricity,2,1,Electrician,796.0
+798.0,z1,Floor,9,3,VVS,797.0
+799.0,z1,Electricity,6,3,Electrician,798.0
+800.0,z2,Floor,5,3,VVS,799.0
+801.0,z2,Sewage,1,1,Electrician,800.0
+802.0,z2,Gypsum,8,3,Electrician,801.0
+803.0,z2,Piping,3,2,Carpenter,802.0
+804.0,z2,Piping,5,2,VVS,803.0
+805.0,z2,Structural Foundation,5,3,Concrete,804.0
+806.0,z2,Structural Foundation,4,2,Concrete,805.0
+807.0,z2,Sewage,9,3,VVS,806.0
+808.0,z2,Floor,3,1,Carpenter,807.0
+809.0,z2,Gypsum,1,2,Concrete,808.0
+810.0,z2,Interior Walls,2,2,Carpenter,809.0
+811.0,z2,Interior Walls,2,3,Electrician,810.0
+812.0,z2,Piping,5,3,Carpenter,811.0
+813.0,z2,Sewage,4,2,Painter,812.0
+814.0,z2,Piping,3,2,Carpenter,813.0
+815.0,z2,Structural Foundation,1,1,Carpenter,814.0
+816.0,z2,Sewage,7,3,VVS,815.0
+817.0,z2,Piping,9,1,Concrete,816.0
+818.0,z2,Electricity,4,3,Painter,817.0
+819.0,z2,Electricity,9,2,Painter,818.0
+820.0,z2,Floor,6,1,Concrete,819.0
+821.0,z2,Interior Walls,6,2,Carpenter,820.0
+822.0,z2,Structural Walls,1,2,Carpenter,821.0
+823.0,z2,Structural Walls,8,3,Concrete,822.0
+824.0,z2,Piping,6,2,Concrete,823.0
+825.0,z2,Gypsum,9,2,Electrician,824.0
+826.0,z2,Sewage,6,1,VVS,825.0
+827.0,z2,Interior Walls,2,3,Painter,826.0
+828.0,z2,Sewage,7,1,Carpenter,827.0
+829.0,z2,Electricity,8,1,Concrete,828.0
+830.0,z2,Structural Walls,9,3,Painter,829.0
+831.0,z2,Piping,7,2,VVS,830.0
+832.0,z2,Piping,2,1,Concrete,831.0
+833.0,z2,Structural Foundation,1,2,Concrete,832.0
+834.0,z2,Gypsum,5,2,Carpenter,833.0
+835.0,z2,Structural Walls,2,3,Carpenter,834.0
+836.0,z2,Sewage,9,3,Electrician,835.0
+837.0,z2,Gypsum,6,3,Painter,836.0
+838.0,z2,Electricity,3,3,Concrete,837.0
+839.0,z2,Structural Walls,2,2,Painter,838.0
+840.0,z2,Piping,2,1,Concrete,839.0
+841.0,z2,Structural Foundation,8,2,Concrete,840.0
+842.0,z2,Interior Walls,5,1,VVS,841.0
+843.0,z2,Piping,4,1,VVS,842.0
+844.0,z2,Structural Walls,6,3,Electrician,843.0
+845.0,z2,Structural Walls,5,2,Carpenter,844.0
+846.0,z2,Structural Foundation,5,2,Carpenter,845.0
+847.0,z2,Interior Walls,4,2,Electrician,846.0
+848.0,z2,Electricity,3,3,VVS,847.0
+849.0,z2,Interior Walls,1,2,Painter,848.0
+850.0,z2,Sewage,5,1,VVS,849.0
+851.0,z2,Structural Walls,2,2,Painter,850.0
+852.0,z2,Interior Walls,9,2,Painter,851.0
+853.0,z2,Structural Walls,3,3,VVS,852.0
+854.0,z2,Sewage,9,1,Electrician,853.0
+855.0,z2,Electricity,1,2,VVS,854.0
+856.0,z2,Gypsum,5,1,Painter,855.0
+857.0,z2,Electricity,2,2,Electrician,856.0
+858.0,z2,Structural Walls,8,1,Carpenter,857.0
+859.0,z2,Floor,7,2,Electrician,858.0
+860.0,z2,Electricity,9,1,Electrician,859.0
+861.0,z2,Piping,8,1,VVS,860.0
+862.0,z2,Floor,4,2,Painter,861.0
+863.0,z2,Piping,4,3,Electrician,862.0
+864.0,z2,Sewage,7,2,Electrician,863.0
+865.0,z2,Gypsum,9,1,Concrete,864.0
+866.0,z2,Electricity,1,2,Electrician,865.0
+867.0,z2,Floor,5,3,Electrician,866.0
+868.0,z2,Electricity,5,3,Carpenter,867.0
+869.0,z2,Gypsum,7,3,Painter,868.0
+870.0,z2,Gypsum,1,2,Concrete,869.0
+871.0,z2,Floor,6,2,Electrician,870.0
+872.0,z2,Interior Walls,2,3,Concrete,871.0
+873.0,z2,Piping,5,2,Concrete,872.0
+874.0,z2,Gypsum,7,3,Concrete,873.0
+875.0,z2,Interior Walls,7,2,Painter,874.0
+876.0,z2,Sewage,2,3,VVS,875.0
+877.0,z2,Gypsum,3,1,VVS,876.0
+878.0,z2,Structural Walls,2,3,Painter,877.0
+879.0,z2,Piping,9,2,Electrician,878.0
+880.0,z2,Interior Walls,8,1,VVS,879.0
+881.0,z2,Floor,2,1,Painter,880.0
+882.0,z2,Structural Walls,9,3,VVS,881.0
+883.0,z2,Gypsum,5,3,Painter,882.0
+884.0,z2,Interior Walls,7,1,VVS,883.0
+885.0,z2,Piping,9,2,VVS,884.0
+886.0,z2,Gypsum,5,3,VVS,885.0
+887.0,z2,Interior Walls,6,3,Electrician,886.0
+888.0,z2,Piping,9,3,Carpenter,887.0
+889.0,z2,Sewage,4,3,Carpenter,888.0
+890.0,z2,Piping,7,1,Electrician,889.0
+891.0,z2,Structural Walls,6,2,VVS,890.0
+892.0,z2,Floor,9,2,Carpenter,891.0
+893.0,z2,Electricity,3,1,VVS,892.0
+894.0,z2,Gypsum,1,3,Concrete,893.0
+895.0,z2,Sewage,3,3,Carpenter,894.0
+896.0,z2,Structural Foundation,7,1,Concrete,895.0
+897.0,z2,Electricity,1,1,Painter,896.0
+898.0,z2,Gypsum,3,2,Painter,897.0
+899.0,z2,Electricity,8,1,Concrete,898.0
+900.0,z2,Floor,5,1,VVS,899.0
+901.0,z2,Structural Foundation,9,2,VVS,900.0
+902.0,z2,Sewage,5,1,Electrician,901.0
+903.0,z2,Structural Walls,1,3,Electrician,902.0
+904.0,z2,Sewage,5,2,Painter,903.0
+905.0,z2,Gypsum,7,2,Carpenter,904.0
+906.0,z2,Gypsum,8,2,Carpenter,905.0
+907.0,z2,Structural Foundation,9,3,VVS,906.0
+908.0,z2,Floor,8,1,VVS,907.0
+909.0,z2,Structural Walls,7,2,Painter,908.0
+910.0,z2,Electricity,5,1,VVS,909.0
+911.0,z2,Interior Walls,3,2,Concrete,910.0
+912.0,z2,Floor,4,3,Electrician,911.0
+913.0,z2,Floor,7,1,Electrician,912.0
+914.0,z2,Interior Walls,6,3,VVS,913.0
+915.0,z2,Piping,2,1,Carpenter,914.0
+916.0,z2,Sewage,2,2,Painter,915.0
+917.0,z2,Structural Foundation,4,3,Electrician,916.0
+918.0,z2,Sewage,3,3,Carpenter,917.0
+919.0,z2,Structural Walls,9,3,Electrician,918.0
+920.0,z2,Gypsum,6,2,Concrete,919.0
+921.0,z2,Floor,4,3,Painter,920.0
+922.0,z2,Interior Walls,7,2,Carpenter,921.0
+923.0,z2,Sewage,9,1,VVS,922.0
+924.0,z2,Structural Foundation,5,2,VVS,923.0
+925.0,z2,Gypsum,5,2,VVS,924.0
+926.0,z2,Piping,2,1,Electrician,925.0
+927.0,z2,Electricity,8,2,Electrician,926.0
+928.0,z2,Interior Walls,6,2,VVS,927.0
+929.0,z2,Structural Walls,5,1,Carpenter,928.0
+930.0,z2,Electricity,6,2,Painter,929.0
+931.0,z2,Structural Foundation,8,1,VVS,930.0
+932.0,z2,Sewage,6,3,Carpenter,931.0
+933.0,z2,Sewage,4,1,Painter,932.0
+934.0,z2,Structural Walls,6,3,Concrete,933.0
+935.0,z2,Interior Walls,2,3,Concrete,934.0
+936.0,z2,Piping,4,1,Electrician,935.0
+937.0,z2,Structural Walls,9,2,Concrete,936.0
+938.0,z2,Structural Foundation,4,1,Carpenter,937.0
+939.0,z2,Gypsum,2,3,Carpenter,938.0
+940.0,z2,Sewage,9,3,VVS,939.0
+941.0,z2,Sewage,1,1,Electrician,940.0
+942.0,z2,Floor,9,1,Carpenter,941.0
+943.0,z2,Interior Walls,9,3,VVS,942.0
+944.0,z2,Piping,4,2,Concrete,943.0
+945.0,z2,Interior Walls,7,1,Painter,944.0
+946.0,z2,Electricity,2,2,VVS,945.0
+947.0,z2,Floor,7,2,Concrete,946.0
+948.0,z2,Floor,3,3,Electrician,947.0
+949.0,z2,Structural Foundation,5,1,Painter,948.0
+950.0,z2,Interior Walls,3,1,Concrete,949.0
+951.0,z2,Structural Walls,2,3,Painter,950.0
+952.0,z2,Interior Walls,2,3,VVS,951.0
+953.0,z2,Piping,1,1,Concrete,952.0
+954.0,z2,Gypsum,3,3,Concrete,953.0
+955.0,z2,Structural Walls,8,3,VVS,954.0
+956.0,z2,Structural Walls,9,2,Painter,955.0
+957.0,z2,Piping,1,1,VVS,956.0
+958.0,z2,Piping,4,2,Painter,957.0
+959.0,z2,Structural Walls,8,3,Electrician,958.0
+960.0,z2,Structural Foundation,4,2,Electrician,959.0
+961.0,z2,Structural Foundation,8,3,VVS,960.0
+962.0,z2,Piping,2,1,Electrician,961.0
+963.0,z2,Piping,1,1,Carpenter,962.0
+964.0,z2,Gypsum,5,1,Carpenter,963.0
+965.0,z2,Piping,2,1,Concrete,964.0
+966.0,z2,Gypsum,7,3,Concrete,965.0
+967.0,z2,Floor,5,1,Concrete,966.0
+968.0,z2,Structural Foundation,7,3,Carpenter,967.0
+969.0,z2,Electricity,5,2,Electrician,968.0
+970.0,z2,Electricity,1,3,Electrician,969.0
+971.0,z2,Structural Walls,5,1,Carpenter,970.0
+972.0,z2,Structural Walls,2,3,Concrete,971.0
+973.0,z2,Sewage,6,2,VVS,972.0
+974.0,z2,Structural Walls,8,1,Concrete,973.0
+975.0,z2,Piping,7,1,Painter,974.0
+976.0,z2,Sewage,5,2,Painter,975.0
+977.0,z2,Structural Walls,9,1,Electrician,976.0
+978.0,z2,Interior Walls,6,2,Carpenter,977.0
+979.0,z2,Floor,8,1,VVS,978.0
+980.0,z2,Interior Walls,2,3,Painter,979.0
+981.0,z2,Floor,5,3,Carpenter,980.0
+982.0,z2,Interior Walls,4,2,VVS,981.0
+983.0,z2,Sewage,9,1,Electrician,982.0
+984.0,z2,Structural Foundation,4,2,VVS,983.0
+985.0,z2,Electricity,1,1,VVS,984.0
+986.0,z2,Structural Walls,3,1,VVS,985.0
+987.0,z2,Electricity,9,2,VVS,986.0
+988.0,z2,Electricity,6,3,Concrete,987.0
+989.0,z2,Structural Foundation,1,1,Carpenter,988.0
+990.0,z2,Floor,6,2,Painter,989.0
+991.0,z2,Gypsum,9,2,Concrete,990.0
+992.0,z2,Gypsum,2,2,Painter,991.0
+993.0,z2,Electricity,1,3,Carpenter,992.0
+994.0,z2,Structural Foundation,9,3,Electrician,993.0
+995.0,z2,Structural Walls,9,2,Concrete,994.0
+996.0,z2,Interior Walls,9,2,Painter,995.0
+997.0,z2,Interior Walls,9,2,Concrete,996.0
+998.0,z2,Interior Walls,4,2,VVS,997.0
+999.0,z2,Electricity,3,1,VVS,998.0
+1000.0,z2,Structural Walls,1,1,VVS,999.0
+1001.0,z2,Structural Foundation,2,1,Electrician,1000.0
+1002.0,z2,Interior Walls,4,2,Painter,1001.0
+1003.0,z2,Sewage,7,3,Electrician,1002.0
+1004.0,z2,Gypsum,7,2,Carpenter,1003.0
+1005.0,z2,Structural Foundation,7,3,VVS,1004.0
+1006.0,z2,Piping,3,1,Painter,1005.0
+1007.0,z2,Electricity,3,2,Electrician,1006.0
+1008.0,z2,Sewage,9,3,Carpenter,1007.0
+1009.0,z2,Interior Walls,7,2,VVS,1008.0
+1010.0,z2,Structural Foundation,3,2,Electrician,1009.0
+1011.0,z2,Electricity,6,2,Painter,1010.0
+1012.0,z2,Electricity,1,3,VVS,1011.0
+1013.0,z2,Interior Walls,3,3,Electrician,1012.0
+1014.0,z2,Interior Walls,6,3,Concrete,1013.0
+1015.0,z2,Floor,6,3,Carpenter,1014.0
+1016.0,z2,Piping,5,1,Concrete,1015.0
+1017.0,z2,Sewage,2,2,Concrete,1016.0
+1018.0,z2,Floor,2,3,Concrete,1017.0
+1019.0,z2,Electricity,7,3,VVS,1018.0
+1020.0,z2,Interior Walls,8,1,Carpenter,1019.0
+1021.0,z2,Structural Walls,4,3,Electrician,1020.0
+1022.0,z2,Floor,4,3,Concrete,1021.0
+1023.0,z2,Electricity,8,3,Concrete,1022.0
+1024.0,z2,Interior Walls,2,2,Painter,1023.0
+1025.0,z2,Floor,5,1,Concrete,1024.0
+1026.0,z2,Gypsum,5,2,Electrician,1025.0
+1027.0,z2,Floor,8,2,Painter,1026.0
+1028.0,z2,Floor,4,2,Electrician,1027.0
+1029.0,z2,Structural Foundation,4,3,Carpenter,1028.0
+1030.0,z2,Gypsum,5,1,Concrete,1029.0
+1031.0,z2,Structural Foundation,4,1,Carpenter,1030.0
+1032.0,z2,Gypsum,1,3,Painter,1031.0
+1033.0,z2,Electricity,4,3,VVS,1032.0
+1034.0,z2,Sewage,6,1,Electrician,1033.0
+1035.0,z2,Sewage,9,3,VVS,1034.0
+1036.0,z2,Sewage,1,1,Electrician,1035.0
+1037.0,z2,Interior Walls,6,3,Concrete,1036.0
+1038.0,z2,Sewage,6,3,Electrician,1037.0
+1039.0,z2,Structural Walls,3,1,Concrete,1038.0
+1040.0,z2,Structural Walls,6,3,Carpenter,1039.0
+1041.0,z2,Piping,3,2,VVS,1040.0
+1042.0,z2,Piping,9,3,Painter,1041.0
+1043.0,z2,Interior Walls,7,2,Carpenter,1042.0
+1044.0,z2,Structural Foundation,6,2,Painter,1043.0
+1045.0,z2,Structural Walls,3,1,VVS,1044.0
+1046.0,z2,Floor,8,2,VVS,1045.0
+1047.0,z2,Piping,3,3,Carpenter,1046.0
+1048.0,z2,Sewage,9,3,Carpenter,1047.0
+1049.0,z2,Interior Walls,8,2,VVS,1048.0
+1050.0,z2,Floor,9,1,Concrete,1049.0
+1051.0,z2,Structural Walls,6,3,Carpenter,1050.0
+1052.0,z2,Structural Foundation,2,1,Carpenter,1051.0
+1053.0,z2,Sewage,1,2,Painter,1052.0
+1054.0,z2,Sewage,3,3,Concrete,1053.0
+1055.0,z2,Gypsum,5,1,VVS,1054.0
+1056.0,z2,Gypsum,5,3,Electrician,1055.0
+1057.0,z2,Piping,4,1,Electrician,1056.0
+1058.0,z2,Piping,1,2,Concrete,1057.0
+1059.0,z2,Sewage,7,3,Electrician,1058.0
+1060.0,z2,Piping,8,3,VVS,1059.0
+1061.0,z2,Interior Walls,8,2,Concrete,1060.0
+1062.0,z2,Piping,6,2,Painter,1061.0
+1063.0,z2,Structural Foundation,2,1,Electrician,1062.0
+1064.0,z2,Piping,5,2,Electrician,1063.0
+1065.0,z2,Piping,3,1,Painter,1064.0
+1066.0,z2,Sewage,7,1,VVS,1065.0
+1067.0,z2,Gypsum,9,1,Concrete,1066.0
+1068.0,z2,Structural Walls,9,2,Electrician,1067.0
+1069.0,z2,Structural Foundation,8,1,Painter,1068.0
+1070.0,z2,Gypsum,5,2,Electrician,1069.0
+1071.0,z2,Gypsum,6,3,Carpenter,1070.0
+1072.0,z2,Piping,1,2,Painter,1071.0
+1073.0,z2,Sewage,5,3,Electrician,1072.0
+1074.0,z2,Sewage,6,2,Electrician,1073.0
+1075.0,z2,Structural Foundation,4,3,Carpenter,1074.0
+1076.0,z2,Electricity,5,2,VVS,1075.0
+1077.0,z2,Piping,6,2,Electrician,1076.0
+1078.0,z2,Interior Walls,9,2,Concrete,1077.0
+1079.0,z2,Interior Walls,4,1,Painter,1078.0
+1080.0,z2,Electricity,2,3,Electrician,1079.0
+1081.0,z2,Interior Walls,4,3,Concrete,1080.0
+1082.0,z2,Sewage,9,3,Carpenter,1081.0
+1083.0,z2,Piping,7,2,Concrete,1082.0
+1084.0,z2,Gypsum,2,2,Painter,1083.0
+1085.0,z2,Floor,2,2,Painter,1084.0
+1086.0,z2,Structural Foundation,2,3,Carpenter,1085.0
+1087.0,z2,Structural Foundation,8,1,Concrete,1086.0
+1088.0,z2,Sewage,9,3,Carpenter,1087.0
+1089.0,z2,Structural Foundation,9,3,Electrician,1088.0
+1090.0,z2,Interior Walls,1,3,VVS,1089.0
+1091.0,z2,Electricity,8,3,Concrete,1090.0
+1092.0,z2,Gypsum,3,2,Concrete,1091.0
+1093.0,z2,Interior Walls,4,3,Concrete,1092.0
+1094.0,z2,Gypsum,7,2,Concrete,1093.0
+1095.0,z2,Floor,1,3,Electrician,1094.0
+1096.0,z2,Sewage,5,1,Electrician,1095.0
+1097.0,z2,Structural Foundation,6,1,Concrete,1096.0
+1098.0,z2,Structural Walls,3,1,Painter,1097.0
+1099.0,z2,Structural Walls,1,1,Concrete,1098.0
+1100.0,z2,Piping,7,1,Painter,1099.0
+1101.0,z2,Structural Walls,2,3,Electrician,1100.0
+1102.0,z2,Electricity,8,2,Electrician,1101.0
+1103.0,z2,Piping,5,3,Concrete,1102.0
+1104.0,z2,Structural Foundation,2,1,Electrician,1103.0
+1105.0,z2,Structural Walls,3,2,Concrete,1104.0
+1106.0,z2,Electricity,7,2,Concrete,1105.0
+1107.0,z2,Floor,1,2,Painter,1106.0
+1108.0,z2,Electricity,3,3,Concrete,1107.0
+1109.0,z2,Floor,9,1,VVS,1108.0
+1110.0,z2,Floor,1,3,Carpenter,1109.0
+1111.0,z2,Interior Walls,4,2,Concrete,1110.0
+1112.0,z2,Interior Walls,6,1,Painter,1111.0
+1113.0,z2,Gypsum,2,1,Concrete,1112.0
+1114.0,z2,Interior Walls,2,1,Painter,1113.0
+1115.0,z2,Electricity,4,2,Carpenter,1114.0
+1116.0,z2,Piping,1,3,Painter,1115.0
+1117.0,z2,Structural Foundation,1,2,Concrete,1116.0
+1118.0,z2,Electricity,6,2,Carpenter,1117.0
+1119.0,z2,Floor,3,2,Electrician,1118.0
+1120.0,z2,Sewage,4,3,Painter,1119.0
+1121.0,z2,Structural Walls,4,3,Painter,1120.0
+1122.0,z2,Sewage,7,3,Concrete,1121.0
+1123.0,z2,Piping,6,3,Concrete,1122.0
+1124.0,z2,Gypsum,9,2,VVS,1123.0
+1125.0,z2,Interior Walls,2,2,Concrete,1124.0
+1126.0,z2,Interior Walls,1,2,Concrete,1125.0
+1127.0,z2,Structural Walls,4,1,VVS,1126.0
+1128.0,z2,Gypsum,7,3,Concrete,1127.0
+1129.0,z2,Structural Foundation,4,3,Carpenter,1128.0
+1130.0,z2,Structural Walls,3,1,Painter,1129.0
+1131.0,z2,Gypsum,9,1,Painter,1130.0
+1132.0,z2,Gypsum,6,2,Electrician,1131.0
+1133.0,z2,Floor,8,3,Electrician,1132.0
+1134.0,z2,Electricity,2,1,Concrete,1133.0
+1135.0,z2,Electricity,7,1,Carpenter,1134.0
+1136.0,z2,Structural Walls,2,2,Electrician,1135.0
+1137.0,z2,Floor,2,1,VVS,1136.0
+1138.0,z2,Gypsum,8,2,Painter,1137.0
+1139.0,z2,Sewage,3,1,Painter,1138.0
+1140.0,z2,Floor,9,3,Concrete,1139.0
+1141.0,z2,Structural Walls,8,3,Electrician,1140.0
+1142.0,z2,Floor,7,3,Painter,1141.0
+1143.0,z2,Gypsum,5,3,Painter,1142.0
+1144.0,z2,Interior Walls,3,1,Concrete,1143.0
+1145.0,z2,Structural Walls,4,1,Carpenter,1144.0
+1146.0,z2,Floor,9,1,Carpenter,1145.0
+1147.0,z2,Sewage,9,2,Concrete,1146.0
+1148.0,z2,Electricity,1,2,VVS,1147.0
+1149.0,z2,Electricity,9,1,VVS,1148.0
+1150.0,z2,Interior Walls,5,2,Painter,1149.0
+1151.0,z2,Interior Walls,6,2,Concrete,1150.0
+1152.0,z2,Interior Walls,1,3,Carpenter,1151.0
+1153.0,z2,Gypsum,9,3,Concrete,1152.0
+1154.0,z2,Floor,9,1,Painter,1153.0
+1155.0,z2,Electricity,9,3,VVS,1154.0
+1156.0,z2,Piping,5,3,Concrete,1155.0
+1157.0,z2,Electricity,7,3,VVS,1156.0
+1158.0,z2,Interior Walls,8,1,VVS,1157.0
+1159.0,z2,Electricity,4,2,Painter,1158.0
+1160.0,z2,Electricity,3,1,Concrete,1159.0
+1161.0,z2,Electricity,2,2,Electrician,1160.0
+1162.0,z2,Interior Walls,2,2,Carpenter,1161.0
+1163.0,z2,Structural Walls,9,2,Painter,1162.0
+1164.0,z2,Floor,2,3,Painter,1163.0
+1165.0,z2,Floor,5,3,Painter,1164.0
+1166.0,z2,Structural Foundation,2,1,Concrete,1165.0
+1167.0,z2,Structural Foundation,5,1,Carpenter,1166.0
+1168.0,z2,Gypsum,1,1,VVS,1167.0
+1169.0,z2,Sewage,8,2,Carpenter,1168.0
+1170.0,z2,Gypsum,2,3,Carpenter,1169.0
+1171.0,z2,Structural Walls,9,2,VVS,1170.0
+1172.0,z2,Interior Walls,6,3,Electrician,1171.0
+1173.0,z2,Sewage,7,2,Carpenter,1172.0
+1174.0,z2,Structural Foundation,6,3,Painter,1173.0
+1175.0,z2,Electricity,2,2,Concrete,1174.0
+1176.0,z2,Piping,1,2,Concrete,1175.0
+1177.0,z2,Floor,1,1,Carpenter,1176.0
+1178.0,z2,Gypsum,3,2,Concrete,1177.0
+1179.0,z2,Electricity,5,2,Concrete,1178.0
+1180.0,z2,Interior Walls,1,1,Concrete,1179.0
+1181.0,z2,Structural Foundation,1,3,Electrician,1180.0
+1182.0,z2,Gypsum,2,1,Concrete,1181.0
+1183.0,z2,Gypsum,4,2,Concrete,1182.0
+1184.0,z2,Sewage,6,3,VVS,1183.0
+1185.0,z2,Electricity,4,1,VVS,1184.0
+1186.0,z2,Interior Walls,7,2,Electrician,1185.0
+1187.0,z2,Electricity,9,2,VVS,1186.0
+1188.0,z2,Gypsum,4,1,Painter,1187.0
+1189.0,z2,Floor,8,3,Painter,1188.0
+1190.0,z2,Sewage,5,3,VVS,1189.0
+1191.0,z2,Gypsum,4,2,Electrician,1190.0
+1192.0,z2,Floor,8,2,Electrician,1191.0
+1193.0,z2,Structural Walls,6,1,VVS,1192.0
+1194.0,z2,Structural Foundation,8,2,VVS,1193.0
+1195.0,z2,Structural Foundation,3,2,Painter,1194.0
+1196.0,z2,Sewage,2,2,Electrician,1195.0
+1197.0,z2,Structural Walls,6,2,Carpenter,1196.0
+1198.0,z2,Structural Foundation,4,3,Electrician,1197.0
+1199.0,z2,Interior Walls,9,1,Concrete,1198.0
+1200.0,z3,Piping,5,3,VVS,1199.0
+1201.0,z3,Gypsum,1,1,Concrete,1200.0
+1202.0,z3,Interior Walls,6,3,Electrician,1201.0
+1203.0,z3,Piping,4,2,Carpenter,1202.0
+1204.0,z3,Piping,3,3,Concrete,1203.0
+1205.0,z3,Structural Walls,9,2,Electrician,1204.0
+1206.0,z3,Interior Walls,8,1,Electrician,1205.0
+1207.0,z3,Structural Foundation,3,1,Carpenter,1206.0
+1208.0,z3,Floor,5,3,Carpenter,1207.0
+1209.0,z3,Piping,7,2,Electrician,1208.0
+1210.0,z3,Piping,4,1,Concrete,1209.0
+1211.0,z3,Sewage,6,1,Electrician,1210.0
+1212.0,z3,Structural Walls,4,3,VVS,1211.0
+1213.0,z3,Sewage,1,1,VVS,1212.0
+1214.0,z3,Electricity,4,2,VVS,1213.0
+1215.0,z3,Sewage,7,3,Electrician,1214.0
+1216.0,z3,Structural Walls,8,3,Concrete,1215.0
+1217.0,z3,Structural Foundation,2,2,Painter,1216.0
+1218.0,z3,Floor,9,1,Electrician,1217.0
+1219.0,z3,Piping,9,3,Electrician,1218.0
+1220.0,z3,Piping,6,3,Concrete,1219.0
+1221.0,z3,Structural Walls,2,1,Electrician,1220.0
+1222.0,z3,Interior Walls,1,1,Carpenter,1221.0
+1223.0,z3,Structural Walls,2,1,Painter,1222.0
+1224.0,z3,Gypsum,7,1,Concrete,1223.0
+1225.0,z3,Interior Walls,9,2,Electrician,1224.0
+1226.0,z3,Structural Foundation,5,3,Concrete,1225.0
+1227.0,z3,Sewage,4,3,Painter,1226.0
+1228.0,z3,Floor,8,3,Carpenter,1227.0
+1229.0,z3,Structural Walls,6,2,VVS,1228.0
+1230.0,z3,Floor,6,1,Carpenter,1229.0
+1231.0,z3,Electricity,2,1,Carpenter,1230.0
+1232.0,z3,Floor,2,1,VVS,1231.0
+1233.0,z3,Piping,5,2,Electrician,1232.0
+1234.0,z3,Structural Foundation,4,3,Concrete,1233.0
+1235.0,z3,Sewage,3,3,VVS,1234.0
+1236.0,z3,Piping,2,3,Carpenter,1235.0
+1237.0,z3,Sewage,4,1,VVS,1236.0
+1238.0,z3,Floor,3,3,VVS,1237.0
+1239.0,z3,Structural Foundation,2,1,VVS,1238.0
+1240.0,z3,Structural Walls,5,3,Carpenter,1239.0
+1241.0,z3,Structural Walls,1,3,Carpenter,1240.0
+1242.0,z3,Structural Walls,2,1,Electrician,1241.0
+1243.0,z3,Sewage,2,2,Concrete,1242.0
+1244.0,z3,Electricity,5,1,Electrician,1243.0
+1245.0,z3,Piping,8,1,VVS,1244.0
+1246.0,z3,Structural Walls,6,2,Concrete,1245.0
+1247.0,z3,Piping,1,2,Painter,1246.0
+1248.0,z3,Gypsum,5,1,Concrete,1247.0
+1249.0,z3,Electricity,1,2,Concrete,1248.0
+1250.0,z3,Interior Walls,5,1,Painter,1249.0
+1251.0,z3,Interior Walls,4,1,Painter,1250.0
+1252.0,z3,Gypsum,3,3,Electrician,1251.0
+1253.0,z3,Structural Walls,7,3,Electrician,1252.0
+1254.0,z3,Electricity,8,1,Carpenter,1253.0
+1255.0,z3,Floor,7,1,Carpenter,1254.0
+1256.0,z3,Structural Walls,4,3,VVS,1255.0
+1257.0,z3,Interior Walls,5,3,Carpenter,1256.0
+1258.0,z3,Sewage,4,1,Carpenter,1257.0
+1259.0,z3,Structural Foundation,4,3,Painter,1258.0
+1260.0,z3,Piping,1,3,Carpenter,1259.0
+1261.0,z3,Structural Foundation,7,2,Carpenter,1260.0
+1262.0,z3,Gypsum,9,2,VVS,1261.0
+1263.0,z3,Piping,1,3,Electrician,1262.0
+1264.0,z3,Floor,4,3,VVS,1263.0
+1265.0,z3,Sewage,5,1,Electrician,1264.0
+1266.0,z3,Sewage,2,3,Carpenter,1265.0
+1267.0,z3,Electricity,3,2,Painter,1266.0
+1268.0,z3,Sewage,8,2,Concrete,1267.0
+1269.0,z3,Piping,3,1,Concrete,1268.0
+1270.0,z3,Interior Walls,7,2,Carpenter,1269.0
+1271.0,z3,Piping,5,3,Electrician,1270.0
+1272.0,z3,Electricity,1,3,Carpenter,1271.0
+1273.0,z3,Sewage,7,2,Electrician,1272.0
+1274.0,z3,Structural Walls,1,2,Concrete,1273.0
+1275.0,z3,Piping,4,1,Carpenter,1274.0
+1276.0,z3,Gypsum,9,3,Electrician,1275.0
+1277.0,z3,Sewage,5,2,Carpenter,1276.0
+1278.0,z3,Piping,2,2,VVS,1277.0
+1279.0,z3,Electricity,4,3,Painter,1278.0
+1280.0,z3,Sewage,9,2,Carpenter,1279.0
+1281.0,z3,Structural Foundation,9,2,Concrete,1280.0
+1282.0,z3,Structural Walls,5,3,Electrician,1281.0
+1283.0,z3,Piping,7,2,Concrete,1282.0
+1284.0,z3,Electricity,6,1,Electrician,1283.0
+1285.0,z3,Electricity,1,3,Carpenter,1284.0
+1286.0,z3,Interior Walls,4,1,VVS,1285.0
+1287.0,z3,Structural Foundation,8,1,Painter,1286.0
+1288.0,z3,Gypsum,9,3,Painter,1287.0
+1289.0,z3,Piping,3,3,Concrete,1288.0
+1290.0,z3,Structural Walls,7,1,Electrician,1289.0
+1291.0,z3,Structural Walls,2,3,Electrician,1290.0
+1292.0,z3,Interior Walls,9,3,VVS,1291.0
+1293.0,z3,Floor,5,1,Electrician,1292.0
+1294.0,z3,Piping,4,3,Electrician,1293.0
+1295.0,z3,Electricity,7,1,VVS,1294.0
+1296.0,z3,Sewage,7,1,Concrete,1295.0
+1297.0,z3,Sewage,2,2,Concrete,1296.0
+1298.0,z3,Sewage,1,1,Painter,1297.0
+1299.0,z3,Gypsum,3,2,Concrete,1298.0
+1300.0,z3,Structural Walls,7,1,Painter,1299.0
+1301.0,z3,Structural Foundation,7,2,Painter,1300.0
+1302.0,z3,Piping,8,2,Painter,1301.0
+1303.0,z3,Structural Walls,5,3,Concrete,1302.0
+1304.0,z3,Sewage,8,2,Concrete,1303.0
+1305.0,z3,Interior Walls,5,3,Painter,1304.0
+1306.0,z3,Floor,8,1,Carpenter,1305.0
+1307.0,z3,Sewage,2,2,Electrician,1306.0
+1308.0,z3,Structural Walls,7,1,VVS,1307.0
+1309.0,z3,Gypsum,8,3,Concrete,1308.0
+1310.0,z3,Interior Walls,8,2,Carpenter,1309.0
+1311.0,z3,Structural Walls,4,3,Carpenter,1310.0
+1312.0,z3,Structural Walls,4,3,Concrete,1311.0
+1313.0,z3,Interior Walls,4,1,Carpenter,1312.0
+1314.0,z3,Sewage,5,3,Painter,1313.0
+1315.0,z3,Gypsum,7,1,VVS,1314.0
+1316.0,z3,Electricity,3,2,Concrete,1315.0
+1317.0,z3,Piping,1,2,Painter,1316.0
+1318.0,z3,Gypsum,7,2,Electrician,1317.0
+1319.0,z3,Sewage,6,1,Painter,1318.0
+1320.0,z3,Floor,8,3,Electrician,1319.0
+1321.0,z3,Gypsum,3,1,Electrician,1320.0
+1322.0,z3,Floor,5,1,Concrete,1321.0
+1323.0,z3,Floor,2,3,VVS,1322.0
+1324.0,z3,Floor,4,3,Painter,1323.0
+1325.0,z3,Structural Foundation,8,3,Concrete,1324.0
+1326.0,z3,Structural Walls,1,3,Electrician,1325.0
+1327.0,z3,Structural Foundation,1,1,VVS,1326.0
+1328.0,z3,Gypsum,1,1,Electrician,1327.0
+1329.0,z3,Sewage,3,1,Concrete,1328.0
+1330.0,z3,Electricity,9,2,Carpenter,1329.0
+1331.0,z3,Electricity,4,3,Carpenter,1330.0
+1332.0,z3,Gypsum,6,2,Electrician,1331.0
+1333.0,z3,Floor,2,2,Electrician,1332.0
+1334.0,z3,Structural Foundation,3,3,VVS,1333.0
+1335.0,z3,Floor,7,2,Concrete,1334.0
+1336.0,z3,Structural Foundation,7,2,Painter,1335.0
+1337.0,z3,Piping,2,2,VVS,1336.0
+1338.0,z3,Structural Foundation,9,1,VVS,1337.0
+1339.0,z3,Electricity,4,2,VVS,1338.0
+1340.0,z3,Structural Foundation,9,2,VVS,1339.0
+1341.0,z3,Electricity,3,1,Carpenter,1340.0
+1342.0,z3,Structural Foundation,8,1,VVS,1341.0
+1343.0,z3,Structural Foundation,2,2,Electrician,1342.0
+1344.0,z3,Gypsum,4,1,Electrician,1343.0
+1345.0,z3,Gypsum,5,1,Carpenter,1344.0
+1346.0,z3,Structural Foundation,4,1,Concrete,1345.0
+1347.0,z3,Sewage,6,1,Electrician,1346.0
+1348.0,z3,Sewage,6,3,Concrete,1347.0
+1349.0,z3,Sewage,5,3,Electrician,1348.0
+1350.0,z3,Structural Walls,4,3,Electrician,1349.0
+1351.0,z3,Floor,3,1,Carpenter,1350.0
+1352.0,z3,Floor,1,3,VVS,1351.0
+1353.0,z3,Sewage,4,1,Concrete,1352.0
+1354.0,z3,Sewage,9,1,Electrician,1353.0
+1355.0,z3,Structural Walls,3,1,VVS,1354.0
+1356.0,z3,Piping,1,2,Painter,1355.0
+1357.0,z3,Structural Walls,8,2,VVS,1356.0
+1358.0,z3,Piping,2,3,Carpenter,1357.0
+1359.0,z3,Electricity,1,1,Concrete,1358.0
+1360.0,z3,Electricity,8,2,Concrete,1359.0
+1361.0,z3,Sewage,7,3,Concrete,1360.0
+1362.0,z3,Gypsum,6,2,VVS,1361.0
+1363.0,z3,Sewage,6,3,Electrician,1362.0
+1364.0,z3,Interior Walls,8,3,Painter,1363.0
+1365.0,z3,Sewage,1,3,VVS,1364.0
+1366.0,z3,Gypsum,8,3,Carpenter,1365.0
+1367.0,z3,Floor,4,1,Electrician,1366.0
+1368.0,z3,Structural Foundation,8,1,VVS,1367.0
+1369.0,z3,Electricity,8,2,Electrician,1368.0
+1370.0,z3,Structural Foundation,7,1,Carpenter,1369.0
+1371.0,z3,Gypsum,2,1,Concrete,1370.0
+1372.0,z3,Gypsum,3,3,Electrician,1371.0
+1373.0,z3,Interior Walls,9,2,Carpenter,1372.0
+1374.0,z3,Sewage,4,3,VVS,1373.0
+1375.0,z3,Floor,7,3,Concrete,1374.0
+1376.0,z3,Structural Foundation,2,3,Electrician,1375.0
+1377.0,z3,Gypsum,6,3,Carpenter,1376.0
+1378.0,z3,Floor,4,3,Concrete,1377.0
+1379.0,z3,Electricity,2,1,VVS,1378.0
+1380.0,z3,Structural Foundation,4,2,Concrete,1379.0
+1381.0,z3,Sewage,6,3,Concrete,1380.0
+1382.0,z3,Interior Walls,9,2,Carpenter,1381.0
+1383.0,z3,Piping,6,1,VVS,1382.0
+1384.0,z3,Gypsum,5,2,Concrete,1383.0
+1385.0,z3,Structural Walls,8,3,Painter,1384.0
+1386.0,z3,Sewage,9,1,Concrete,1385.0
+1387.0,z3,Structural Foundation,3,1,Painter,1386.0
+1388.0,z3,Gypsum,4,1,VVS,1387.0
+1389.0,z3,Piping,3,1,Painter,1388.0
+1390.0,z3,Sewage,5,3,Concrete,1389.0
+1391.0,z3,Floor,2,2,VVS,1390.0
+1392.0,z3,Structural Walls,6,1,VVS,1391.0
+1393.0,z3,Gypsum,3,3,Electrician,1392.0
+1394.0,z3,Piping,7,1,Concrete,1393.0
+1395.0,z3,Structural Foundation,2,2,Electrician,1394.0
+1396.0,z3,Electricity,4,3,VVS,1395.0
+1397.0,z3,Structural Foundation,3,2,VVS,1396.0
+1398.0,z3,Interior Walls,8,2,Carpenter,1397.0
+1399.0,z3,Structural Walls,9,1,Electrician,1398.0
+1400.0,z3,Structural Walls,9,2,Electrician,1399.0
+1401.0,z3,Sewage,5,1,Carpenter,1400.0
+1402.0,z3,Sewage,9,3,Concrete,1401.0
+1403.0,z3,Structural Walls,5,3,Concrete,1402.0
+1404.0,z3,Piping,8,3,Concrete,1403.0
+1405.0,z3,Interior Walls,7,3,VVS,1404.0
+1406.0,z3,Piping,3,1,Electrician,1405.0
+1407.0,z3,Gypsum,8,3,Electrician,1406.0
+1408.0,z3,Gypsum,2,3,VVS,1407.0
+1409.0,z3,Piping,3,1,Carpenter,1408.0
+1410.0,z3,Structural Foundation,5,3,Carpenter,1409.0
+1411.0,z3,Sewage,1,2,Painter,1410.0
+1412.0,z3,Interior Walls,2,2,Concrete,1411.0
+1413.0,z3,Electricity,2,3,VVS,1412.0
+1414.0,z3,Piping,1,2,Electrician,1413.0
+1415.0,z3,Structural Walls,8,3,Carpenter,1414.0
+1416.0,z3,Structural Foundation,9,3,Concrete,1415.0
+1417.0,z3,Interior Walls,3,3,VVS,1416.0
+1418.0,z3,Sewage,6,3,Carpenter,1417.0
+1419.0,z3,Interior Walls,9,1,Electrician,1418.0
+1420.0,z3,Interior Walls,5,2,Electrician,1419.0
+1421.0,z3,Interior Walls,2,2,VVS,1420.0
+1422.0,z3,Floor,3,2,Concrete,1421.0
+1423.0,z3,Gypsum,1,2,VVS,1422.0
+1424.0,z3,Gypsum,1,2,Electrician,1423.0
+1425.0,z3,Interior Walls,4,1,VVS,1424.0
+1426.0,z3,Sewage,2,3,VVS,1425.0
+1427.0,z3,Structural Foundation,6,3,Concrete,1426.0
+1428.0,z3,Interior Walls,5,3,VVS,1427.0
+1429.0,z3,Structural Foundation,1,2,Painter,1428.0
+1430.0,z3,Structural Walls,6,2,VVS,1429.0
+1431.0,z3,Interior Walls,8,1,Painter,1430.0
+1432.0,z3,Electricity,3,2,Electrician,1431.0
+1433.0,z3,Sewage,3,1,Electrician,1432.0
+1434.0,z3,Piping,7,2,Carpenter,1433.0
+1435.0,z3,Structural Foundation,9,2,Electrician,1434.0
+1436.0,z3,Sewage,7,3,VVS,1435.0
+1437.0,z3,Piping,3,2,Concrete,1436.0
+1438.0,z3,Electricity,7,3,Electrician,1437.0
+1439.0,z3,Sewage,6,3,Concrete,1438.0
+1440.0,z3,Structural Foundation,2,2,Carpenter,1439.0
+1441.0,z3,Piping,2,1,Electrician,1440.0
+1442.0,z3,Interior Walls,9,3,Painter,1441.0
+1443.0,z3,Structural Foundation,1,2,Electrician,1442.0
+1444.0,z3,Piping,8,3,Carpenter,1443.0
+1445.0,z3,Electricity,2,3,Painter,1444.0
+1446.0,z3,Gypsum,7,3,Concrete,1445.0
+1447.0,z3,Interior Walls,6,1,VVS,1446.0
+1448.0,z3,Interior Walls,4,1,Painter,1447.0
+1449.0,z3,Interior Walls,3,3,VVS,1448.0
+1450.0,z3,Piping,2,3,Carpenter,1449.0
+1451.0,z3,Sewage,1,2,Carpenter,1450.0
+1452.0,z3,Electricity,8,3,Concrete,1451.0
+1453.0,z3,Gypsum,4,1,Electrician,1452.0
+1454.0,z3,Piping,2,1,VVS,1453.0
+1455.0,z3,Structural Walls,4,3,Painter,1454.0
+1456.0,z3,Gypsum,8,2,Concrete,1455.0
+1457.0,z3,Piping,5,2,VVS,1456.0
+1458.0,z3,Structural Foundation,6,2,VVS,1457.0
+1459.0,z3,Structural Walls,7,1,Concrete,1458.0
+1460.0,z3,Floor,7,3,Carpenter,1459.0
+1461.0,z3,Gypsum,4,3,Concrete,1460.0
+1462.0,z3,Structural Foundation,6,2,Carpenter,1461.0
+1463.0,z3,Structural Walls,8,3,Concrete,1462.0
+1464.0,z3,Piping,6,3,Concrete,1463.0
+1465.0,z3,Gypsum,8,2,Electrician,1464.0
+1466.0,z3,Gypsum,4,3,VVS,1465.0
+1467.0,z3,Piping,5,2,VVS,1466.0
+1468.0,z3,Sewage,7,2,Painter,1467.0
+1469.0,z3,Structural Foundation,9,1,Carpenter,1468.0
+1470.0,z3,Floor,3,3,VVS,1469.0
+1471.0,z3,Interior Walls,2,3,Carpenter,1470.0
+1472.0,z3,Interior Walls,5,3,Carpenter,1471.0
+1473.0,z3,Piping,2,2,Electrician,1472.0
+1474.0,z3,Piping,2,1,Electrician,1473.0
+1475.0,z3,Floor,7,3,Carpenter,1474.0
+1476.0,z3,Interior Walls,9,3,Carpenter,1475.0
+1477.0,z3,Electricity,1,2,VVS,1476.0
+1478.0,z3,Piping,3,3,VVS,1477.0
+1479.0,z3,Sewage,2,3,Painter,1478.0
+1480.0,z3,Structural Walls,1,2,Carpenter,1479.0
+1481.0,z3,Sewage,4,3,Electrician,1480.0
+1482.0,z3,Structural Foundation,3,3,VVS,1481.0
+1483.0,z3,Structural Foundation,4,1,VVS,1482.0
+1484.0,z3,Electricity,3,1,Painter,1483.0
+1485.0,z3,Gypsum,6,1,Concrete,1484.0
+1486.0,z3,Gypsum,9,1,Carpenter,1485.0
+1487.0,z3,Structural Foundation,7,3,Painter,1486.0
+1488.0,z3,Structural Walls,4,2,VVS,1487.0
+1489.0,z3,Floor,8,1,Carpenter,1488.0
+1490.0,z3,Interior Walls,6,3,Electrician,1489.0
+1491.0,z3,Structural Foundation,7,1,Carpenter,1490.0
+1492.0,z3,Structural Foundation,6,3,Painter,1491.0
+1493.0,z3,Piping,8,3,VVS,1492.0
+1494.0,z3,Interior Walls,4,1,Carpenter,1493.0
+1495.0,z3,Structural Walls,8,2,Concrete,1494.0
+1496.0,z3,Electricity,2,1,Electrician,1495.0
+1497.0,z3,Sewage,3,2,Painter,1496.0
+1498.0,z3,Structural Foundation,8,2,Electrician,1497.0
+1499.0,z3,Electricity,9,2,VVS,1498.0
+1500.0,z3,Gypsum,5,1,Electrician,1499.0
+1501.0,z3,Structural Walls,9,1,Carpenter,1500.0
+1502.0,z3,Sewage,3,3,Carpenter,1501.0
+1503.0,z3,Structural Walls,7,2,Painter,1502.0
+1504.0,z3,Sewage,1,1,Concrete,1503.0
+1505.0,z3,Electricity,4,3,Painter,1504.0
+1506.0,z3,Electricity,8,1,Concrete,1505.0
+1507.0,z3,Electricity,4,2,Carpenter,1506.0
+1508.0,z3,Piping,1,3,VVS,1507.0
+1509.0,z3,Piping,7,1,VVS,1508.0
+1510.0,z3,Floor,9,3,VVS,1509.0
+1511.0,z3,Electricity,3,2,Electrician,1510.0
+1512.0,z3,Gypsum,9,3,VVS,1511.0
+1513.0,z3,Gypsum,3,1,VVS,1512.0
+1514.0,z3,Sewage,2,2,VVS,1513.0
+1515.0,z3,Floor,1,3,Carpenter,1514.0
+1516.0,z3,Piping,9,3,Electrician,1515.0
+1517.0,z3,Structural Walls,7,2,Painter,1516.0
+1518.0,z3,Piping,8,3,Carpenter,1517.0
+1519.0,z3,Electricity,5,2,Concrete,1518.0
+1520.0,z3,Gypsum,2,2,Painter,1519.0
+1521.0,z3,Structural Foundation,8,1,VVS,1520.0
+1522.0,z3,Gypsum,9,2,Painter,1521.0
+1523.0,z3,Structural Foundation,8,2,Carpenter,1522.0
+1524.0,z3,Gypsum,8,1,Concrete,1523.0
+1525.0,z3,Interior Walls,2,2,Painter,1524.0
+1526.0,z3,Interior Walls,9,1,Electrician,1525.0
+1527.0,z3,Structural Walls,3,2,VVS,1526.0
+1528.0,z3,Interior Walls,5,1,Carpenter,1527.0
+1529.0,z3,Structural Foundation,9,1,VVS,1528.0
+1530.0,z3,Piping,2,1,Painter,1529.0
+1531.0,z3,Electricity,2,1,Painter,1530.0
+1532.0,z3,Structural Foundation,6,1,Electrician,1531.0
+1533.0,z3,Structural Walls,9,2,VVS,1532.0
+1534.0,z3,Gypsum,4,2,VVS,1533.0
+1535.0,z3,Structural Foundation,7,2,Painter,1534.0
+1536.0,z3,Floor,3,3,Carpenter,1535.0
+1537.0,z3,Piping,4,3,Concrete,1536.0
+1538.0,z3,Interior Walls,8,2,Concrete,1537.0
+1539.0,z3,Gypsum,9,2,Concrete,1538.0
+1540.0,z3,Structural Foundation,2,2,VVS,1539.0
+1541.0,z3,Sewage,6,3,Painter,1540.0
+1542.0,z3,Sewage,1,3,Carpenter,1541.0
+1543.0,z3,Interior Walls,8,2,Concrete,1542.0
+1544.0,z3,Interior Walls,4,2,Carpenter,1543.0
+1545.0,z3,Floor,5,1,VVS,1544.0
+1546.0,z3,Structural Walls,7,3,VVS,1545.0
+1547.0,z3,Floor,6,1,VVS,1546.0
+1548.0,z3,Interior Walls,4,1,Painter,1547.0
+1549.0,z3,Interior Walls,6,1,Painter,1548.0
+1550.0,z3,Floor,9,2,VVS,1549.0
+1551.0,z3,Piping,8,3,VVS,1550.0
+1552.0,z3,Floor,2,2,Concrete,1551.0
+1553.0,z3,Structural Walls,9,2,Electrician,1552.0
+1554.0,z3,Sewage,4,3,Painter,1553.0
+1555.0,z3,Structural Walls,3,2,Painter,1554.0
+1556.0,z3,Structural Walls,1,3,VVS,1555.0
+1557.0,z3,Electricity,6,3,Electrician,1556.0
+1558.0,z3,Structural Foundation,2,1,Carpenter,1557.0
+1559.0,z3,Structural Walls,5,3,Carpenter,1558.0
+1560.0,z3,Floor,7,2,Painter,1559.0
+1561.0,z3,Piping,6,3,Concrete,1560.0
+1562.0,z3,Gypsum,3,2,Concrete,1561.0
+1563.0,z3,Structural Foundation,5,2,Electrician,1562.0
+1564.0,z3,Floor,8,1,Painter,1563.0
+1565.0,z3,Electricity,6,3,VVS,1564.0
+1566.0,z3,Piping,5,3,Painter,1565.0
+1567.0,z3,Gypsum,2,3,Carpenter,1566.0
+1568.0,z3,Floor,2,3,Carpenter,1567.0
+1569.0,z3,Piping,8,3,Carpenter,1568.0
+1570.0,z3,Interior Walls,8,1,Carpenter,1569.0
+1571.0,z3,Structural Foundation,7,2,Carpenter,1570.0
+1572.0,z3,Gypsum,4,2,Electrician,1571.0
+1573.0,z3,Sewage,7,2,Carpenter,1572.0
+1574.0,z3,Electricity,2,2,Concrete,1573.0
+1575.0,z3,Interior Walls,8,2,VVS,1574.0
+1576.0,z3,Sewage,5,3,Concrete,1575.0
+1577.0,z3,Gypsum,6,1,Painter,1576.0
+1578.0,z3,Gypsum,6,2,Painter,1577.0
+1579.0,z3,Electricity,4,1,Carpenter,1578.0
+1580.0,z3,Electricity,9,1,Concrete,1579.0
+1581.0,z3,Sewage,8,1,VVS,1580.0
+1582.0,z3,Gypsum,4,3,Electrician,1581.0
+1583.0,z3,Piping,6,2,Concrete,1582.0
+1584.0,z3,Electricity,9,1,Carpenter,1583.0
+1585.0,z3,Interior Walls,6,2,Electrician,1584.0
+1586.0,z3,Interior Walls,8,3,VVS,1585.0
+1587.0,z3,Piping,4,1,Carpenter,1586.0
+1588.0,z3,Electricity,7,3,Painter,1587.0
+1589.0,z3,Electricity,7,3,Electrician,1588.0
+1590.0,z3,Structural Walls,5,3,VVS,1589.0
+1591.0,z3,Structural Foundation,7,3,Electrician,1590.0
+1592.0,z3,Structural Foundation,3,1,Concrete,1591.0
+1593.0,z3,Sewage,4,1,Carpenter,1592.0
+1594.0,z3,Interior Walls,5,2,Electrician,1593.0
+1595.0,z3,Electricity,3,3,Carpenter,1594.0
+1596.0,z3,Interior Walls,1,3,Painter,1595.0
+1597.0,z3,Piping,6,2,Concrete,1596.0
+1598.0,z3,Structural Walls,2,2,Electrician,1597.0
+1599.0,z3,Structural Walls,1,1,Carpenter,1598.0
+1600.0,z4,Sewage,7,3,Carpenter,1599.0
+1601.0,z4,Electricity,4,1,Carpenter,1600.0
+1602.0,z4,Gypsum,6,1,Painter,1601.0
+1603.0,z4,Gypsum,4,3,VVS,1602.0
+1604.0,z4,Piping,3,2,Electrician,1603.0
+1605.0,z4,Structural Foundation,3,2,VVS,1604.0
+1606.0,z4,Interior Walls,4,1,Concrete,1605.0
+1607.0,z4,Structural Foundation,6,3,VVS,1606.0
+1608.0,z4,Gypsum,8,1,Electrician,1607.0
+1609.0,z4,Electricity,7,3,Carpenter,1608.0
+1610.0,z4,Electricity,6,3,VVS,1609.0
+1611.0,z4,Structural Walls,1,3,Concrete,1610.0
+1612.0,z4,Piping,4,3,Painter,1611.0
+1613.0,z4,Structural Foundation,2,1,Concrete,1612.0
+1614.0,z4,Interior Walls,2,2,VVS,1613.0
+1615.0,z4,Floor,9,1,Painter,1614.0
+1616.0,z4,Sewage,6,2,Electrician,1615.0
+1617.0,z4,Floor,9,1,Electrician,1616.0
+1618.0,z4,Interior Walls,7,2,VVS,1617.0
+1619.0,z4,Floor,2,2,Carpenter,1618.0
+1620.0,z4,Structural Foundation,2,2,Concrete,1619.0
+1621.0,z4,Sewage,5,2,VVS,1620.0
+1622.0,z4,Structural Walls,5,1,Painter,1621.0
+1623.0,z4,Floor,5,2,Concrete,1622.0
+1624.0,z4,Sewage,5,1,Painter,1623.0
+1625.0,z4,Piping,1,3,Painter,1624.0
+1626.0,z4,Piping,6,2,Concrete,1625.0
+1627.0,z4,Gypsum,1,1,Concrete,1626.0
+1628.0,z4,Interior Walls,7,3,Painter,1627.0
+1629.0,z4,Structural Foundation,5,1,Painter,1628.0
+1630.0,z4,Structural Foundation,5,1,Concrete,1629.0
+1631.0,z4,Structural Walls,2,2,Electrician,1630.0
+1632.0,z4,Electricity,8,3,Concrete,1631.0
+1633.0,z4,Sewage,4,3,Carpenter,1632.0
+1634.0,z4,Floor,4,3,Painter,1633.0
+1635.0,z4,Electricity,1,3,Concrete,1634.0
+1636.0,z4,Sewage,4,2,Painter,1635.0
+1637.0,z4,Structural Walls,9,3,Carpenter,1636.0
+1638.0,z4,Sewage,6,2,Painter,1637.0
+1639.0,z4,Gypsum,3,2,VVS,1638.0
+1640.0,z4,Piping,2,3,Concrete,1639.0
+1641.0,z4,Piping,3,2,Electrician,1640.0
+1642.0,z4,Sewage,7,1,VVS,1641.0
+1643.0,z4,Structural Walls,3,1,VVS,1642.0
+1644.0,z4,Structural Foundation,6,1,Electrician,1643.0
+1645.0,z4,Electricity,1,2,Carpenter,1644.0
+1646.0,z4,Sewage,1,2,Carpenter,1645.0
+1647.0,z4,Piping,6,2,Electrician,1646.0
+1648.0,z4,Structural Walls,6,1,Concrete,1647.0
+1649.0,z4,Sewage,6,1,Concrete,1648.0
+1650.0,z4,Structural Walls,2,1,Concrete,1649.0
+1651.0,z4,Piping,6,2,Carpenter,1650.0
+1652.0,z4,Interior Walls,4,2,VVS,1651.0
+1653.0,z4,Structural Walls,5,2,Concrete,1652.0
+1654.0,z4,Interior Walls,3,1,Electrician,1653.0
+1655.0,z4,Structural Foundation,4,2,VVS,1654.0
+1656.0,z4,Gypsum,7,3,Concrete,1655.0
+1657.0,z4,Piping,3,2,VVS,1656.0
+1658.0,z4,Floor,1,2,VVS,1657.0
+1659.0,z4,Structural Walls,7,1,Carpenter,1658.0
+1660.0,z4,Electricity,1,3,Concrete,1659.0
+1661.0,z4,Structural Foundation,4,2,Electrician,1660.0
+1662.0,z4,Structural Foundation,6,1,Concrete,1661.0
+1663.0,z4,Electricity,2,2,Carpenter,1662.0
+1664.0,z4,Gypsum,6,2,VVS,1663.0
+1665.0,z4,Gypsum,2,2,Electrician,1664.0
+1666.0,z4,Structural Walls,5,2,Carpenter,1665.0
+1667.0,z4,Sewage,4,1,Electrician,1666.0
+1668.0,z4,Structural Walls,2,1,Painter,1667.0
+1669.0,z4,Structural Walls,6,3,VVS,1668.0
+1670.0,z4,Structural Foundation,8,2,VVS,1669.0
+1671.0,z4,Electricity,9,3,VVS,1670.0
+1672.0,z4,Floor,6,1,Concrete,1671.0
+1673.0,z4,Piping,4,2,VVS,1672.0
+1674.0,z4,Sewage,1,1,Electrician,1673.0
+1675.0,z4,Gypsum,6,3,Painter,1674.0
+1676.0,z4,Interior Walls,1,1,Electrician,1675.0
+1677.0,z4,Piping,5,3,Painter,1676.0
+1678.0,z4,Structural Walls,9,1,Electrician,1677.0
+1679.0,z4,Structural Foundation,8,1,VVS,1678.0
+1680.0,z4,Sewage,5,1,Concrete,1679.0
+1681.0,z4,Electricity,3,2,VVS,1680.0
+1682.0,z4,Gypsum,2,3,Concrete,1681.0
+1683.0,z4,Structural Foundation,2,2,Concrete,1682.0
+1684.0,z4,Gypsum,6,2,Electrician,1683.0
+1685.0,z4,Floor,1,2,Electrician,1684.0
+1686.0,z4,Structural Walls,7,2,Concrete,1685.0
+1687.0,z4,Structural Walls,7,1,Painter,1686.0
+1688.0,z4,Interior Walls,9,3,Electrician,1687.0
+1689.0,z4,Structural Foundation,1,3,VVS,1688.0
+1690.0,z4,Piping,3,3,Concrete,1689.0
+1691.0,z4,Structural Foundation,4,2,Painter,1690.0
+1692.0,z4,Structural Walls,6,2,Electrician,1691.0
+1693.0,z4,Electricity,8,3,Painter,1692.0
+1694.0,z4,Piping,8,3,Electrician,1693.0
+1695.0,z4,Floor,6,1,Carpenter,1694.0
+1696.0,z4,Sewage,7,2,Carpenter,1695.0
+1697.0,z4,Electricity,2,1,VVS,1696.0
+1698.0,z4,Structural Walls,3,3,VVS,1697.0
+1699.0,z4,Interior Walls,4,1,Electrician,1698.0
+1700.0,z4,Electricity,9,1,Carpenter,1699.0
+1701.0,z4,Floor,3,1,Carpenter,1700.0
+1702.0,z4,Piping,9,3,Painter,1701.0
+1703.0,z4,Structural Foundation,9,3,Electrician,1702.0
+1704.0,z4,Electricity,7,1,Carpenter,1703.0
+1705.0,z4,Gypsum,5,2,VVS,1704.0
+1706.0,z4,Floor,7,2,Concrete,1705.0
+1707.0,z4,Sewage,3,1,Painter,1706.0
+1708.0,z4,Electricity,8,2,Carpenter,1707.0
+1709.0,z4,Structural Walls,5,1,Painter,1708.0
+1710.0,z4,Electricity,4,1,Carpenter,1709.0
+1711.0,z4,Piping,9,1,Electrician,1710.0
+1712.0,z4,Piping,2,3,Electrician,1711.0
+1713.0,z4,Electricity,8,2,VVS,1712.0
+1714.0,z4,Sewage,4,2,VVS,1713.0
+1715.0,z4,Structural Walls,2,3,Concrete,1714.0
+1716.0,z4,Structural Walls,4,3,VVS,1715.0
+1717.0,z4,Structural Foundation,6,2,Concrete,1716.0
+1718.0,z4,Gypsum,5,1,Painter,1717.0
+1719.0,z4,Piping,3,2,Carpenter,1718.0
+1720.0,z4,Gypsum,9,2,VVS,1719.0
+1721.0,z4,Structural Foundation,1,3,Carpenter,1720.0
+1722.0,z4,Sewage,5,2,Carpenter,1721.0
+1723.0,z4,Interior Walls,1,3,Electrician,1722.0
+1724.0,z4,Structural Walls,6,3,VVS,1723.0
+1725.0,z4,Electricity,5,1,Electrician,1724.0
+1726.0,z4,Structural Walls,1,3,VVS,1725.0
+1727.0,z4,Sewage,9,2,Concrete,1726.0
+1728.0,z4,Electricity,3,3,Concrete,1727.0
+1729.0,z4,Piping,9,3,Carpenter,1728.0
+1730.0,z4,Electricity,8,3,Electrician,1729.0
+1731.0,z4,Sewage,5,2,Electrician,1730.0
+1732.0,z4,Electricity,1,2,Carpenter,1731.0
+1733.0,z4,Floor,4,2,Concrete,1732.0
+1734.0,z4,Floor,9,1,Carpenter,1733.0
+1735.0,z4,Sewage,7,1,Concrete,1734.0
+1736.0,z4,Structural Walls,3,2,Electrician,1735.0
+1737.0,z4,Sewage,8,2,Carpenter,1736.0
+1738.0,z4,Piping,9,3,Carpenter,1737.0
+1739.0,z4,Electricity,6,1,Electrician,1738.0
+1740.0,z4,Interior Walls,9,1,Painter,1739.0
+1741.0,z4,Electricity,7,2,Electrician,1740.0
+1742.0,z4,Sewage,5,2,Carpenter,1741.0
+1743.0,z4,Sewage,6,1,VVS,1742.0
+1744.0,z4,Structural Foundation,8,3,VVS,1743.0
+1745.0,z4,Sewage,8,3,Concrete,1744.0
+1746.0,z4,Structural Foundation,2,2,Electrician,1745.0
+1747.0,z4,Piping,9,3,Painter,1746.0
+1748.0,z4,Sewage,5,1,Electrician,1747.0
+1749.0,z4,Electricity,5,1,VVS,1748.0
+1750.0,z4,Structural Walls,1,1,Concrete,1749.0
+1751.0,z4,Gypsum,5,1,Electrician,1750.0
+1752.0,z4,Gypsum,2,1,Concrete,1751.0
+1753.0,z4,Electricity,3,3,Concrete,1752.0
+1754.0,z4,Floor,5,1,Concrete,1753.0
+1755.0,z4,Structural Walls,3,1,Electrician,1754.0
+1756.0,z4,Structural Walls,9,2,Electrician,1755.0
+1757.0,z4,Gypsum,5,1,VVS,1756.0
+1758.0,z4,Electricity,3,2,Concrete,1757.0
+1759.0,z4,Gypsum,6,3,Carpenter,1758.0
+1760.0,z4,Sewage,2,1,Painter,1759.0
+1761.0,z4,Sewage,3,2,Electrician,1760.0
+1762.0,z4,Sewage,8,3,Concrete,1761.0
+1763.0,z4,Electricity,1,1,Concrete,1762.0
+1764.0,z4,Gypsum,6,3,Electrician,1763.0
+1765.0,z4,Electricity,9,1,Electrician,1764.0
+1766.0,z4,Electricity,3,1,Electrician,1765.0
+1767.0,z4,Gypsum,6,1,Concrete,1766.0
+1768.0,z4,Structural Walls,8,3,Concrete,1767.0
+1769.0,z4,Floor,9,3,VVS,1768.0
+1770.0,z4,Structural Foundation,7,2,Carpenter,1769.0
+1771.0,z4,Piping,3,2,Painter,1770.0
+1772.0,z4,Floor,3,3,Carpenter,1771.0
+1773.0,z4,Electricity,3,3,VVS,1772.0
+1774.0,z4,Structural Walls,4,2,Concrete,1773.0
+1775.0,z4,Floor,6,3,Electrician,1774.0
+1776.0,z4,Structural Walls,1,3,Concrete,1775.0
+1777.0,z4,Piping,2,1,Concrete,1776.0
+1778.0,z4,Electricity,1,3,Painter,1777.0
+1779.0,z4,Structural Walls,6,1,Concrete,1778.0
+1780.0,z4,Structural Foundation,4,2,Concrete,1779.0
+1781.0,z4,Structural Foundation,6,1,Electrician,1780.0
+1782.0,z4,Structural Walls,9,1,Painter,1781.0
+1783.0,z4,Interior Walls,8,1,Concrete,1782.0
+1784.0,z4,Piping,8,2,Painter,1783.0
+1785.0,z4,Electricity,8,3,Concrete,1784.0
+1786.0,z4,Interior Walls,5,3,Concrete,1785.0
+1787.0,z4,Interior Walls,5,3,Painter,1786.0
+1788.0,z4,Piping,3,1,Electrician,1787.0
+1789.0,z4,Gypsum,8,3,Concrete,1788.0
+1790.0,z4,Electricity,5,3,Electrician,1789.0
+1791.0,z4,Gypsum,1,2,Painter,1790.0
+1792.0,z4,Interior Walls,7,1,Carpenter,1791.0
+1793.0,z4,Floor,9,3,Painter,1792.0
+1794.0,z4,Structural Foundation,6,1,Electrician,1793.0
+1795.0,z4,Electricity,6,3,Carpenter,1794.0
+1796.0,z4,Structural Foundation,2,3,VVS,1795.0
+1797.0,z4,Structural Walls,8,2,Painter,1796.0
+1798.0,z4,Sewage,4,3,Concrete,1797.0
+1799.0,z4,Floor,2,3,Electrician,1798.0
+1800.0,z4,Floor,6,1,Carpenter,1799.0
+1801.0,z4,Sewage,8,3,Carpenter,1800.0
+1802.0,z4,Structural Foundation,8,1,VVS,1801.0
+1803.0,z4,Sewage,1,1,Electrician,1802.0
+1804.0,z4,Structural Walls,8,1,Carpenter,1803.0
+1805.0,z4,Electricity,6,2,Concrete,1804.0
+1806.0,z4,Sewage,4,1,VVS,1805.0
+1807.0,z4,Gypsum,6,3,Electrician,1806.0
+1808.0,z4,Structural Foundation,5,2,Electrician,1807.0
+1809.0,z4,Piping,9,2,VVS,1808.0
+1810.0,z4,Electricity,7,2,Electrician,1809.0
+1811.0,z4,Piping,9,1,Carpenter,1810.0
+1812.0,z4,Floor,7,3,Concrete,1811.0
+1813.0,z4,Structural Foundation,5,1,Painter,1812.0
+1814.0,z4,Gypsum,8,2,Carpenter,1813.0
+1815.0,z4,Structural Walls,8,2,VVS,1814.0
+1816.0,z4,Interior Walls,9,2,Carpenter,1815.0
+1817.0,z4,Structural Walls,7,2,Concrete,1816.0
+1818.0,z4,Floor,4,2,Concrete,1817.0
+1819.0,z4,Electricity,6,3,Carpenter,1818.0
+1820.0,z4,Electricity,8,1,Painter,1819.0
+1821.0,z4,Sewage,3,2,Concrete,1820.0
+1822.0,z4,Piping,9,2,Painter,1821.0
+1823.0,z4,Sewage,3,3,Painter,1822.0
+1824.0,z4,Interior Walls,8,3,Electrician,1823.0
+1825.0,z4,Gypsum,8,3,VVS,1824.0
+1826.0,z4,Interior Walls,7,2,Electrician,1825.0
+1827.0,z4,Piping,9,2,Concrete,1826.0
+1828.0,z4,Structural Walls,9,3,Painter,1827.0
+1829.0,z4,Structural Walls,6,1,VVS,1828.0
+1830.0,z4,Sewage,7,2,Concrete,1829.0
+1831.0,z4,Floor,2,1,Concrete,1830.0
+1832.0,z4,Structural Walls,7,1,Concrete,1831.0
+1833.0,z4,Structural Walls,6,1,VVS,1832.0
+1834.0,z4,Floor,3,3,Concrete,1833.0
+1835.0,z4,Electricity,8,1,Concrete,1834.0
+1836.0,z4,Sewage,6,3,VVS,1835.0
+1837.0,z4,Electricity,2,3,Carpenter,1836.0
+1838.0,z4,Structural Foundation,1,2,Concrete,1837.0
+1839.0,z4,Structural Walls,2,2,Electrician,1838.0
+1840.0,z4,Piping,7,3,Carpenter,1839.0
+1841.0,z4,Piping,6,3,Painter,1840.0
+1842.0,z4,Sewage,1,1,Concrete,1841.0
+1843.0,z4,Floor,9,1,Concrete,1842.0
+1844.0,z4,Piping,7,1,Painter,1843.0
+1845.0,z4,Interior Walls,5,2,Carpenter,1844.0
+1846.0,z4,Sewage,4,2,Electrician,1845.0
+1847.0,z4,Piping,4,3,Concrete,1846.0
+1848.0,z4,Structural Walls,2,2,Painter,1847.0
+1849.0,z4,Sewage,2,1,VVS,1848.0
+1850.0,z4,Floor,3,3,Concrete,1849.0
+1851.0,z4,Floor,1,3,Carpenter,1850.0
+1852.0,z4,Floor,9,2,Carpenter,1851.0
+1853.0,z4,Piping,8,1,Carpenter,1852.0
+1854.0,z4,Sewage,1,3,VVS,1853.0
+1855.0,z4,Electricity,7,2,Electrician,1854.0
+1856.0,z4,Gypsum,1,3,Electrician,1855.0
+1857.0,z4,Interior Walls,2,1,Carpenter,1856.0
+1858.0,z4,Gypsum,7,3,VVS,1857.0
+1859.0,z4,Structural Walls,8,2,Painter,1858.0
+1860.0,z4,Floor,9,2,Electrician,1859.0
+1861.0,z4,Structural Walls,4,2,Electrician,1860.0
+1862.0,z4,Gypsum,2,1,Carpenter,1861.0
+1863.0,z4,Sewage,1,3,Concrete,1862.0
+1864.0,z4,Interior Walls,6,2,Painter,1863.0
+1865.0,z4,Structural Walls,1,3,VVS,1864.0
+1866.0,z4,Sewage,5,2,VVS,1865.0
+1867.0,z4,Piping,5,2,VVS,1866.0
+1868.0,z4,Interior Walls,5,1,Concrete,1867.0
+1869.0,z4,Structural Foundation,7,3,VVS,1868.0
+1870.0,z4,Structural Walls,5,1,Painter,1869.0
+1871.0,z4,Floor,6,3,Concrete,1870.0
+1872.0,z4,Electricity,7,1,Painter,1871.0
+1873.0,z4,Structural Foundation,7,2,Carpenter,1872.0
+1874.0,z4,Structural Foundation,9,3,Concrete,1873.0
+1875.0,z4,Gypsum,1,2,Painter,1874.0
+1876.0,z4,Piping,4,2,Concrete,1875.0
+1877.0,z4,Interior Walls,7,2,Electrician,1876.0
+1878.0,z4,Interior Walls,6,1,Electrician,1877.0
+1879.0,z4,Floor,7,3,Carpenter,1878.0
+1880.0,z4,Gypsum,9,3,Concrete,1879.0
+1881.0,z4,Interior Walls,1,1,Electrician,1880.0
+1882.0,z4,Piping,4,3,Carpenter,1881.0
+1883.0,z4,Interior Walls,1,3,VVS,1882.0
+1884.0,z4,Electricity,4,3,Electrician,1883.0
+1885.0,z4,Structural Foundation,8,2,Painter,1884.0
+1886.0,z4,Structural Walls,2,1,Carpenter,1885.0
+1887.0,z4,Floor,5,2,Painter,1886.0
+1888.0,z4,Floor,8,1,Painter,1887.0
+1889.0,z4,Gypsum,2,2,VVS,1888.0
+1890.0,z4,Gypsum,8,2,VVS,1889.0
+1891.0,z4,Interior Walls,5,2,Concrete,1890.0
+1892.0,z4,Piping,9,3,VVS,1891.0
+1893.0,z4,Structural Foundation,4,2,Carpenter,1892.0
+1894.0,z4,Piping,3,2,Electrician,1893.0
+1895.0,z4,Gypsum,9,3,Concrete,1894.0
+1896.0,z4,Sewage,9,3,Carpenter,1895.0
+1897.0,z4,Interior Walls,8,1,VVS,1896.0
+1898.0,z4,Electricity,4,2,Concrete,1897.0
+1899.0,z4,Gypsum,6,3,Concrete,1898.0
+1900.0,z4,Electricity,9,1,Carpenter,1899.0
+1901.0,z4,Structural Foundation,6,1,VVS,1900.0
+1902.0,z4,Gypsum,7,1,Electrician,1901.0
+1903.0,z4,Structural Walls,8,2,Carpenter,1902.0
+1904.0,z4,Structural Walls,4,3,Electrician,1903.0
+1905.0,z4,Floor,7,1,Painter,1904.0
+1906.0,z4,Structural Foundation,7,2,Carpenter,1905.0
+1907.0,z4,Sewage,4,1,Carpenter,1906.0
+1908.0,z4,Structural Walls,9,3,VVS,1907.0
+1909.0,z4,Sewage,3,1,Concrete,1908.0
+1910.0,z4,Electricity,1,1,Electrician,1909.0
+1911.0,z4,Floor,1,1,VVS,1910.0
+1912.0,z4,Sewage,1,3,Carpenter,1911.0
+1913.0,z4,Sewage,4,3,Concrete,1912.0
+1914.0,z4,Structural Foundation,8,1,Electrician,1913.0
+1915.0,z4,Electricity,7,2,Painter,1914.0
+1916.0,z4,Floor,9,1,Painter,1915.0
+1917.0,z4,Interior Walls,2,1,Concrete,1916.0
+1918.0,z4,Gypsum,3,1,VVS,1917.0
+1919.0,z4,Electricity,3,3,VVS,1918.0
+1920.0,z4,Piping,8,1,Electrician,1919.0
+1921.0,z4,Gypsum,8,1,Carpenter,1920.0
+1922.0,z4,Structural Walls,9,2,Carpenter,1921.0
+1923.0,z4,Piping,4,1,Carpenter,1922.0
+1924.0,z4,Piping,4,3,VVS,1923.0
+1925.0,z4,Sewage,2,1,Painter,1924.0
+1926.0,z4,Structural Foundation,2,3,Concrete,1925.0
+1927.0,z4,Structural Walls,8,2,Painter,1926.0
+1928.0,z4,Interior Walls,3,3,Concrete,1927.0
+1929.0,z4,Piping,4,1,Painter,1928.0
+1930.0,z4,Gypsum,2,2,VVS,1929.0
+1931.0,z4,Electricity,2,3,Painter,1930.0
+1932.0,z4,Interior Walls,9,3,Painter,1931.0
+1933.0,z4,Structural Foundation,9,1,VVS,1932.0
+1934.0,z4,Gypsum,8,3,Carpenter,1933.0
+1935.0,z4,Floor,8,3,Concrete,1934.0
+1936.0,z4,Structural Walls,9,1,Painter,1935.0
+1937.0,z4,Gypsum,4,3,Carpenter,1936.0
+1938.0,z4,Sewage,8,2,Electrician,1937.0
+1939.0,z4,Structural Foundation,6,2,Electrician,1938.0
+1940.0,z4,Sewage,6,1,VVS,1939.0
+1941.0,z4,Sewage,5,3,Electrician,1940.0
+1942.0,z4,Structural Foundation,9,1,Painter,1941.0
+1943.0,z4,Structural Walls,8,3,Carpenter,1942.0
+1944.0,z4,Gypsum,3,3,VVS,1943.0
+1945.0,z4,Piping,2,1,VVS,1944.0
+1946.0,z4,Floor,1,2,Carpenter,1945.0
+1947.0,z4,Gypsum,4,2,Electrician,1946.0
+1948.0,z4,Gypsum,6,3,Concrete,1947.0
+1949.0,z4,Piping,6,2,Painter,1948.0
+1950.0,z4,Floor,3,3,Concrete,1949.0
+1951.0,z4,Electricity,9,2,VVS,1950.0
+1952.0,z4,Electricity,8,1,Electrician,1951.0
+1953.0,z4,Floor,6,2,Painter,1952.0
+1954.0,z4,Gypsum,5,3,VVS,1953.0
+1955.0,z4,Interior Walls,3,2,Painter,1954.0
+1956.0,z4,Electricity,5,1,Electrician,1955.0
+1957.0,z4,Structural Walls,5,3,Painter,1956.0
+1958.0,z4,Sewage,2,1,Carpenter,1957.0
+1959.0,z4,Structural Foundation,4,3,Electrician,1958.0
+1960.0,z4,Structural Foundation,7,3,Painter,1959.0
+1961.0,z4,Floor,7,3,Painter,1960.0
+1962.0,z4,Floor,7,1,Concrete,1961.0
+1963.0,z4,Piping,7,3,Concrete,1962.0
+1964.0,z4,Electricity,9,2,Painter,1963.0
+1965.0,z4,Gypsum,5,2,Carpenter,1964.0
+1966.0,z4,Gypsum,1,1,Electrician,1965.0
+1967.0,z4,Gypsum,7,2,Painter,1966.0
+1968.0,z4,Sewage,5,2,Concrete,1967.0
+1969.0,z4,Electricity,8,2,VVS,1968.0
+1970.0,z4,Piping,8,3,VVS,1969.0
+1971.0,z4,Interior Walls,3,3,Painter,1970.0
+1972.0,z4,Structural Walls,8,3,Carpenter,1971.0
+1973.0,z4,Piping,6,1,VVS,1972.0
+1974.0,z4,Electricity,2,2,Carpenter,1973.0
+1975.0,z4,Structural Foundation,1,2,Carpenter,1974.0
+1976.0,z4,Sewage,7,3,Painter,1975.0
+1977.0,z4,Structural Foundation,1,2,Carpenter,1976.0
+1978.0,z4,Structural Walls,7,2,Electrician,1977.0
+1979.0,z4,Interior Walls,8,2,Electrician,1978.0
+1980.0,z4,Gypsum,4,2,Painter,1979.0
+1981.0,z4,Sewage,6,1,VVS,1980.0
+1982.0,z4,Gypsum,8,3,Painter,1981.0
+1983.0,z4,Structural Foundation,8,2,Carpenter,1982.0
+1984.0,z4,Structural Foundation,8,1,Concrete,1983.0
+1985.0,z4,Structural Walls,8,3,Carpenter,1984.0
+1986.0,z4,Piping,8,2,Concrete,1985.0
+1987.0,z4,Gypsum,8,3,Concrete,1986.0
+1988.0,z4,Structural Walls,3,2,Painter,1987.0
+1989.0,z4,Structural Walls,1,2,Carpenter,1988.0
+1990.0,z4,Gypsum,1,1,Electrician,1989.0
+1991.0,z4,Gypsum,7,1,VVS,1990.0
+1992.0,z4,Floor,8,3,Carpenter,1991.0
+1993.0,z4,Interior Walls,8,1,Carpenter,1992.0
+1994.0,z4,Sewage,3,3,Electrician,1993.0
+1995.0,z4,Electricity,8,2,Electrician,1994.0
+1996.0,z4,Electricity,5,3,Painter,1995.0
+1997.0,z4,Electricity,7,1,Concrete,1996.0
+1998.0,z4,Sewage,4,3,Electrician,1997.0
+1999.0,z4,Sewage,1,3,VVS,1998.0

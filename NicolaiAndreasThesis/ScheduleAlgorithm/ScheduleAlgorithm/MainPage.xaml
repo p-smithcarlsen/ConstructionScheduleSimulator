@@ -1,0 +1,37 @@
+﻿<Page
+    x:Class="ScheduleAlgorithm.MainPage"  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+  
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    Loaded="OnPage_Loaded"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <NavigationView x:Name="NavView" 
+                        IsSettingsVisible="False"
+                        ItemInvoked="nvTopLevelNav_ItemInvoked"
+                        Loaded="nvTopLevelNav_Loaded">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="List" Tag="taskList">
+                    <TextBlock Tag="Nav_TaskList">List of Tasks</TextBlock>
+                </NavigationViewItem>
+                <NavigationViewItem Icon="Calendar" Tag="constSchedule">
+                    <TextBlock Tag="Nav_Schedule">Construction Schedule</TextBlock>
+                </NavigationViewItem>
+                <NavigationViewItem Icon="PreviewLink" Tag="flowLine">
+                    <TextBlock Tag="Nav_Flowline">Flowline Chart</TextBlock>
+                </NavigationViewItem>
+                <NavigationViewItem Icon="FourBars" Tag="liveChart">
+                    <TextBlock Tag="Nav_LiveChart">LiveChart</TextBlock>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <Frame x:Name="ContentFrame"></Frame>
+        </NavigationView>
+
+    </Grid>
+</Page>

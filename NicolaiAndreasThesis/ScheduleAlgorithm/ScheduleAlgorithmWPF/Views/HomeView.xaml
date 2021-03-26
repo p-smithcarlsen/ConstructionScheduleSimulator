@@ -1,0 +1,305 @@
+﻿<UserControl x:Class="ScheduleAlgorithmWPF.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:ScheduleAlgorithmWPF.Controls"
+             xmlns:local="clr-namespace:ScheduleAlgorithmWPF.ViewModels"     
+             xmlns:task="clr-namespace:ScheduleAlgorithm.Domain.Entity;assembly=ScheduleAlgorithm.Domain"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <CollectionViewSource x:Key="cvsTasks" Source="{Binding Navigator.CurrentViewModel.Items}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Zone"></PropertyGroupDescription>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type task:ProgressState}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="task:ProgressState"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+
+    <Border BorderBrush="{StaticResource BrushPrimary2}" BorderThickness="2">
+
+        <Grid Width="auto" ShowGridLines="False" SnapsToDevicePixels="True">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GridSplitter Grid.Column="1"  Width="2" Background="{StaticResource BrushPrimary2}" HorizontalAlignment="Stretch"/>
+
+
+
+            <Grid Grid.Column="0" Name="Dataview" Background="{StaticResource BrushPrimary1}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="btnUpdate" Padding="10 1 10 1" Margin="15 0 5 0" Content="Update" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Click="btnUpdate_Click" />
+                    <Button x:Name="btnImport" Padding="10 1 10 1" Margin="5 0 5 0" Content="Import" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="btnImport_Click" />
+
+
+                    <TextBox  x:Name="txtDeadlineInput" Width="60" Padding="0 1 0 1" Margin="5 0 5 0"  VerticalAlignment="Center" Grid.Column="4" HorizontalAlignment="Right" TextAlignment="Center" PreviewTextInput="txtDeadlineInput_PreviewTextInput" LostFocus="txtDeadlineInput_LostFocus" GotFocus="txtDeadlineInput_GotFocus"/>
+                    <Button   x:Name="btnSetDeadline" Padding="10 1 10 1" Margin="5 0 50 0" Content="Set Deadline"  Grid.Column="5" VerticalAlignment="Center" Click="btnSetDeadline_Click" HorizontalAlignment="Right"  />
+
+                    <TextBox  x:Name="txtTaktInput" Width="50" Padding="0 1 0 1"  Margin="5 0 5 0" VerticalAlignment="Center"  Grid.Column="7" HorizontalAlignment="Right" TextAlignment="Center" PreviewTextInput="txtTaktInput_PreviewTextInput" LostFocus="txtTaktInput_LostFocus" GotFocus="txtTaktInput_GotFocus"  />
+                    <Button   x:Name="btnSetTakt" Padding="10 1 10 1"  Margin="5 0 15 0" Content="Set Takt" Grid.Column="8" VerticalAlignment="Center" Click="btnSetTakt_Click" HorizontalAlignment="Right"  />
+
+                </Grid>
+
+
+
+                <DataGrid   
+                        Margin="10 0 10 0" 
+                        Name="lstView"                   
+                        BorderBrush="WhiteSmoke"                         
+                        CanUserAddRows="True"   
+                        HorizontalAlignment="Stretch"
+                        AlternatingRowBackground="{StaticResource BrushPrimary1}"
+                        RowBackground="{StaticResource BrushPrimary3}"
+                        Background="{StaticResource BrushPrimary1}"
+                        BorderThickness="0"
+                        AlternationCount="2"
+                        AutoGenerateColumns="False"
+                        RowHeaderWidth="0"
+                        Grid.Row="1"
+                        ItemsSource="{Binding Source={StaticResource cvsTasks} }" CellEditEnding="lstView_CellEditEnding" SelectionChanged="lstView_SelectionChanged" RowEditEnding="lstView_RowEditEnding" >
+
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="{StaticResource BrushPrimary1}" />
+                            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+                            <Setter Property="Padding" Value="5 0 5 2"></Setter>
+                            <Setter Property="FontSize" Value="12"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource BrushPrimary2}"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+
+                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsCritical}" Value="True"/>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsCpToggled}" Value="True"/>
+
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </MultiDataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+
+                        <!--For progress state-->
+                        <Style x:Key="StyleForCell" TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Progress}" Value="Delayed"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="Red" />
+                                    <Setter Property="FontWeight" Value="DemiBold"/>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Progress}" Value="InProgress"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="Yellow" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Progress}" Value="Finished"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="Green" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+
+                    </DataGrid.Resources>
+
+                    <!-- DataGrid Grouping based official Microsoft template: https://docs.microsoft.com/en-us/dotnet/framework/wpf/controls/how-to-group-sort-and-filter-data-in-the-datagrid-control -->
+                    <DataGrid.GroupStyle>
+                        <!-- Style for groups at top level. -->
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="True" Background="{StaticResource BrushPrimary2}" BorderBrush="{StaticResource BrushPrimary2}" Foreground="{StaticResource FontColorBrush}" BorderThickness="1,1,1,5">
+                                                    <Expander.Header>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name, StringFormat='Location: {0}'}" Margin="5,0,0,0" Width="100"/>
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount, StringFormat='Number of tasks: {0}'}"/>
+                                                        </DockPanel>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <ItemsPresenter />
+                                                    </Expander.Content>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Task ID" Binding="{Binding Path=TaskID}" Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Location" Binding="{Binding Path=Zone}" Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Craft" Binding="{Binding Path=Craft}" Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Duration" Binding="{Binding Path=EstimatedDuration}" Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Operation" Binding="{Binding Path=Operation}" Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Estimated Resources" Binding="{Binding Path=EstimatedResources}" Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Actual Resources" Binding="{Binding Path=ActualResources}" Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Precedence" Binding="{Binding Path=Precedence}" Width="auto"></DataGridTextColumn>
+                        <DataGridComboBoxColumn 
+                            Header="Progress" SelectedItemBinding="{Binding Path=Progress}" 
+                            ItemsSource="{Binding Source={StaticResource myEnum}}" 
+                            Width="auto"
+                            CellStyle="{StaticResource StyleForCell}">
+                        </DataGridComboBoxColumn>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+
+            </Grid>
+
+
+            <!--DataView-->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--Navigation-->
+                <controls:ScheduleNavigator Grid.Row="0" DataContext="{Binding Navigator}" />
+
+                <!--Schedule-->
+                <Grid Grid.Row="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2"/>
+                        <RowDefinition Height="150"/>
+                    </Grid.RowDefinitions>
+
+
+
+                    <Grid Grid.Row="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ContentControl    
+                        Padding="10"
+                        Grid.Row="0" 
+                        Grid.Column="0" 
+                        Content="{Binding Navigator.CurrentViewModel.Chart}"/>                    
+                    </Grid>
+
+                    <GridSplitter IsEnabled="False" Grid.Row="1" Height="2" Background="{StaticResource BrushPrimary2}" HorizontalAlignment="Stretch"/>
+
+                    <Grid Grid.Row="2" MinHeight="100" Background="{StaticResource BrushPrimary1}" Margin="0,0,0.5,0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Heading -->
+                        <Grid Row="0" ColumnSpan="2" Margin="0,0,0,21.5" Grid.RowSpan="2">
+                            <Border BorderThickness="0,0,0,1"
+                                    BorderBrush="{StaticResource FontColorBrush}"
+                                    SnapsToDevicePixels="True"
+                                    HorizontalAlignment="Center" 
+                                    Width="120"
+                                    Margin="24,0,34,10"
+                                    Padding="1">
+                                <TextBlock TextAlignment="Center" FontSize="15" Foreground="{StaticResource FontColorBrush}" Text="Critical Paths" HorizontalAlignment="Left" Width="120" Margin="0,0,0,-1"/>
+
+                            </Border>
+                        </Grid>
+
+                        <!-- First row --> 
+                        <TextBlock Padding="5" Grid.Row="1" Grid.Column="0" Foreground="{StaticResource FontColorBrush}" FontSize="15" VerticalAlignment="Center">Technical</TextBlock>
+                        <controls:ToggleButtons x:Name="TbTechnical" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="33" Width="88" MouseLeftButtonDown="TbTechnical_MouseLeftButtonDown"  />
+
+                        <!-- Second row -->
+                        <TextBlock Padding="5" Grid.Row="2" Grid.Column="0" Foreground="{StaticResource FontColorBrush}" FontSize="15" VerticalAlignment="Center">Location</TextBlock>
+                        <controls:ToggleButtons x:Name="TbLocation" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="33" Width="88" MouseLeftButtonDown="TbLocation_MouseLeftButtonDown" />
+
+                        <TextBlock Padding="5" Grid.Row="3" Grid.Column="0" Foreground="{StaticResource FontColorBrush}" FontSize="15" VerticalAlignment="Center">Continuity</TextBlock>
+                        <controls:ToggleButtons x:Name="TbContinuity" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="33" Width="88" MouseLeftButtonDown="TbContinuity_MouseLeftButtonDown"/>
+
+                        <TextBlock Padding="5" Grid.Row="4" Grid.Column="0" Foreground="{StaticResource FontColorBrush}" FontSize="15" VerticalAlignment="Center">Production</TextBlock>
+                        <controls:ToggleButtons x:Name="TbProduction" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="33" Width="88" MouseLeftButtonDown="TbProduction_MouseLeftButtonDown" />
+
+                        <Grid Row="0" Grid.Column="2">
+                            <Border BorderThickness="0,0,0,1"
+                                    BorderBrush="{StaticResource FontColorBrush}"
+                                    SnapsToDevicePixels="True"
+                                    Width="120"
+                                    HorizontalAlignment="Center">
+                                <TextBlock TextAlignment="Center" FontSize="15" Foreground="{StaticResource FontColorBrush}" Text="Craft" HorizontalAlignment="Center" />
+
+                            </Border>
+                        </Grid>
+
+                        <WrapPanel Orientation="Vertical" Height="130" Grid.Column="2" Grid.RowSpan="4" Grid.Row="1" x:Name="BtnWrapPanel"/>
+
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>

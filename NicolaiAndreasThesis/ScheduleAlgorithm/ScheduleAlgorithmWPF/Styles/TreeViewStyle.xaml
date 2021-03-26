@@ -1,0 +1,28 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ScheduleAlgorithmWPF.Styles">
+
+
+    <Style x:Key="TreeViews" TargetType="TreeView">
+        
+        <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
+        <Setter Property="Background" Value="{StaticResource BrushPrimary1}"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="FontSize" Value="15"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TreeViewItem">
+                    <Grid x:Name="gridtreeItem" Background="{TemplateBinding Background}">
+                        <TextBlock Text="{ TemplateBinding ItemStringFormat}"
+                                   Padding="{TemplateBinding Padding}"
+                                   />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+
+</ResourceDictionary>
