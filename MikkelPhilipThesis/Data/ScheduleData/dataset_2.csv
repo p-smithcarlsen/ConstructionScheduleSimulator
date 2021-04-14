@@ -1,0 +1,31 @@
+5
+L0;First Floor
+T0;L0;Sewage;Plumber;3,00;*
+T1;L0;Heating/AC;HVAC Tech;2,00;T0
+T2;L0;Heating/AC;HVAC Tech;2,00;T1
+T3;L0;Heating/AC;HVAC Tech;2,00;T2
+T4;L0;Insulation;Insulation Worker;1,50;T3
+L1;Ground Level
+T0;L1;Sewage;Plumber;3,00;*
+T1;L1;Wood Framing;Carpenter;3,00;T0
+T2;L1;Sewage;Plumber;3,00;T1
+T3;L1;Heating/AC;HVAC Tech;2,00;T2
+T4;L1;Sewage;Plumber;3,00;T3
+L2;Third Floor
+T0;L2;Electricity;Electrician;1,50;*
+T1;L2;Flooring;Flooring Installer;3,50;T0
+T2;L2;Heating/AC;HVAC Tech;2,00;T1
+T3;L2;Electricity;Electrician;1,50;T2
+T4;L2;Piping;Roofing Mechanic;2,00;T3
+L3;Ground Level
+T0;L3;Finishing;Cement/Concrete Finisher;2,00;*
+T1;L3;Wood Framing;Carpenter;3,00;T0
+T2;L3;Piping;Roofing Mechanic;2,00;T1
+T3;L3;Heating/AC;HVAC Tech;2,00;T2
+T4;L3;Flooring;Flooring Installer;3,50;T3
+L4;First Floor
+T0;L4;Glass Installation;Glazier;2,00;*
+T1;L4;Heating/AC;HVAC Tech;2,00;T0
+T2;L4;Heating/AC;HVAC Tech;2,00;T1
+T3;L4;Flooring;Flooring Installer;3,50;T2
+T4;L4;Sewage;Plumber;3,00;T3

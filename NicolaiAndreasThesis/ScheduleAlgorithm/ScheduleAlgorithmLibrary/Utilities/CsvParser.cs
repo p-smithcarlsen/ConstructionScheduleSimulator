@@ -28,7 +28,7 @@ namespace ScheduleAlgorithmLibrary.Utilities
         {               
             bool header = true;           
             try
-            {                
+            {
                 if (file is null)
                 {
                     foreach (string lines in _staticFile.Split('\n'))

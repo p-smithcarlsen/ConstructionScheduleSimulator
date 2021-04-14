@@ -1,4 +1,4 @@
-package ScheduleComponents;
+package MikkelPhilipThesis.ScheduleComponents;
 
 public enum Trade {
   Electrician,
