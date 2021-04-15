@@ -1,6 +1,9 @@
 package MikkelPhilipThesis.Data;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
@@ -85,5 +88,35 @@ public class DataGenerator {
     String dependency = "*";
     if (taskId > 0) dependency = String.format("T%d", taskId-1);
     return String.format("T%d;L%d;%s;%s;%2.2f;%s%n", taskId, locationId, activity, trade, quantity, dependency);
+  }
+
+  public static void main(String[] args) {
+    // Create file
+    DataGenerator g = new DataGenerator();
+    File f = g.createNewFile("Data/ScheduleData");
+    
+    int locations, tasks;
+    if (args.length < 2) {
+      locations = 5;                              // Adjust number of locations
+      tasks = 5;                                  // Adjust number of tasks
+    } else {
+      locations = Integer.parseInt(args[1]);
+      tasks = Integer.parseInt(args[2]);
+    }
+
+    // Write to file
+    FileWriter w;
+    try {
+      w = new FileWriter(f);
+      w.write(g.generateData(locations, tasks));
+      w.close();
+  
+      // Write info to console
+      BufferedReader br = new BufferedReader(new FileReader(f));
+      br.lines().forEach(s -> System.out.println(s));
+      br.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
