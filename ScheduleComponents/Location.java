@@ -1,4 +1,4 @@
-package MikkelPhilipThesis.ScheduleComponents;
+package ScheduleComponents;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package MikkelPhilipThesis.Data;
+package Data;
 
 import java.io.BufferedReader;
 import java.io.File;

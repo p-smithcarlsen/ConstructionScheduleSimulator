@@ -1,10 +1,8 @@
-package MikkelPhilipThesis;
-
 import java.io.IOException;
 import java.util.Arrays;
 
-import MikkelPhilipThesis.Data.DataParser;
-import MikkelPhilipThesis.ScheduleComponents.Location;
+import Data.DataParser;
+import ScheduleComponents.Location;
 
 public class Program {
   public static void main(String[] args) throws IOException {
