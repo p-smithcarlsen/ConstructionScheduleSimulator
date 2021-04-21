@@ -9,40 +9,94 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import ScheduleComponents.Location;
+import ScheduleComponents.Trade;
 
 public class DataParser {
 
   private Location[] locations;
-  private int sz = 0;
+  private int locationSize = 0;
+  private Trade[] trades;
+  private int tradeSize = 0;
   NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
   public DataParser() {}
 
-  public Location[] parseData(String fileName) throws NumberFormatException, IOException {
+  public void parseData(String fileName) throws NumberFormatException, IOException {
     File f = new File(String.format("Data/ScheduleData/%s", fileName));
     BufferedReader br = new BufferedReader(new FileReader(f));
+    
     locations = new Location[Integer.parseInt(br.readLine())];
-    br.lines().forEach(s -> processLine(s));
-    br.close();
+    String line = br.readLine();
+    while (true) {
+      if (line.startsWith("L")) {
+        readLocation(line);
+      } else if (line.startsWith("T")) {
+        readTask(line);
+      } else {
+        break;
+      }
+      line = br.readLine();
+    }
+    
+    trades = new Trade[Integer.parseInt(line)];
+    for (int i = 0; i < trades.length; i++)
+      readTrade(br.readLine());
 
+    br.close();
+  }
+
+  /**
+   * 
+   * @param line
+   */
+  public void readLocation(String line) {
+    locations[locationSize] = new Location(line.split(";"));
+    locationSize++;
+  }
+
+  /**
+   * 
+   * @param line
+   */
+  public void readTask(String line) {
+    locations[locationSize-1].addTask(line.split(";"));
+  }
+
+  /**
+   * 
+   * @param line
+   */
+  public void readTrade(String line) {
+    trades[tradeSize] = new Trade(line.split(";"));
+    tradeSize++;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Location[] getLocations() {
     return locations;
   }
 
-  public void processLine(String line) {
-    String[] parameters = line.split(";");
-    if (parameters[0].startsWith("L")) {
-      locations[sz] = new Location(parameters);
-      sz++;
-    } else if (parameters[0].startsWith("T")) {
-      locations[sz-1].addTask(parameters);
-    }
+  /**
+   * 
+   * @return
+   */
+  public Trade[] getTrades() {
+    return trades;
   }
 
   public static void main(String[] args) {
     try {
       DataParser p = new DataParser();
-      Location[] locations = p.parseData("dataset_2.csv");
+      p.parseData("dataset_2.csv");
+      Location[] locations = p.getLocations();
+      Trade[] trades = p.getTrades();
+
       Arrays.stream(locations).forEach(l -> l.print());
+      System.out.println();
+      Arrays.stream(trades).forEach(t -> t.print());
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }

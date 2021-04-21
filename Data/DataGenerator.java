@@ -5,12 +5,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class DataGenerator {
 
-  public DataGenerator() {}
-  
+  private Map<String, Integer> tradesUsed = new HashMap<>();
   private Random r = new Random();
   private String[] locationNames = new String[]{"Ground Level", "First Floor", "Second Floor", "Third Floor", "Fourth Floor"};
   // Notice how activities of index x can be completed by trades of index x
@@ -23,6 +24,8 @@ public class DataGenerator {
   private double[] quantities = new double[]{
     3.0, 2.0, 1.5, 3.5, 2.0, 2.0, 1.5, 3.0, 2.0, 2.5};
 
+  public DataGenerator() {}
+        
   /**
    * Opens a dataset file in the given directory. If file is already in place,
    * creates a new file with identical name and counter at the end, i.e. abc_X.csv
@@ -48,7 +51,7 @@ public class DataGenerator {
    * Generates a randomized data set of size n
    * @param n
    */
-  public String generateData(int locations, int tasks) {
+  public String generateTaskData(int locations, int tasks) {
     StringBuilder sb = new StringBuilder();
     sb.append(String.format("%s%n", locations));
 
@@ -84,10 +87,22 @@ public class DataGenerator {
     int rand = r.nextInt(activities.length);
     String activity = activities[rand];
     String trade = trades[rand];
+    tradesUsed.put(trade, tradesUsed.containsKey(trade) ? tradesUsed.get(trade) + 1 : 1);
     double quantity = quantities[rand];
     String dependency = "*";
     if (taskId > 0) dependency = String.format("T%d", taskId-1);
     return String.format("T%d;L%d;%s;%s;%2.2f;%s%n", taskId, locationId, activity, trade, quantity, dependency);
+  }
+
+  public String generateTradeData() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(String.format("%d%n", tradesUsed.size()));
+
+    for (String trade : tradesUsed.keySet()) {
+      sb.append(String.format("%s;%d%n", trade, tradesUsed.get(trade)));
+    }
+    
+    return sb.toString();
   }
 
   public static void main(String[] args) {
@@ -108,7 +123,8 @@ public class DataGenerator {
     FileWriter w;
     try {
       w = new FileWriter(f);
-      w.write(g.generateData(locations, tasks));
+      w.write(g.generateTaskData(locations, tasks));
+      w.write(g.generateTradeData());
       w.close();
   
       // Write info to console
