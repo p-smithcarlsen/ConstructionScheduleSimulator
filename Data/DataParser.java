@@ -8,7 +8,7 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
 
-import MikkelPhilipThesis.ScheduleComponents.Location;
+import ScheduleComponents.Location;
 
 public class DataParser {
 
