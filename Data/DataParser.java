@@ -9,14 +9,13 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import ScheduleComponents.Location;
-import ScheduleComponents.Trade;
+import ScheduleComponents.Workforce;
 
 public class DataParser {
 
   private Location[] locations;
   private int locationSize = 0;
-  private Trade[] trades;
-  private int tradeSize = 0;
+  private Workforce workforce;
   NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
   public DataParser() {}
@@ -38,9 +37,9 @@ public class DataParser {
       line = br.readLine();
     }
     
-    trades = new Trade[Integer.parseInt(line)];
-    for (int i = 0; i < trades.length; i++)
-      readTrade(br.readLine());
+    workforce = new Workforce(Integer.parseInt(line));
+    for (int i = 0; i < workforce.typesOfContractors(); i++)
+      workforce.addContractor(br.readLine().split(";"));
 
     br.close();
   }
@@ -64,15 +63,6 @@ public class DataParser {
 
   /**
    * 
-   * @param line
-   */
-  public void readTrade(String line) {
-    trades[tradeSize] = new Trade(line.split(";"));
-    tradeSize++;
-  }
-
-  /**
-   * 
    * @return
    */
   public Location[] getLocations() {
@@ -83,8 +73,8 @@ public class DataParser {
    * 
    * @return
    */
-  public Trade[] getTrades() {
-    return trades;
+  public Workforce getWorkforce() {
+    return workforce;
   }
 
   public static void main(String[] args) {
@@ -92,11 +82,11 @@ public class DataParser {
       DataParser p = new DataParser();
       p.parseData("dataset_2.csv");
       Location[] locations = p.getLocations();
-      Trade[] trades = p.getTrades();
+      Workforce workforce = p.getWorkforce();
 
       Arrays.stream(locations).forEach(l -> l.print());
       System.out.println();
-      Arrays.stream(trades).forEach(t -> t.print());
+      workforce.print();
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }

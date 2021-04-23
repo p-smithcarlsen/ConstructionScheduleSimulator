@@ -22,17 +22,18 @@ public class DataGenerator {
     "Carpenter", "Cement/Concrete Finisher", "Electrician", "Flooring Installer", "Glazier", 
     "HVAC Tech", "Insulation Worker", "Plumber", "Roofing Mechanic", "Painter"};
   private double[] quantities = new double[]{
-    3.0, 2.0, 1.5, 3.5, 2.0, 2.0, 1.5, 3.0, 2.0, 2.5};
+    6.0, 4.0, 3.0, 6.5, 4.0, 4.0, 3.5, 6.0, 4.0, 4.5};
 
   public DataGenerator() {}
-        
+
   /**
    * Opens a dataset file in the given directory. If file is already in place,
    * creates a new file with identical name and counter at the end, i.e. abc_X.csv
-   * @param path
-   * @return
+   * @param directory
+   * @param locations
+   * @param tasksPerLocation
    */
-  public File createNewFile(String directory) {
+  public String generateDataset(String directory, int locations, int tasksPerLocation) {
     File f = new File(String.format("%s/dataset.csv", directory));
     int i = 2;
     try {
@@ -40,25 +41,36 @@ public class DataGenerator {
         f = new File(String.format("%s/dataset_%d.csv", directory, i));
         i++;
       }
+
+      // Create filewriter and generate data
+      FileWriter w = new FileWriter(f);
+      w.write(generateTaskData(locations, tasksPerLocation));
+      w.write(generateTradeData());
+      w.close();
+  
+      // Write info to console
+      // BufferedReader br = new BufferedReader(new FileReader(f));
+      // br.lines().forEach(s -> System.out.println(s));
+      // br.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    return f;
+    return f.getName();
   }
 
   /**
    * Generates a randomized data set of size n
    * @param n
    */
-  public String generateTaskData(int locations, int tasks) {
+  public String generateTaskData(int locations, int tasksPerLocation) {
     StringBuilder sb = new StringBuilder();
     sb.append(String.format("%s%n", locations));
 
     for (int i = 0; i < locations; i++) {
       sb.append(createLocation(i));
       
-      for (int j = 0; j < tasks; j++) {
+      for (int j = 0; j < tasksPerLocation; j++) {
         sb.append(createTask(j, i));
 
       }
@@ -106,33 +118,7 @@ public class DataGenerator {
   }
 
   public static void main(String[] args) {
-    // Create file
     DataGenerator g = new DataGenerator();
-    File f = g.createNewFile("Data/ScheduleData");
-    
-    int locations, tasks;
-    if (args.length < 2) {
-      locations = 5;                              // Adjust number of locations
-      tasks = 5;                                  // Adjust number of tasks
-    } else {
-      locations = Integer.parseInt(args[1]);
-      tasks = Integer.parseInt(args[2]);
-    }
-
-    // Write to file
-    FileWriter w;
-    try {
-      w = new FileWriter(f);
-      w.write(g.generateTaskData(locations, tasks));
-      w.write(g.generateTradeData());
-      w.close();
-  
-      // Write info to console
-      BufferedReader br = new BufferedReader(new FileReader(f));
-      br.lines().forEach(s -> System.out.println(s));
-      br.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    g.generateDataset("Data/ScheduleData", 5, 5);
   }
 }

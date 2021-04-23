@@ -4,61 +4,67 @@ import java.util.Arrays;
 import Data.DataGenerator;
 import Data.DataParser;
 import ScheduleComponents.Location;
-import ScheduleComponents.Trade;
+import ScheduleComponents.Workforce;
+import Simulation.Simulator;
 
 public class Program {
+
+  private static Location[] locations;
+  private static Workforce workforce;
+
   public static void main(String[] args) throws IOException {
-    // create parser
-    DataParser p = new DataParser();
-    p.parseData("dataset_2.csv");
-    Location[] locations = p.getLocations();
-    Trade[] trades = p.getTrades();
-
-    Arrays.stream(locations).forEach(l -> l.print());
-    Arrays.stream(trades).forEach(t -> t.print());
+    runSmallSchedule();
+    Simulator.runSimulation(locations, workforce);
   }
 
-  public static void runSmallSchedule() {
+  /**
+   * 
+   * @throws NumberFormatException
+   * @throws IOException
+   */
+  public static void runSmallSchedule() throws NumberFormatException, IOException {
+    createDataset("Data/ScheduleData", 5, 10);
+  }
+  
+  /**
+   * 
+   * @throws NumberFormatException
+   * @throws IOException
+   */
+  public static void runMediumSchedule() throws NumberFormatException, IOException {
+    createDataset("Data/ScheduleData", 10, 25);
+  }
+
+  /**
+   * 
+   * @throws NumberFormatException
+   * @throws IOException
+   */
+  public static void runLargeSchedule() throws NumberFormatException, IOException {
+    createDataset("Data/ScheduleData", 25, 60);
+  }
+
+  /**
+   * 
+   * @param fileDir
+   * @param NO_LOCATIONS
+   * @param NO_TASKS_PER_LOCATION
+   * @throws NumberFormatException
+   * @throws IOException
+   */
+  public static void createDataset(String fileDir, int NO_LOCATIONS, int NO_TASKS_PER_LOCATION) throws NumberFormatException, IOException {
+    // Create data
     DataGenerator g = new DataGenerator();
+    String filePath = g.generateDataset(fileDir, NO_LOCATIONS, NO_TASKS_PER_LOCATION);
+
+    // Read data
+    DataParser p = new DataParser();
+    p.parseData(filePath);
+    locations = p.getLocations();
+    workforce = p.getWorkforce();
     
-
-
-
-        // // Create file
-        // DataGenerator g = new DataGenerator();
-        // File f = g.createNewFile("Data/ScheduleData");
-        
-        // int locations, tasks;
-        // if (args.length < 2) {
-        //   locations = 5;                              // Adjust number of locations
-        //   tasks = 5;                                  // Adjust number of tasks
-        // } else {
-        //   locations = Integer.parseInt(args[1]);
-        //   tasks = Integer.parseInt(args[2]);
-        // }
-    
-        // // Write to file
-        // FileWriter w;
-        // try {
-        //   w = new FileWriter(f);
-        //   w.write(g.generateTaskData(locations, tasks));
-        //   w.write(g.generateTradeData());
-        //   w.close();
-      
-        //   // Write info to console
-        //   BufferedReader br = new BufferedReader(new FileReader(f));
-        //   br.lines().forEach(s -> System.out.println(s));
-        //   br.close();
-        // } catch (IOException e) {
-        //   e.printStackTrace();
-        // }
-  }
-
-  public static void runMediumSchedule() {
-
-  }
-
-  public static void runLargeSchedule() {
-    
+    // Print data
+    // Arrays.stream(locations).forEach(l -> l.print());
+    // Arrays.stream(trades).forEach(t -> t.print());
   }
 }
