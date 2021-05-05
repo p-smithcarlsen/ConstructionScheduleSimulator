@@ -15,7 +15,7 @@ public class DataParser {
 
   private Location[] locations;
   private int locationSize = 0;
-  private Workforce workforce;
+  // private Workforce workforce;
   NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
   public DataParser() {}
@@ -26,7 +26,7 @@ public class DataParser {
     
     locations = new Location[Integer.parseInt(br.readLine())];
     String line = br.readLine();
-    while (true) {
+    while (line != null) {
       if (line.startsWith("L")) {
         readLocation(line);
       } else if (line.startsWith("T")) {
@@ -37,9 +37,10 @@ public class DataParser {
       line = br.readLine();
     }
     
-    workforce = new Workforce(Integer.parseInt(line));
-    for (int i = 0; i < workforce.typesOfContractors(); i++)
-      workforce.addContractor(br.readLine().split(";"));
+    // workforce = new Workforce(Integer.parseInt(line));
+    // for (int i = 0; i < workforce.typesOfContractors(); i++) {
+    //   workforce.addContractor(br.readLine().split(";"));
+    // }
 
     br.close();
   }
@@ -73,20 +74,20 @@ public class DataParser {
    * 
    * @return
    */
-  public Workforce getWorkforce() {
-    return workforce;
-  }
+  // public Workforce getWorkforce() {
+  //   return workforce;
+  // }
 
   public static void main(String[] args) {
     try {
       DataParser p = new DataParser();
       p.parseData("dataset_2.csv");
       Location[] locations = p.getLocations();
-      Workforce workforce = p.getWorkforce();
+      // Workforce workforce = p.getWorkforce();
 
       Arrays.stream(locations).forEach(l -> l.print());
       System.out.println();
-      workforce.print();
+      // workforce.print();
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }

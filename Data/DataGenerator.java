@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class DataGenerator {
 
-  private Map<String, Integer> tradesUsed = new HashMap<>();
+  // private Map<String, Integer> tradesUsed = new HashMap<>();
   private Random r = new Random();
   private String[] locationNames = new String[]{"Ground Level", "First Floor", "Second Floor", "Third Floor", "Fourth Floor"};
   // Notice how activities of index x can be completed by trades of index x
@@ -22,7 +22,7 @@ public class DataGenerator {
     "Carpenter", "Cement/Concrete Finisher", "Electrician", "Flooring Installer", "Glazier", 
     "HVAC Tech", "Insulation Worker", "Plumber", "Roofing Mechanic", "Painter"};
   private double[] quantities = new double[]{
-    6.0, 4.0, 3.0, 6.5, 4.0, 4.0, 3.5, 6.0, 4.0, 4.5};
+    12.0, 8.0, 6.0, 10.5, 7.0, 9.0, 6.5, 12.0, 7.0, 9.5};
 
   public DataGenerator() {}
 
@@ -45,7 +45,7 @@ public class DataGenerator {
       // Create filewriter and generate data
       FileWriter w = new FileWriter(f);
       w.write(generateTaskData(locations, tasksPerLocation));
-      w.write(generateTradeData());
+      // w.write(generateTradeData());
       w.close();
   
       // Write info to console
@@ -99,23 +99,25 @@ public class DataGenerator {
     int rand = r.nextInt(activities.length);
     String activity = activities[rand];
     String trade = trades[rand];
-    tradesUsed.put(trade, tradesUsed.containsKey(trade) ? tradesUsed.get(trade) + 1 : 1);
+    // tradesUsed.put(trade, tradesUsed.containsKey(trade) ? tradesUsed.get(trade) + 1 : 1);
+    int optimalCrew = r.nextInt(5)+1;
     double quantity = quantities[rand];
+    int productionRate = Math.min((int)quantity, r.nextInt(5)+1);
     String dependency = "*";
     if (taskId > 0) dependency = String.format("T%d", taskId-1);
-    return String.format("T%d;L%d;%s;%s;%2.2f;%s%n", taskId, locationId, activity, trade, quantity, dependency);
+    return String.format("T%d;L%d;%s;%s;%d;%2.2f;%d;%s%n", taskId, locationId, activity, trade, optimalCrew, quantity, productionRate, dependency);
   }
 
-  public String generateTradeData() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(String.format("%d%n", tradesUsed.size()));
+  // public String generateTradeData() {
+  //   StringBuilder sb = new StringBuilder();
+  //   sb.append(String.format("%d%n", tradesUsed.size()));
 
-    for (String trade : tradesUsed.keySet()) {
-      sb.append(String.format("%s;%d%n", trade, tradesUsed.get(trade)));
-    }
+  //   for (String trade : tradesUsed.keySet()) {
+  //     sb.append(String.format("%s;%d%n", trade, tradesUsed.get(trade)));
+  //   }
     
-    return sb.toString();
-  }
+  //   return sb.toString();
+  // }
 
   public static void main(String[] args) {
     DataGenerator g = new DataGenerator();

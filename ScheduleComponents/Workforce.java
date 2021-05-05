@@ -1,11 +1,29 @@
 package ScheduleComponents;
 
 public class Workforce {
-  private Contractor[] contractors;
-  private int sz;
+  public 
+  public Contractor[] contractors;
+  public int sz;
+  public boolean idleWorkers;
 
   public Workforce(int typesOfContractors) {
     this.contractors = new Contractor[typesOfContractors];
+    this.sz = 0;
+    this.idleWorkers = false;
+  }
+
+  public Workforce(Location[] locations) {
+    for (Location l : locations) {
+      for (Task t : l.tasks) {
+        insertIntoSchedule(t);
+      }
+    }
+    // Find out what contractors to use
+    // Find out how many workers each contractor needs
+  }
+
+  public void insertIntoSchedule(Task t) {
+
   }
 
   public int typesOfContractors() {
@@ -15,6 +33,10 @@ public class Workforce {
   public void addContractor(String[] tradeParameters) {
     contractors[sz] = new Contractor(String.format("C%d", sz), tradeParameters);
     sz++;
+  }
+
+  public void calculateWorkerDemand() {
+
   }
 
   public void workOn(Task t) {
@@ -36,31 +58,5 @@ public class Workforce {
   public void print() {
     for (Contractor c : contractors)
       c.print();
-  }
-
-  private class Contractor {
-    private String id;
-    private String trade;
-    private int workers;
-    private int availableWorkers;
-
-    public Contractor(String id, String[] tradeParameters) {
-      this.id = id;
-      this.trade = tradeParameters[0];
-      this.workers = Integer.parseInt(tradeParameters[1]);
-      this.availableWorkers = this.workers;
-    }
-
-    public int assignWorkers(double quantity) {
-      int w = (int)Math.ceil(Math.min(availableWorkers, quantity));
-      System.out.println(String.format("Contractor %s providing %s workers of %s available", id, w, availableWorkers));
-      availableWorkers = availableWorkers - w;
-      return w;
-    }
-
-    public void print() {
-      System.err.println(String.format("%n%s:", this.trade));
-      System.out.println(String.format(" --Number of workers: %s", this.workers));
-    }
   }
 }

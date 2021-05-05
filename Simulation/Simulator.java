@@ -6,7 +6,22 @@ import ScheduleComponents.Workforce;
 
 public class Simulator {
 
-  public static void runSimulation(Location[] locations, Workforce workforce) {
+  public static void runSimulation(Location[] locations) {
+
+    // Setup initial schedule (calculate durations based on optimal crews)
+    // Calculate workforce needs (number of workers) throughout project
+    // Create task queues for contractors
+
+    for (Location l : locations) {
+      l.calculateDuration(); 
+    }
+
+    Workforce workforce = new Workforce(locations);
+
+    workforce.calculateWorkerDemand();
+
+
+
     int timeUnit = 1;
     while (true) {
       int remainingLocations = locations.length;
