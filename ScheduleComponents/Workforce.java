@@ -1,7 +1,11 @@
 package ScheduleComponents;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Workforce {
-  public 
   public Contractor[] contractors;
   public int sz;
   public boolean idleWorkers;
@@ -13,17 +17,30 @@ public class Workforce {
   }
 
   public Workforce(Location[] locations) {
-    for (Location l : locations) {
-      for (Task t : l.tasks) {
-        insertIntoSchedule(t);
-      }
-    }
-    // Find out what contractors to use
-    // Find out how many workers each contractor needs
+    groupTasks(locations);
   }
 
-  public void insertIntoSchedule(Task t) {
+  public void groupTasks(Location[] locations) {
+    // Summarize necessary trades and related tasks
+    Map<String, List<Task>> tt = new HashMap<>();
+    for (Location l : locations) {
+      for (Task t : l.tasks) {
+        if (tt.containsKey(t.trade)) {
+          tt.get(t.trade).add(t);
+        } else {
+          tt.put(t.trade, new ArrayList<>());
+          tt.get(t.trade).add(t);
+        }
+      }
+    }
 
+    // Hire contractors and tell them about their scheduled tasks
+    this.contractors = new Contractor[tt.size()];
+    for (String trade : tt.keySet()) {
+      contractors[sz] = new Contractor("C" + sz, trade);
+      contractors[sz].calculateWorkerDemand(tt.get(trade));
+      sz++;
+    }
   }
 
   public int typesOfContractors() {
@@ -31,12 +48,8 @@ public class Workforce {
   }
 
   public void addContractor(String[] tradeParameters) {
-    contractors[sz] = new Contractor(String.format("C%d", sz), tradeParameters);
+    contractors[sz] = new Contractor(String.format("C%d", sz), tradeParameters[0]);
     sz++;
-  }
-
-  public void calculateWorkerDemand() {
-
   }
 
   public void workOn(Task t) {

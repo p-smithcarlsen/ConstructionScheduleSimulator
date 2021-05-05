@@ -1,0 +1,56 @@
+5
+L0;Fourth Floor
+T0;L0;Flooring;Flooring Installer;4;10,50;2;*
+T1;L0;Glass Installation;Glazier;4;7,00;5;T0
+T2;L0;Electricity;Electrician;2;6,00;1;T1
+T3;L0;Piping;Roofing Mechanic;2;7,00;4;T2
+T4;L0;Flooring;Flooring Installer;2;10,50;2;T3
+T5;L0;Electricity;Electrician;4;6,00;5;T4
+T6;L0;Finishing;Cement/Concrete Finisher;5;8,00;1;T5
+T7;L0;Insulation;Insulation Worker;3;6,50;1;T6
+T8;L0;Wood Framing;Carpenter;2;12,00;5;T7
+T9;L0;Heating/AC;HVAC Tech;3;9,00;4;T8
+L1;Fourth Floor
+T0;L1;Wood Framing;Carpenter;5;12,00;2;*
+T1;L1;Sewage;Plumber;5;12,00;5;T0
+T2;L1;Flooring;Flooring Installer;2;10,50;3;T1
+T3;L1;Flooring;Flooring Installer;4;10,50;3;T2
+T4;L1;Finishing;Cement/Concrete Finisher;1;8,00;1;T3
+T5;L1;Finishing;Cement/Concrete Finisher;2;8,00;4;T4
+T6;L1;Flooring;Flooring Installer;3;10,50;2;T5
+T7;L1;Insulation;Insulation Worker;4;6,50;2;T6
+T8;L1;Wood Framing;Carpenter;3;12,00;4;T7
+T9;L1;Interior Walls;Painter;3;9,50;3;T8
+L2;Fourth Floor
+T0;L2;Finishing;Cement/Concrete Finisher;2;8,00;4;*
+T1;L2;Glass Installation;Glazier;2;7,00;1;T0
+T2;L2;Heating/AC;HVAC Tech;4;9,00;1;T1
+T3;L2;Sewage;Plumber;5;12,00;4;T2
+T4;L2;Glass Installation;Glazier;4;7,00;5;T3
+T5;L2;Electricity;Electrician;2;6,00;3;T4
+T6;L2;Insulation;Insulation Worker;3;6,50;3;T5
+T7;L2;Flooring;Flooring Installer;5;10,50;2;T6
+T8;L2;Insulation;Insulation Worker;5;6,50;3;T7
+T9;L2;Insulation;Insulation Worker;4;6,50;1;T8
+L3;Second Floor
+T0;L3;Finishing;Cement/Concrete Finisher;4;8,00;3;*
+T1;L3;Finishing;Cement/Concrete Finisher;3;8,00;5;T0
+T2;L3;Sewage;Plumber;2;12,00;2;T1
+T3;L3;Flooring;Flooring Installer;1;10,50;4;T2
+T4;L3;Interior Walls;Painter;5;9,50;3;T3
+T5;L3;Wood Framing;Carpenter;1;12,00;2;T4
+T6;L3;Electricity;Electrician;5;6,00;3;T5
+T7;L3;Heating/AC;HVAC Tech;4;9,00;2;T6
+T8;L3;Finishing;Cement/Concrete Finisher;2;8,00;1;T7
+T9;L3;Electricity;Electrician;5;6,00;4;T8
+L4;Ground Level
+T0;L4;Glass Installation;Glazier;1;7,00;3;*
+T1;L4;Sewage;Plumber;4;12,00;3;T0
+T2;L4;Finishing;Cement/Concrete Finisher;2;8,00;4;T1
+T3;L4;Insulation;Insulation Worker;4;6,50;3;T2
+T4;L4;Finishing;Cement/Concrete Finisher;2;8,00;3;T3
+T5;L4;Electricity;Electrician;1;6,00;3;T4
+T6;L4;Finishing;Cement/Concrete Finisher;4;8,00;1;T5
+T7;L4;Sewage;Plumber;1;12,00;2;T6
+T8;L4;Piping;Roofing Mechanic;1;7,00;3;T7
+T9;L4;Glass Installation;Glazier;1;7,00;2;T8

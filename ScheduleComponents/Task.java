@@ -40,7 +40,7 @@ public class Task {
     
     // Calculate expected duration
     this.meanDuration = (int)Math.ceil(this.quantity / this.productionRate);
-    System.out.println(this.id + ": " + "duration = " + this.meanDuration);
+    // System.out.println(this.id + ": " + "duration = " + this.meanDuration);
     this.standardDeviation = 0.25;
   }
 
