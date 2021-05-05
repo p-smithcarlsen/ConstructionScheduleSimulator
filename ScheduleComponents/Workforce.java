@@ -22,7 +22,7 @@ public class Workforce {
 
   public void groupTasks(Location[] locations) {
     // Summarize necessary trades and related tasks
-    Map<String, List<Task>> tt = new HashMap<>();
+    Map<String, List<Task>> tt = new HashMap<>();   // todo: rename
     for (Location l : locations) {
       for (Task t : l.tasks) {
         if (tt.containsKey(t.trade)) {
@@ -43,25 +43,30 @@ public class Workforce {
     }
   }
 
-  public int typesOfContractors() {
-    return contractors.length;
+  public void assignWorkers(int today) {
+    for (Contractor c : contractors)
+      c.assignWorkers(today);
   }
 
-  public void addContractor(String[] tradeParameters) {
-    contractors[sz] = new Contractor(String.format("C%d", sz), tradeParameters[0]);
-    sz++;
-  }
+  // public int typesOfContractors() {
+  //   return contractors.length;
+  // // }
 
-  public void workOn(Task t) {
-    t.work(getWorkers(t.trade).assignWorkers(t.quantity * (100 - t.progress) / 100));
-  }
+  // public void addContractor(String[] tradeParameters) {
+  //   contractors[sz] = new Contractor(String.format("C%d", sz), tradeParameters[0]);
+  //   sz++;
+  // }
 
-  private Contractor getWorkers(String trade) {
-    for (Contractor c : contractors) {
-      if (c.trade.equals(trade)) return c;
-    }
-    return null;
-  }
+  // public void workOn(Task t) {
+  //   t.work(getWorkers(t.trade).assignWorkers(t.quantity * (100 - t.progress) / 100));
+  // }
+
+  // private Contractor getWorkers(String trade) {
+  //   for (Contractor c : contractors) {
+  //     if (c.trade.equals(trade)) return c;
+  //   }
+  //   return null;
+  // }
 
   public void endOfTheDay() {
     for (Contractor c : contractors)

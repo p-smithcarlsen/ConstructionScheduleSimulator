@@ -1,20 +1,17 @@
 import java.io.IOException;
-import java.util.Arrays;
 
 import Data.DataGenerator;
 import Data.DataParser;
+import ScheduleComponents.LBMS;
 import ScheduleComponents.Location;
-import ScheduleComponents.Workforce;
 import Simulation.Simulator;
 
 public class Program {
 
-  private static Location[] locations;
-  // private static Workforce workforce;
+  private static LBMS lbms;
 
   /*
   To-do:
-  - For each location, calculate the necessary workforce throughout the project (for each time unit)
   - Tracker, that always have an estimated forecast for when project is finished
   - Make task durations probability distributions
   - Make tasks into node network
@@ -30,7 +27,6 @@ public class Program {
           - This also means that it makes sense to go on the critical path and only take free tasks whenever resources are available
   - Some workers providing more or less than 1 hour work per hour worked (factor 0.9 fx)
   - Putting difficulty on tasks, so work is less effective
-  - Give each contractor a list of tasks they have to do (in order)
 
   For later:
   - Re-arranging tasks, e.g. changing critical path
@@ -39,7 +35,8 @@ public class Program {
 
   public static void main(String[] args) throws IOException {
     runSmallSchedule();
-    Simulator.runSimulation(locations);
+    Simulator s = new Simulator();
+    s.runSimulation(lbms);
   }
 
   /**
@@ -92,7 +89,8 @@ public class Program {
   public static void readDataIntoObjects(String filePath) throws NumberFormatException, IOException {
     DataParser p = new DataParser();
     p.parseData(filePath);
-    locations = p.getLocations();
+    Location[] locations = p.getLocations();
+    lbms = new LBMS(locations);
     // workforce = p.getWorkforce();
     
     // Print data

@@ -9,32 +9,43 @@ public class Contractor {
   public String name;
   public String trade;
   public int[] workerDemand;
-  public List<Task> scheduledTasks;
+  public int scheduleLength;
+  public List<Task> scheduledTasks;       // More flexibility than stack/queue since we can choose all tasks
   public int workers;
   public int availableWorkers;
 
   public Contractor(String id, String trade) {
     this.id = id;
     this.trade = trade;
-    // this.workers = Integer.parseInt(tradeParameters[1]);
-    // this.availableWorkers = this.workers;
   }
 
   public void calculateWorkerDemand(List<Task> tasks) {
-    Collections.sort(tasks, new SortByEarliestFinish());
+    Collections.sort(tasks, new SortByEarliestStart());
+    for (Task t : tasks)
+      if (t.earliestFinish > scheduleLength) scheduleLength = t.earliestFinish;
+
     this.scheduledTasks = tasks;
-    this.workerDemand = new int[tasks.get(tasks.size()-1).earliestFinish];
+    this.workerDemand = new int[scheduleLength];
     for (Task t : tasks) {
       for (int i = t.earliestStart; i < t.earliestFinish; i++)
-        workerDemand[i] += t.optimalCrew;
+        workerDemand[i] += t.optimalWorkerCount;
     }
   }
 
-  public int assignWorkers(double quantity) {
-    int w = (int)Math.ceil(Math.min(availableWorkers, quantity));
-    System.out.println(String.format("Contractor %s providing %s workers of %s available", id, w, availableWorkers));
-    availableWorkers = availableWorkers - w;
-    return w;
+  public void assignWorkers(int today) {
+    if (today >= workerDemand.length) return;
+    availableWorkers = workerDemand[today];
+    int w = 0;
+
+    for (Task t : scheduledTasks) {
+      if (t.earliestFinish > today && !t.isFinished() && t.canBeStarted()) {
+        w = Math.min(t.optimalWorkerCount, availableWorkers);
+        t.assignWorkers(w);
+        System.out.println(id + " providing " + w + " workers to task " + t.location + t.id);
+        // System.out.println(String.format("Contractor %s providing %s workers of %s available", id, w, availableWorkers));
+        availableWorkers -= w;
+      }
+    }
   }
 
   public void print() {
@@ -45,10 +56,10 @@ public class Contractor {
   /**
    * Used to sort tasks ascendingly by earliest finish time
    */
-  private class SortByEarliestFinish implements Comparator<Task> {
+  private class SortByEarliestStart implements Comparator<Task> {
     @Override
     public int compare(Task t1, Task t2) {
-      return t1.earliestFinish - t2.earliestFinish;
+      return t1.earliestStart - t2.earliestStart;
     }
   }
 }

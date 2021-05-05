@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import ScheduleComponents.Location;
-import ScheduleComponents.Workforce;
 
 public class DataParser {
 

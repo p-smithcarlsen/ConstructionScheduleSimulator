@@ -1,12 +1,8 @@
 package Data;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class DataGenerator {
@@ -104,7 +100,14 @@ public class DataGenerator {
     double quantity = quantities[rand];
     int productionRate = Math.min((int)quantity, r.nextInt(5)+1);
     String dependency = "*";
-    if (taskId > 0) dependency = String.format("T%d", taskId-1);
+    if (taskId > 0) {
+      // if (r.nextInt(10) < 2 && locationId > 0) {
+        // dependency = "L" + (locationId-1);
+      // } else {                                             // For later (dependencies between locations)
+        dependency = "L" + locationId;
+      // }
+      dependency += String.format("=T%d", taskId-1);
+    }
     return String.format("T%d;L%d;%s;%s;%d;%2.2f;%d;%s%n", taskId, locationId, activity, trade, optimalCrew, quantity, productionRate, dependency);
   }
 

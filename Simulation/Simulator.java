@@ -1,39 +1,38 @@
 package Simulation;
 
-import ScheduleComponents.Location;
-import ScheduleComponents.Task;
+import ScheduleComponents.LBMS;
 import ScheduleComponents.Workforce;
 
 public class Simulator {
 
-  public static void runSimulation(Location[] locations) {
+  public int day = 1;
+
+  public void runSimulation(LBMS lbms) {
     // Calculate durations for locations and tasks
-    for (Location l : locations) {
-      l.calculateDuration(); 
-      l.forwardPass();
-    }
+    lbms.prepareLocations();
 
     // Hire contractors and delegate tasks to individual contractors
-    Workforce workforce = new Workforce(locations);
+    Workforce workforce = new Workforce(lbms.locations);
 
-    int timeUnit = 1;
+    // Go through project day by day until all tasks are finished
     while (true) {
-      int remainingLocations = locations.length;
-      System.err.println(String.format("Day: %s", timeUnit));
-      for (Location l : locations) {
-        if (l.isFinished()) {
-          remainingLocations--;
-          System.out.println(String.format("Location %s finished!", l.id));
-        } else {
-          Task nextTask  = l.getTask();
-          workforce.workOn(nextTask);
-        }
-      }
+      System.err.println("day: " + day);
+      // Assign workers
+      workforce.assignWorkers(day);
 
+      // Work tasks
+      lbms.work();
+
+      // End of day (workers are reset)
       workforce.endOfTheDay();
-      timeUnit++;
-      if (remainingLocations == 0) break;
-      if (timeUnit > 20) break;
+
+      // Check if there are any alarms
+
+      // Take actions
+
+
+      day++;
+      if (day > 1000) break;
     }
   }
 }

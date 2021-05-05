@@ -1,13 +1,13 @@
 package ScheduleComponents;
 
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Location {
   public String id;
   public String name;
   public Task currentTask;
-  public Queue<Task> tasks = new LinkedBlockingQueue<Task>();   // Turn into node network
+  public List<Task> tasks = new ArrayList<Task>();   // Turn into node network
   public int duration;
 
   public Location(String[] locationParameters) {
@@ -32,6 +32,7 @@ public class Location {
   public void backwardPass(int projectDeadline) {
     if (projectDeadline < duration) {
       // End because not possible
+      // Or is it?
     }
 
     for (Task t : tasks) {
@@ -40,9 +41,17 @@ public class Location {
     }
   }
 
-  public Task getTask() {
-    if (currentTask == null || currentTask.isFinished()) currentTask = tasks.poll();
-    return currentTask;
+  // public Task getTask() {
+  //   if (currentTask == null || currentTask.isFinished()) currentTask = tasks.get(0);
+  //   return currentTask;
+  // }
+
+  public Task getTask(String id) {
+    for (Task t : tasks) {
+      if (t.id.equals(id)) return t;
+    }
+
+    return null;
   }
 
   public void calculateDuration() {
@@ -62,9 +71,9 @@ public class Location {
     return tasks.size() == 0;
   }
 
-  public void workOn(Task t, int workers) {
-    t.work(workers);
-  } // Move to workforce
+  // public void workOn(Task t, int workers) {
+  //   t.work(workers);
+  // } // Move to workforce
 
   public void print() {
     System.err.println(String.format("%nLocation %s (%s):", this.id, this.name));
