@@ -80,7 +80,7 @@ public class Task {
     if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) * 0.5;
 
     this.progress += (workerContribution * productionRate) / quantity * 100;
-    System.out.println(String.format("Progress: % 3d percent (%s of %s) of task %s (%s) in location %s", progress, workersAssigned, quantity, id, activity, location));
+    System.out.println(String.format("Progress: % 3d percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
 
     // Reset workers
     this.workersAssigned = 0;
