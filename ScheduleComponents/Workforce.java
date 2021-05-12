@@ -70,7 +70,7 @@ public class Workforce {
 
   public void endOfTheDay() {
     for (Contractor c : contractors)
-      c.availableWorkers = c.workers;
+      c.availableWorkers = c.workers; // hvorfor ikke bare 0 her, når workers aldrig bliver kaldt noget sted?
   }
 
   public void print() {

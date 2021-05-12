@@ -5,14 +5,18 @@ import ScheduleComponents.Workforce;
 
 public class Simulator {
 
-  public int day = 1;
+  public Workforce workforce;
+
+  public int day = 0; // bør dette ikke være 0? flere earliest starts er på 0
 
   public void runSimulation(LBMS lbms) {
     // Calculate durations for locations and tasks
     lbms.prepareLocations();
 
     // Hire contractors and delegate tasks to individual contractors
-    Workforce workforce = new Workforce(lbms.locations);
+    workforce = new Workforce(lbms.locations);
+
+    lbms.printTasks();
 
     // Go through project day by day until all tasks are finished
     while (true) {
@@ -28,11 +32,13 @@ public class Simulator {
 
       // Check if there are any alarms
 
+      lbms.totalProgress();
+
       // Take actions
 
 
       day++;
-      if (day > 1000) break;
+      if (day > 100) break;
     }
   }
 }

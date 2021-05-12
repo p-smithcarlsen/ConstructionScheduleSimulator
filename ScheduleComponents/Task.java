@@ -57,7 +57,7 @@ public class Task {
 
   public void calculateEarliestTimings(int lastTaskFinished) {
     this.earliestStart = lastTaskFinished;
-    this.earliestFinish = lastTaskFinished + meanDuration;
+    this.earliestFinish = lastTaskFinished + meanDuration - 1; // tasks cant stop and start at the same time unit
   }
 
   public void calculateLatestTimings(int deadline) {
@@ -76,12 +76,17 @@ public class Task {
     // Providing more workers than the optimal crew size will contribute less and less
     if (workersAssigned == 0) return;
 
-    double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (optimalWorkerCount / workersAssigned);
-    if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) * 0.5;
+    //double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (optimalWorkerCount / workersAssigned);
+    double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (workersAssigned /optimalWorkerCount);
+    // vil workesrAssigned og optimalworkercount som maks være =?
+    // har byttet rundt på workersassigned og optimalworkercount, da det var sat op forkert og incase der var færre end det optimale, så skal det give mindre en 1
+    //if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) * 0.5;
+    // kan der på nogen måde være assignet flere end den optimale mængde????
+    // hvad er formålet med dette if? at reducere contribution fra workers assigned over optimalen?
 
-    this.progress += (workerContribution * productionRate) / quantity * 100;
+    this.progress += Math.ceil((workerContribution * productionRate) / quantity * 100);
+    // do the work and update the progress
     System.out.println(String.format("Progress: % 3d percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
-
     // Reset workers
     this.workersAssigned = 0;
   }

@@ -25,7 +25,7 @@ public class Location {
     int currentTiming = 0;
     for (Task t : tasks) {
       t.calculateEarliestTimings(currentTiming);
-      currentTiming = t.meanDuration;
+      currentTiming += t.meanDuration;
     }
   }
 

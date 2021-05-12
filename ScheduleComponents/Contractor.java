@@ -25,9 +25,9 @@ public class Contractor {
       if (t.earliestFinish > scheduleLength) scheduleLength = t.earliestFinish;
 
     this.scheduledTasks = tasks;
-    this.workerDemand = new int[scheduleLength];
+    this.workerDemand = new int[scheduleLength+1];
     for (Task t : tasks) {
-      for (int i = t.earliestStart; i < t.earliestFinish; i++)
+      for (int i = t.earliestStart; i < t.earliestFinish+1; i++)
         workerDemand[i] += t.optimalWorkerCount;
     }
   }
@@ -38,12 +38,16 @@ public class Contractor {
     int w = 0;
 
     for (Task t : scheduledTasks) {
-      if (t.earliestFinish > today && !t.isFinished() && t.canBeStarted()) {
+      if (t.earliestFinish >= today && !t.isFinished() && t.canBeStarted()) {
+        // t.earliestFinish > today, kan en task ikke godt slutte samme dag? i dettes setup vil den jo faile
+        // >= ?
+        // !t.isfinished, så hvis ikke færdig -> falsk, derfor negation til true fordi der mangler arbejde?
+        // t.canbestarted kun true hvis all predecessor tasks er done?
         w = Math.min(t.optimalWorkerCount, availableWorkers);
-        t.assignWorkers(w);
+        t.assignWorkers(w); // assigner enten det optimale antal workers, eller det mulige antal.
         System.out.println(id + " providing " + w + " workers to task " + t.location + t.id);
         // System.out.println(String.format("Contractor %s providing %s workers of %s available", id, w, availableWorkers));
-        availableWorkers -= w;
+        availableWorkers -= w; // sørger for, de samme workers ikke kan assignes twice, samme dag. 
       }
     }
   }
