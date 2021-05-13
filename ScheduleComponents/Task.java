@@ -152,6 +152,7 @@ public class Task {
     // hvad er formålet med dette if? at reducere contribution fra workers assigned over optimalen?
 
     this.progress += (workerContribution * productionRate) / quantity * 100;
+    if (this.progress > 100) this.progress = 100;
     // do the work and update the progress
     System.out.println(String.format("Progress: % 2.2f percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
     // Reset workers

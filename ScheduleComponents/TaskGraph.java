@@ -17,6 +17,7 @@ public class TaskGraph {
     this.allTasks = new ArrayList<>();
     this.backlogTasks = new ArrayList<>();
     this.criticalPathTasks = null;
+    this.criticalTasks = new ArrayList<>();
   }
 
   /**
@@ -167,13 +168,18 @@ public class TaskGraph {
     // }
 
     for (Task t : allTasks) {
-      allTasks.remove(t);
       if (t.taskFloat > 0) {
         backlogTasks.add(t);
       } else {
         criticalTasks.add(t);
       }
     }
+
+    for (Task t : backlogTasks)
+      allTasks.remove(t);
+
+    for (Task t : criticalTasks)
+      allTasks.remove(t);
 
     for (Task t : allTasks) {
       System.out.println("We still have task " + t.location + t.id + " in allTasks");
