@@ -19,10 +19,11 @@ public class LBMS {
       // I.e. do we need to do another loop after this loop?
       l.calculateDuration();    // of location
       // l.forwardPass();          // i.e. durations of tasks
+      tasks.backwardPass(l); 
     }
     tasks.calculateCriticalPath();
-    tasks.locateEndPathTasks();
-    tasks.backwardPass();
+    //tasks.locateEndPathTasks(); // gammel
+    //tasks.backwardPass2(); // gammel
   }
 
   private void createDependencies() {
