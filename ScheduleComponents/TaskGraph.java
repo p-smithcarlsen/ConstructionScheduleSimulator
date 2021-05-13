@@ -72,7 +72,9 @@ public class TaskGraph {
           t = null;
           break;
         }
+        
       }
+      break;
 
 
       // for (Task t2 : t.successorTasks) {

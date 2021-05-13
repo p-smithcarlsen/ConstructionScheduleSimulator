@@ -32,13 +32,17 @@ public class Contractor {
     }
   }
 
+  /**
+   * 
+   * @param today
+   */
   public void assignWorkers(int today) {
     if (today >= workerDemand.length) return;
     availableWorkers = workerDemand[today];
     int w = 0;
 
     for (Task t : scheduledTasks) {
-      if (t.earliestFinish >= today && !t.isFinished() && t.canBeStarted()) {
+      if (!t.isFinished() && t.canBeStarted()) {
         // t.earliestFinish > today, kan en task ikke godt slutte samme dag? i dettes setup vil den jo faile
         // >= ?
         // !t.isfinished, så hvis ikke færdig -> falsk, derfor negation til true fordi der mangler arbejde?

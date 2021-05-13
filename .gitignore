@@ -2,7 +2,7 @@
 *.class
 
 # CSV files
-*.csv
+# *.csv
 
 # Log file
 *.log
