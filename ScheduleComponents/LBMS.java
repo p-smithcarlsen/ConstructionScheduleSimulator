@@ -13,7 +13,6 @@ public class LBMS {
   public void prepareLocations() {
     createDependencies();   // between tasks
     tasks.calculateCriticalPath();
-    
 
     for (Location l : locations) {
       // Can we do the two next ones without having established all dependencies?
