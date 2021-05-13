@@ -22,7 +22,8 @@ public class Workforce {
 
   public void groupTasks(Location[] locations) {
     // Summarize necessary trades and related tasks
-    Map<String, List<Task>> tt = new HashMap<>();   // todo: rename
+    // TODO: Get overview from LBMS object
+    Map<String, List<Task>> tt = new HashMap<>();   // TODO: rename
     for (Location l : locations) {
       for (Task t : l.tasks) {
         if (tt.containsKey(t.trade)) {

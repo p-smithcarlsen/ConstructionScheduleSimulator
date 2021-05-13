@@ -4,6 +4,7 @@ import Data.DataGenerator;
 import Data.DataParser;
 import ScheduleComponents.LBMS;
 import ScheduleComponents.Location;
+import ScheduleComponents.TaskGraph;
 import Simulation.Simulator;
 
 public class Program {
@@ -31,6 +32,7 @@ public class Program {
   For later:
   - Re-arranging tasks, e.g. changing critical path
   - Splitting tasks Seppänen & Kenley, 2010: pp. 156
+  - Include logic relationship in dependencies (F-S, F-F, S-S, S-F)
   */
 
   public static void main(String[] args) throws IOException {
@@ -89,12 +91,8 @@ public class Program {
   public static void readDataIntoObjects(String filePath) throws NumberFormatException, IOException {
     DataParser p = new DataParser();
     p.parseData(filePath);
+    TaskGraph tasks = p.getTasks();
     Location[] locations = p.getLocations();
-    lbms = new LBMS(locations);
-    // workforce = p.getWorkforce();
-    
-    // Print data
-    // Arrays.stream(locations).forEach(l -> l.print());
-    // Arrays.stream(trades).forEach(t -> t.print());
+    lbms = new LBMS(tasks, locations);
   }
 }
