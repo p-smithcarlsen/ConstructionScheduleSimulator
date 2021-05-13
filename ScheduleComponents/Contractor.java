@@ -10,7 +10,7 @@ public class Contractor {
   public String trade;
   public int[] workerDemand;
   public int scheduleLength;
-  public List<Task> scheduledTasks;       // More flexibility than stack/queue since we can choose all tasks
+  public List<Task> scheduledTasks;
   public int availableWorkers;
 
   public Contractor(String id, String trade) {
@@ -18,6 +18,12 @@ public class Contractor {
     this.trade = trade;
   }
 
+  /**
+   * Iterates over all the tasks assigned to this contractor and calculates
+   * when workers are needed. This information will be inserted into an array
+   * of ints, where each entry denotes the amount of workers needed on that day
+   * @param tasks is the list of tasks assigned to this contractor
+   */
   public void calculateWorkerDemand(List<Task> tasks) {
     Collections.sort(tasks, new SortByEarliestStart());
     for (Task t : tasks)
@@ -34,8 +40,10 @@ public class Contractor {
   }
 
   /**
-   * 
-   * @param today
+   * Iterates over the contractor's tasks and assigns workers to the
+   * active ones. A task is active if it is not finished and if all
+   * predecessor tasks are finished.
+   * @param today is the day of work
    */
   public void assignWorkers(int today) {
     if (today >= workerDemand.length) return;
@@ -43,14 +51,11 @@ public class Contractor {
     int w = 0;
 
     for (Task t : scheduledTasks) {
-      // if (t.progress > 0) System.out.println(t.progress + ": " + t.isFinished());
-      if (!t.isFinished() && t.canBeStarted()) {
-        // t.earliestFinish > today, kan en task ikke godt slutte samme dag? i dettes setup vil den jo faile
-        // >= ?
-        // !t.isfinished, så hvis ikke færdig -> falsk, derfor negation til true fordi der mangler arbejde?
-        // t.canbestarted kun true hvis all predecessor tasks er done?
+      // makes sure a) the task is not finished; b) all predecessor tasks are finished
+      if (!t.isFinished() && t.canBeStarted()) {  
         w = Math.min(t.optimalWorkerCount, availableWorkers);
-        t.assignWorkers(w); // assigner enten det optimale antal workers, eller det mulige antal.
+        // assigner enten det optimale antal workers, eller det mulige antal.
+        t.assignWorkers(w); 
         System.out.println(trade + " providing " + w + " of " + workerDemand[today] + " workers to task " + t.location + t.id);
         // System.out.println(String.format("Contractor %s providing %s workers of %s available", id, w, availableWorkers));
         availableWorkers -= w; // sørger for, de samme workers ikke kan assignes twice, samme dag. 

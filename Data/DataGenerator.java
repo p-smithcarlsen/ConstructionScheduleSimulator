@@ -7,33 +7,23 @@ import java.util.Random;
 
 public class DataGenerator {
 
-  // private Map<String, Integer> tradesUsed = new HashMap<>();
-  private Random r = new Random();
-  private String[] locationNames = new String[]{"Ground Level", "First Floor", "Second Floor", "Third Floor", "Fourth Floor"};
   // Notice how activities of index x can be completed by trades of index x
-  private String[] activities = new String[]{
-    "Wood Framing", "Finishing", "Electricity", "Flooring", "Glass Installation", 
-    "Heating/AC", "Insulation", "Sewage", "Piping", "Interior Walls"};
-  private String[] trades = new String[]{
-    "Carpenter", "Cement/Concrete Finisher", "Electrician", "Flooring Installer", "Glazier", 
-    "HVAC Tech", "Insulation Worker", "Plumber", "Roofing Mechanic", "Painter"};
-  private int[] optimalCrews = new int[]{
-    3, 3, 2, 3, 2, 2, 4, 4, 3, 4
-  };
-  private double[] quantities = new double[]{
-    12.0, 8.0, 6.0, 10.5, 7.0, 9.0, 6.5, 12.0, 7.0, 9.5};
-  private int[] productionRates = new int[]{
-    3, 3, 4, 2, 2, 4, 3, 2, 4, 3
-  };
-
-  public DataGenerator() {}
+  private String[] locationNames = new String[]{ "Ground Level", "First Floor", "Second Floor", "Third Floor", "Fourth Floor" };
+  private String[] activities = new String[]{ "Wood Framing", "Finishing", "Electricity", "Flooring", "Glass Installation", "Heating/AC", "Insulation", "Sewage", "Piping", "Interior Walls" };
+  private String[] trades = new String[]{ "Carpenter", "Cement/Concrete Finisher", "Electrician", "Flooring Installer", "Glazier", "HVAC Tech", "Insulation Worker", "Plumber", "Roofing Mechanic", "Painter" };
+  private int[] optimalCrews = new int[]{ 3, 3, 2, 3, 2, 2, 4, 4, 3, 4 };
+  private double[] quantities = new double[]{ 12.0, 8.0, 6.0, 10.5, 7.0, 9.0, 6.5, 12.0, 7.0, 9.5 };
+  private int[] productionRates = new int[]{ 3, 3, 4, 2, 2, 4, 3, 2, 4, 3 };
+  private Random r = new Random();
 
   /**
    * Opens a dataset file in the given directory. If file is already in place,
    * creates a new file with identical name and counter at the end, i.e. abc_X.csv
-   * @param directory
+   * @param directory the folder where the file should be created
    * @param locations
    * @param tasksPerLocation
+   * @param repetitive determines whether tasks should be repetitive or random over locations
+   * @return the name of the file created in the given directory
    */
   public String generateDataset(String directory, int locations, int tasksPerLocation, boolean repetitive) {
     File f = new File(String.format("%s/dataset.csv", directory));
@@ -57,8 +47,11 @@ public class DataGenerator {
   }
 
   /**
-   * Generates a randomized data set of size n
-   * @param n
+   * Generates a very randomized data set of size n where all tasks in a 
+   * location are linearly dependent on the previous task
+   * @param locations
+   * @param tasksPerLocation
+   * @return a string with metadata on locations and tasks for each location
    */
   public String generateTaskData(int locations, int tasksPerLocation) {
     StringBuilder sb = new StringBuilder();
@@ -77,10 +70,13 @@ public class DataGenerator {
   }
 
   /**
-   * 
+   * Generates one set of randomized tasks for a location, and duplicates this
+   * set for each of the remaining locations. All tasks are linearly dependent
+   * on the previous task. Also, first tasks in other locations are dependent
+   * on the first task in location 0. 
    * @param locations
    * @param tasksPerLocation
-   * @return
+   * @return a string with metadata on locations and tasks for each location
    */
   public String generateRepetitiveTaskData(int locations, int tasksPerLocation) {
     StringBuilder sb = new StringBuilder();
@@ -100,20 +96,24 @@ public class DataGenerator {
   }
 
   /**
-   * 
+   * Creates the metadata, i.e. id and name, of a location
    * @param locationId
-   * @return
+   * @return a string with the created metadata
    */
   public String createLocation(int locationId) {
-    String locationName = locationNames[r.nextInt(locationNames.length)];   // So far, location names are not important and may be duplicates
+    String locationName = locationNames[r.nextInt(locationNames.length)];
     return String.format("L%d;%s%n", locationId, locationName);
   }
 
   /**
-   * 
-   * @param taskId
-   * @param locationId
-   * @return
+   * Creates the metadata for a single task. If the rand parameter is -1, 
+   * the task will be randomized. If not, the rand int will determine the
+   * index in the various metadata arrays, which determines the content
+   * of the task
+   * @param taskId the id of the task to be created
+   * @param locationId the id of the location, to which the task will be assigned
+   * @param @rand if -1, the task will be randomized. Otherwise, rand determines data
+   * @return a string with the metadata of the task
    */
   public String createTask(int taskId, int locationId, int rand) {
     if (rand == -1) rand = r.nextInt(activities.length);

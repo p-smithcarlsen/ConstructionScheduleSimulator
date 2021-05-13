@@ -13,13 +13,6 @@ public class LBMS {
   public void prepareLocations() {
     createDependencies();
     tasks.forwardPass();
-    for (Location l : locations) {
-      // between tasks
-      // Can we do the two next ones without having established all dependencies?
-      // I.e. do we need to do another loop after this loop?
-      // l.calculateDuration();    // of location
-      // l.forwardPass();          // i.e. durations of tasks
-    }
     tasks.findCriticalPaths();
     tasks.locateEndPathTasks();
     tasks.backwardPass();

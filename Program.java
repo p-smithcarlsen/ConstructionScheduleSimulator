@@ -62,6 +62,7 @@ public class Program {
     String filePath = "";
     if (repetitive) { filePath = createDataset("Data/ScheduleData", 10, 25, true); }
     else { filePath = createDataset("Data/ScheduleData", 10, 25, false); }
+    readDataIntoObjects(filePath);
   }
 
   /**
@@ -73,6 +74,7 @@ public class Program {
     String filePath = "";
     if (repetitive) { filePath = createDataset("Data/ScheduleData", 25, 60, true); }
     else { filePath = createDataset("Data/ScheduleData", 25, 60, false); }
+    readDataIntoObjects(filePath);
   }
 
   /**

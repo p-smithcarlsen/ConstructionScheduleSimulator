@@ -21,13 +21,19 @@ public class DataParser {
 
   public DataParser() {}
 
+  /**
+   * Selects a specified file in the ScheduleData folder and reads the content. 
+   * The data will be parse into the Taskgraph and Location[] objects. 
+   * @param fileName
+   * @throws NumberFormatException
+   * @throws IOException
+   */
   public void parseData(String fileName) throws NumberFormatException, IOException {
     File f = new File(String.format("Data/ScheduleData/%s", fileName));
     BufferedReader br = new BufferedReader(new FileReader(f));
     
     String[] locationsAndTasks = br.readLine().split(" ");
     locations = new Location[Integer.parseInt(locationsAndTasks[0])];
-    // tasks = new TaskGraph(Integer.parseInt(locationsAndTasks[1]));
     tasks = new TaskGraph();
     String line = br.readLine();
     while (line != null) {
@@ -44,12 +50,8 @@ public class DataParser {
     br.close();
   }
 
-  public void addTask(String line) {
-
-  }
-
   /**
-   * 
+   * Reads a string with location metadata
    * @param line
    */
   public void readLocation(String line) {
@@ -58,7 +60,7 @@ public class DataParser {
   }
 
   /**
-   * 
+   * Reads a string with task metadata
    * @param line
    */
   public void readTask(String line) {
@@ -70,21 +72,9 @@ public class DataParser {
     return tasks;
   }
 
-  /**
-   * 
-   * @return
-   */
   public Location[] getLocations() {
     return locations;
   }
-
-  /**
-   * 
-   * @return
-   */
-  // public Workforce getWorkforce() {
-  //   return workforce;
-  // }
 
   public static void main(String[] args) {
     try {
