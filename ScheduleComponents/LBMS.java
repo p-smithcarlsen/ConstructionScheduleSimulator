@@ -11,18 +11,19 @@ public class LBMS {
   }
 
   public void prepareLocations() {
-    tasks.calculateCriticalPath();
-
+    createDependencies();
+    tasks.forwardPass();
     for (Location l : locations) {
-      createDependencies(l);   // between tasks
+      // between tasks
       // Can we do the two next ones without having established all dependencies?
       // I.e. do we need to do another loop after this loop?
       l.calculateDuration();    // of location
       // l.forwardPass();          // i.e. durations of tasks
     }
+    tasks.calculateCriticalPath();
   }
 
-  private void createDependencies(Location l) {
+  private void createDependencies() {
     for (Task t : tasks.getBacklogTasks()) {
       String[] dependencies = t.getDependencies().split(",");
       if (dependencies[0].equals("*")) continue;

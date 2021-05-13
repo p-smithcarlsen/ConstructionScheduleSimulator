@@ -80,6 +80,8 @@ public class Task {
     return criticalPath;
   }
 
+  
+
   public void calculateEarliestTimings(int lastTaskFinished) {
     this.earliestStart = lastTaskFinished;
     this.earliestFinish = lastTaskFinished + meanDuration - 1; // tasks cant stop and start at the same time unit
