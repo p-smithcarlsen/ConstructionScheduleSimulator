@@ -69,18 +69,18 @@ public class TaskGraph {
     return latestFinish;
   }
 
-  public void backwardPass() {
-    Task t = backlogTasks.get(backlogTasks.size()-1);
-    backwardPass(t, estimatedDeadline);
-  }
+  // public void backwardPass() {
+  //   Task t = backlogTasks.get(backlogTasks.size()-1);
+  //   backwardPass(t, estimatedDeadline);
+  // }
 
-  public void backwardPass(Task t, int deadline) {
-    t.latestStart = deadline - t.meanDuration;
-    t.latestFinish = deadline;
-    for (Task t2 : t.predecessorTasks) {
-      backwardPass(t2, t.latestStart);
-    }
-  }
+  // public void backwardPass(Task t, int deadline) {
+  //   t.latestStart = deadline - t.meanDuration;
+  //   t.latestFinish = deadline;
+  //   for (Task t2 : t.predecessorTasks) {
+  //     backwardPass(t2, t.latestStart);
+  //   }
+  // }
 
   public void calculateFloat() {
     for (Task t : backlogTasks) {
