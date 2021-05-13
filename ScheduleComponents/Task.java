@@ -22,13 +22,14 @@ public class Task {
   public List<Task> successorTasks = new ArrayList<>();
   public double longestPathDuration;
 
-  public int progress;                // Not part of taskParameters
+  public double progress;                // Not part of taskParameters
 
   public int earliestStart;
   public int earliestFinish;
   public int latestStart;
   public int latestFinish;
-  // public int maximumTime;
+  public int maximumTime;
+  public int taskFloat;
 
   public Task(String[] taskParameters) {
     createMetadata(taskParameters);
@@ -104,16 +105,16 @@ public class Task {
     if (workersAssigned == 0) return;
 
     //double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (optimalWorkerCount / workersAssigned);
-    double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (workersAssigned /optimalWorkerCount);
+    double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (workersAssigned / optimalWorkerCount);
     // vil workesrAssigned og optimalworkercount som maks være =?
     // har byttet rundt på workersassigned og optimalworkercount, da det var sat op forkert og incase der var færre end det optimale, så skal det give mindre en 1
     //if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) * 0.5;
     // kan der på nogen måde være assignet flere end den optimale mængde????
     // hvad er formålet med dette if? at reducere contribution fra workers assigned over optimalen?
 
-    this.progress += Math.ceil((workerContribution * productionRate) / quantity * 100);
+    this.progress += (workerContribution * productionRate) / quantity * 100;
     // do the work and update the progress
-    System.out.println(String.format("Progress: % 3d percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
+    System.out.println(String.format("Progress: % 2.2f percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
     // Reset workers
     this.workersAssigned = 0;
   }
@@ -136,7 +137,7 @@ public class Task {
   // } // Move to workforce? - still need something to change progress
 
   public boolean isFinished() {
-    return progress >= 100;
+    return progress >= 100.0;
   }
 
   public void print() {

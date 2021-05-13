@@ -11,7 +11,6 @@ public class Contractor {
   public int[] workerDemand;
   public int scheduleLength;
   public List<Task> scheduledTasks;       // More flexibility than stack/queue since we can choose all tasks
-  public int workers;
   public int availableWorkers;
 
   public Contractor(String id, String trade) {
@@ -22,13 +21,15 @@ public class Contractor {
   public void calculateWorkerDemand(List<Task> tasks) {
     Collections.sort(tasks, new SortByEarliestStart());
     for (Task t : tasks)
-      if (t.earliestFinish > scheduleLength) scheduleLength = t.earliestFinish;
+      if (t.earliestFinish > scheduleLength) scheduleLength = t.earliestFinish+1;
 
     this.scheduledTasks = tasks;
     this.workerDemand = new int[scheduleLength+1];
     for (Task t : tasks) {
-      for (int i = t.earliestStart; i < t.earliestFinish+1; i++)
+      t.print();
+      for (int i = t.earliestStart; i < t.earliestFinish; i++) {
         workerDemand[i] += t.optimalWorkerCount;
+      }
     }
   }
 
@@ -49,16 +50,11 @@ public class Contractor {
         // t.canbestarted kun true hvis all predecessor tasks er done?
         w = Math.min(t.optimalWorkerCount, availableWorkers);
         t.assignWorkers(w); // assigner enten det optimale antal workers, eller det mulige antal.
-        System.out.println(id + " providing " + w + " workers to task " + t.location + t.id);
+        System.out.println(trade + " providing " + w + " of " + workerDemand[today] + " workers to task " + t.location + t.id);
         // System.out.println(String.format("Contractor %s providing %s workers of %s available", id, w, availableWorkers));
         availableWorkers -= w; // sørger for, de samme workers ikke kan assignes twice, samme dag. 
       }
     }
-  }
-
-  public void print() {
-    System.err.println(String.format("%n%s:", this.trade));
-    System.out.println(String.format(" --Number of workers: %s", this.workers));
   }
 
   /**

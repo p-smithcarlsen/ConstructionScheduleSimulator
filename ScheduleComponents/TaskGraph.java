@@ -8,6 +8,7 @@ public class TaskGraph {
   public List<Task> backlogTasks;
   // private int sz;
   public Task criticalPathTasks;
+  public int estimatedDeadline;
 
   // public TaskGraph(int sz) {
   public TaskGraph() {
@@ -50,14 +51,39 @@ public class TaskGraph {
 
   public void forwardPass() {
     Task t = backlogTasks.get(0);
-    forwardPass(t, 0);
+    estimatedDeadline = forwardPass(t, 0);
   }
 
-  public void forwardPass(Task t, int time) {
+  public int forwardPass(Task t, int time) {
     t.earliestStart = time;
     t.earliestFinish = time + t.meanDuration;
+    int estimate = 0;
+    int latestFinish = 0;
     for (Task t2 : t.successorTasks) {
-      forwardPass(t2, t.earliestFinish);
+      estimate = forwardPass(t2, t.earliestFinish);
+      if (estimate > latestFinish) latestFinish = estimate;
+    }
+
+    return latestFinish;
+  }
+
+  public void backwardPass() {
+    Task t = backlogTasks.get(backlogTasks.size()-1);
+    backwardPass(t, estimatedDeadline);
+  }
+
+  public void backwardPass(Task t, int deadline) {
+    t.latestStart = deadline - t.meanDuration;
+    t.latestFinish = deadline;
+    for (Task t2 : t.predecessorTasks) {
+      backwardPass(t2, t.latestStart);
+    }
+  }
+
+  public void calculateFloat() {
+    for (Task t : backlogTasks) {
+      t.maximumTime = t.latestFinish - t.earliestStart;
+      t.taskFloat = t.maximumTime - t.meanDuration;
     }
   }
 

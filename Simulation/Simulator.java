@@ -14,7 +14,7 @@ public class Simulator {
     // Find critical path
     lbms.prepareLocations();
     // lbms.tasks.printCriticalPath();
-    lbms.tasks.printTasks();
+    // lbms.tasks.printTasks();
 
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(lbms.locations);
@@ -32,11 +32,11 @@ public class Simulator {
       lbms.work();
 
       // End of day (workers are reset)
-      workforce.endOfTheDay();
+      // workforce.endOfTheDay();
+      // lbms.totalProgress();
 
       // Check if there are any alarms
 
-      lbms.totalProgress();
 
       // Take actions
 

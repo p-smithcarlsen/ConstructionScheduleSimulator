@@ -49,13 +49,8 @@ public class Workforce {
       c.assignWorkers(today);
   }
 
-  public void endOfTheDay() {
-    for (Contractor c : contractors)
-      c.availableWorkers = c.workers;
-  }
-
-  public void print() {
-    for (Contractor c : contractors)
-      c.print();
-  }
+  // public void endOfTheDay() {
+  //   for (Contractor c : contractors)
+  //     c.availableWorkers = c.workers;
+  // }
 }
