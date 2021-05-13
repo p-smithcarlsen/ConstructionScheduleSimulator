@@ -111,17 +111,6 @@ public class DataGenerator {
     return String.format("T%d;L%d;%s;%s;%d;%2.2f;%d;%s%n", taskId, locationId, activity, trade, optimalCrew, quantity, productionRate, dependency);
   }
 
-  // public String generateTradeData() {
-  //   StringBuilder sb = new StringBuilder();
-  //   sb.append(String.format("%d%n", tradesUsed.size()));
-
-  //   for (String trade : tradesUsed.keySet()) {
-  //     sb.append(String.format("%s;%d%n", trade, tradesUsed.get(trade)));
-  //   }
-    
-  //   return sb.toString();
-  // }
-
   public static void main(String[] args) {
     DataGenerator g = new DataGenerator();
     g.generateDataset("Data/ScheduleData", 5, 5);
