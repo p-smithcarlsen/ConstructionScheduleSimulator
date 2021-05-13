@@ -72,20 +72,8 @@ public class TaskGraph {
           t = null;
           break;
         }
-        
       }
-      break;
-
-
-      // for (Task t2 : t.successorTasks) {
-      //   if (t2.isCritical) {
-      //     t = t2;
-      //     System.out.println(t.activity);
-      //     if (t.successorTasks.size() == 0) break;
-      //   } else {
-      //     break;
-      //   }
-      // }
+      break;      // TODO: printer ikke alle
     }
   }
 }
