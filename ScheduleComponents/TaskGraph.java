@@ -5,26 +5,23 @@ import java.util.List;
 
 public class TaskGraph {
   
+  public List<Task> allTasks;
   public List<Task> backlogTasks;
   public List<Task> endTasks = new ArrayList<>();
-  // private int sz;
   public Task criticalPathTasks;
+  public List<Task> criticalTasks;
   public int estimatedDeadline;
   public double criticalLastFinish;
 
-  // public TaskGraph(int sz) {
   public TaskGraph() {
+    this.allTasks = new ArrayList<>();
     this.backlogTasks = new ArrayList<>();
-    // this.backlogTasks = new Task[sz];
     this.criticalPathTasks = null;
   }
 
   public Task addTask(String[] taskParameters) {
     Task t = new Task(taskParameters);
-    backlogTasks.add(t);
-    // backlogTasks[sz] = t;
-    // sz++;
-
+    allTasks.add(t);
     return t;
   }
 
@@ -52,7 +49,7 @@ public class TaskGraph {
   // }
 
   public void forwardPass() {
-    Task t = backlogTasks.get(0);
+    Task t = allTasks.get(0);
     estimatedDeadline = forwardPass(t, 0);
   }
 
@@ -60,7 +57,7 @@ public class TaskGraph {
     t.earliestStart = time;
     t.earliestFinish = time + t.meanDuration;
     int estimate = 0;
-    int latestFinish = 0;
+    int latestFinish = t.earliestFinish;
     for (Task t2 : t.successorTasks) {
       estimate = forwardPass(t2, t.earliestFinish);
       if (estimate > latestFinish) latestFinish = estimate;
@@ -83,15 +80,14 @@ public class TaskGraph {
   // }
 
   public void calculateFloat() {
-    for (Task t : backlogTasks) {
+    for (Task t : allTasks) {
       t.maximumTime = t.latestFinish - t.earliestStart;
       t.taskFloat = t.maximumTime - t.meanDuration;
     }
   }
 
   public void backwardPass(){
-    
-  for (Task task : endTasks) {
+    for (Task task : endTasks) {
       double lastStartCheck = criticalLastFinish;
       Task tempTask = task;
       while (!tempTask.predecessorTasks.isEmpty()) {
@@ -105,28 +101,42 @@ public class TaskGraph {
     }
   }
 
-  public void calculateCriticalPath() {
-    for (int i = backlogTasks.size()-1; i >= 0; i--) {
-      if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
-    }
+  public void findCriticalPaths() {
+    // for (int i = backlogTasks.size()-1; i >= 0; i--) {
+    //   if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
+    // }
 
-    List<Task> path = null;
-    List<Task> criticalPath = null;
-    double longestDuration = 0;
-    for (Task t : backlogTasks) {
-      path = t.earliestPathDuration();
-      if (t.longestPathDuration > longestDuration) {
-        longestDuration = t.longestPathDuration;
-        criticalPath = path;
+    // List<Task> path = null;
+    // List<Task> criticalPath = null;
+    // double longestDuration = 0;
+    // for (Task t : allTasks) {
+    //   path = t.checkLengthOfPath();
+    //   if (t.longestPathDuration > longestDuration) {
+    //     longestDuration = t.longestPathDuration;
+    //     criticalPath = path;
+    //   }
+    // }
+
+    // criticalPathTasks = criticalPath.get(criticalPath.size()-1);
+    // criticalLastFinish = criticalPathTasks.longestPathDuration;
+    // allTasks.remove(criticalPathTasks);
+    // for (Task t : criticalPath) {
+    //   System.out.println(t.location + t.id);
+    //   t.isCritical = true;
+    //   allTasks.remove(t);
+    // }
+
+    for (Task t : allTasks) {
+      allTasks.remove(t);
+      if (t.taskFloat > 0) {
+        backlogTasks.add(t);
+      } else {
+        criticalTasks.add(t);
       }
     }
 
-    criticalPathTasks = criticalPath.get(criticalPath.size()-1);
-    criticalLastFinish = criticalPathTasks.longestPathDuration;
-    backlogTasks.remove(criticalPathTasks);
-    for (Task t : criticalPath) {
-      t.isCritical = true;
-      backlogTasks.remove(t);
+    for (Task t : allTasks) {
+      System.out.println("We still have task " + t.location + t.id + " in allTasks");
     }
   }
 

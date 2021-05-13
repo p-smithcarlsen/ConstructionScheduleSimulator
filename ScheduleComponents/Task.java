@@ -49,7 +49,7 @@ public class Task {
     // Calculate expected duration
     this.meanDuration = (int)Math.ceil(this.quantity / this.productionRate);
     // System.out.println(this.id + ": " + "duration = " + this.meanDuration);
-    this.standardDeviation = 0.25;
+    // this.standardDeviation = 0.25;
   }
 
   public String getDependencies() {
@@ -64,11 +64,11 @@ public class Task {
     successorTasks.add(t);
   }
 
-  public List<Task> earliestPathDuration() {
+  public List<Task> checkLengthOfPath() {
     List<Task> criticalPath = new ArrayList<>();
 
     for (Task t : successorTasks) {
-      List<Task> path = t.earliestPathDuration();
+      List<Task> path = t.checkLengthOfPath();
       
       if (path.get(path.size()-1).longestPathDuration > longestPathDuration) {
         criticalPath = path;

@@ -17,16 +17,17 @@ public class LBMS {
       // between tasks
       // Can we do the two next ones without having established all dependencies?
       // I.e. do we need to do another loop after this loop?
-      l.calculateDuration();    // of location
+      // l.calculateDuration();    // of location
       // l.forwardPass();          // i.e. durations of tasks
     }
-    tasks.calculateCriticalPath();
+    tasks.findCriticalPaths();
     tasks.locateEndPathTasks();
     tasks.backwardPass();
+    tasks.calculateFloat();
   }
 
   private void createDependencies() {
-    for (Task t : tasks.getBacklogTasks()) {
+    for (Task t : tasks.allTasks) {
       String[] dependencies = t.getDependencies().split(",");
       if (dependencies[0].equals("*")) continue;
 
