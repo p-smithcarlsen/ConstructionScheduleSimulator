@@ -6,8 +6,10 @@ import java.util.List;
 public class TaskGraph {
   
   public List<Task> backlogTasks;
+  public List<Task> endTasks = new ArrayList<>();
   // private int sz;
   public Task criticalPathTasks;
+  public double criticalLastFinish;
 
   // public TaskGraph(int sz) {
   public TaskGraph() {
@@ -48,6 +50,22 @@ public class TaskGraph {
     }
   }
 
+  public void backwardPass(){
+    
+  for (Task task : endTasks) {
+      double lastStartCheck = criticalLastFinish;
+      Task tempTask = task;
+      while (!tempTask.predecessorTasks.isEmpty()) {
+        tempTask.latestFinish = (int) lastStartCheck;
+        tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
+        lastStartCheck = tempTask.latestFinish - tempTask.meanDuration;
+        tempTask = tempTask.predecessorTasks.get(0);
+      }
+      tempTask.latestFinish = (int) lastStartCheck;
+      tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
+    }
+  }
+
   public void calculateCriticalPath() {
     for (int i = backlogTasks.size()-1; i >= 0; i--) {
       if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
@@ -65,6 +83,7 @@ public class TaskGraph {
     }
 
     criticalPathTasks = criticalPath.get(criticalPath.size()-1);
+    criticalLastFinish = criticalPathTasks.longestPathDuration;
     backlogTasks.remove(criticalPathTasks);
     for (Task t : criticalPath) {
       t.isCritical = true;
@@ -89,5 +108,20 @@ public class TaskGraph {
       }
       break;      // TODO: printer ikke alle
     }
+  }
+
+  public void locateEndPathTasks(){
+    for (Task task : backlogTasks) {
+      endTasks.add(endOfPath(task));
+    }
+    endTasks.add(endOfPath(criticalPathTasks));
+  }
+
+  public Task endOfPath(Task t){
+    Task end = t;
+    while(!end.successorTasks.isEmpty()) {
+      end = end.successorTasks.get(0);
+    }
+    return end;
   }
 }

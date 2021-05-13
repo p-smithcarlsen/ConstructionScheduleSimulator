@@ -13,7 +13,7 @@ public class Simulator {
     // Calculate durations for locations and tasks
     // Find critical path
     lbms.prepareLocations();
-    lbms.tasks.printCriticalPath();
+    //lbms.tasks.printCriticalPath();
 
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(lbms.locations);

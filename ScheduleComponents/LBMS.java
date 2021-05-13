@@ -21,6 +21,8 @@ public class LBMS {
       // l.forwardPass();          // i.e. durations of tasks
     }
     tasks.calculateCriticalPath();
+    tasks.locateEndPathTasks();
+    tasks.backwardPass();
   }
 
   private void createDependencies() {
@@ -73,15 +75,22 @@ public class LBMS {
   }
 
   public void printTasks(){
-    for (Location l : locations) {
-      System.out.println(l.id);
-      for (Task t : l.tasks) {
-        System.out.println(t.id + " " + t.earliestStart + " " + t.earliestFinish);
-        System.out.println("predecessors " + t.predecessorTasks.size());
-        for (Task tt : t.predecessorTasks) {
-          System.out.println(tt.id);
-        }
+    Task tempTask;
+    for (Task task : tasks.backlogTasks) {
+      System.out.println();
+      tempTask = task;
+      while(!tempTask.successorTasks.isEmpty()) {
+      System.out.print(tempTask.location + " " + tempTask.id + " ");
+      tempTask = tempTask.successorTasks.get(0);
       }
+      System.out.print(tempTask.location + " " + tempTask.id + " ");
     }
+    Task tempCrit = tasks.criticalPathTasks;
+    System.out.println();
+    while (!tempCrit.successorTasks.isEmpty()) {
+      System.out.print(tempCrit.location + " " + tempCrit.id + " ");
+      tempCrit = tempCrit.successorTasks.get(0);
+    }
+    System.out.print(tempCrit.location + " " + tempCrit.id + " ");
   }
 }
