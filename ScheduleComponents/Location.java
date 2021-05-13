@@ -16,39 +16,13 @@ public class Location {
     this.duration = 0;
   }
 
-  public void addTask(String[] taskParameters) {
-    Task t = new Task(taskParameters);
-    tasks.add(t);
-  }
-
+  /**
+   * Adds a task to the list of tasks assigned to this location
+   * @param t
+   */
   public void addTask(Task t) {
     tasks.add(t);
   }
-
-  // public void forwardPass() {
-  //   int currentTiming = 0;
-  //   for (Task t : tasks) {
-  //     t.calculateEarliestTimings(currentTiming);
-  //     currentTiming += t.meanDuration;
-  //   }
-  // }
-
-  // public void backwardPass(int projectDeadline) {
-  //   if (projectDeadline < duration) {
-  //     // End because not possible
-  //     // Or is it?
-  //   }
-
-  //   for (Task t : tasks) {
-  //     t.calculateLatestTimings(projectDeadline);
-  //     projectDeadline -= t.meanDuration;
-  //   }
-  // }
-
-  // public Task getTask() {
-  //   if (currentTask == null || currentTask.isFinished()) currentTask = tasks.get(0);
-  //   return currentTask;
-  // }
 
   public Task getTask(String id) {
     for (Task t : tasks) {
@@ -57,27 +31,6 @@ public class Location {
 
     return null;
   }
-
-  // public void calculateDuration() {
-  //   this.duration = 0;
-  //   for (Task t : tasks) {
-  //     // System.out.println(t.id + ": " + t.quantity + " / " + t.productionRate);
-  //     duration += t.meanDuration;
-  //   }
-  //   // Can simply sum durations since tasks are linear and straightforward
-  // }
-
-  // public void calculateDurationWithCertainty(double certainty) {
-  //   // Calculation for finding the estimated duration of a task with a certainty (based on standard deviation)
-  // }
-
-  // public boolean isFinished() {
-  //   return tasks.size() == 0;
-  // }
-
-  // public void workOn(Task t, int workers) {
-  //   t.work(workers);
-  // } // Move to workforce
 
   public void print() {
     System.err.println(String.format("%nLocation %s (%s):", this.id, this.name));

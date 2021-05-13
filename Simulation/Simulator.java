@@ -9,17 +9,21 @@ public class Simulator {
 
   public int day = 0; // bør dette ikke være 0? flere earliest starts er på 0
 
+  /**
+   * Runs the simulation, based on an LBMS object, which contains all 
+   * the necessary information of the tasks in the construction project.
+   * The project is simulated day for day, where each contractor assigns
+   * workers to tasks and subsequently performs the work. If any alarms
+   * materialize, the project manager will get feedback and possibly an 
+   * option to perform an action.
+   * @param lbms
+   */
   public void runSimulation(LBMS lbms) {
-    // Calculate durations for locations and tasks
-    // Find critical path
+    // Finds the critical path(s) in the tasks
     lbms.prepareLocations();
-    // lbms.tasks.printCriticalPath();
-    // lbms.tasks.printTasks();
 
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(lbms.locations);
-
-    // lbms.printTasks();
 
     // Go through project day by day until all tasks are finished
     while (true) {
@@ -31,16 +35,11 @@ public class Simulator {
       // Work tasks
       lbms.work();
 
-      // End of day (workers are reset)
-      // workforce.endOfTheDay();
-      // lbms.totalProgress();
-
       // Check if there are any alarms
-
 
       // Take actions
 
-
+      // Got to next day
       day++;
       if (day > 100) break;
     }

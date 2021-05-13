@@ -35,6 +35,10 @@ public class Task {
     createMetadata(taskParameters);
   }
 
+  /**
+   * Sets the metadata of this task based on the taskParameters input.
+   * @param taskParameters is the string array of task metadata
+   */
   public void createMetadata(String[] taskParameters) {
     this.id = taskParameters[0];
     this.location = taskParameters[1];
@@ -56,48 +60,83 @@ public class Task {
     return this.dependencies;
   }
 
+  /**
+   * Adds a task to the predecessor list.
+   * @param t
+   */
   public void addPredecessor(Task t) {
     predecessorTasks.add(t);
   }
 
+  /**
+   * Adds a task to the successor list.
+   * @param t
+   */
   public void addSuccessor(Task t) {
     successorTasks.add(t);
   }
 
+  /**
+   * Iterates over all tasks in the successor list and their successor 
+   * tasks. Finds the longest duration of tasks depending on this task. 
+   * Also sets the longestPathDuration variable to this longest duration.
+   * @return the path of tasks depending on this task with the longest duration.
+   */
   public List<Task> checkLengthOfPath() {
-    List<Task> criticalPath = new ArrayList<>();
+    List<Task> longestPath = new ArrayList<>();
 
     for (Task t : successorTasks) {
       List<Task> path = t.checkLengthOfPath();
       
       if (path.get(path.size()-1).longestPathDuration > longestPathDuration) {
-        criticalPath = path;
-        longestPathDuration = criticalPath.get(criticalPath.size()-1).longestPathDuration;
+        longestPath = path;
+        longestPathDuration = longestPath.get(longestPath.size()-1).longestPathDuration;
       }
     }
     
-    criticalPath.add(this);
+    longestPath.add(this);
     longestPathDuration += meanDuration;
-    return criticalPath;
+    return longestPath;
   }
 
-  
-
+  /**
+   * Sets the earliestStart and earliestFinish variables based on
+   * the previous task.
+   * @param lastTaskFinished
+   */
   public void calculateEarliestTimings(int lastTaskFinished) {
     this.earliestStart = lastTaskFinished;
     this.earliestFinish = lastTaskFinished + meanDuration - 1; // tasks cant stop and start at the same time unit
   }
 
+  /**
+   * Sets the latestStart and latestFinish variables based on the
+   * subsequent tasks. 
+   * @param deadline
+   */
   public void calculateLatestTimings(int deadline) {
     this.latestFinish = deadline;
     this.latestStart = deadline - meanDuration;
     // Todo: calculate maximum time and criticality?
   }
 
+  /**
+   * Assigns a number of workers to this task. Note that work is not 
+   * performed yet, thus the progress is not incremented in this method.
+   * Contractors will attempt to assign the optimal worker count.
+   * @param workers
+   */
   public void assignWorkers(int workers) {
     this.workersAssigned = workers;
   }
 
+  /**
+   * Works the task, thus incrementing the progress of this task. Assigning
+   * the optimal worker count will increment the progress with the productionRate,
+   * and assigning a higher number of workers will mean a diminishing factor of 
+   * production (reflected in the workerContribution variable). After working the
+   * task, the number of workers assigned is reset to 0.
+   */
   public void work() {
     // An optimal worker count would increase the progress by (quantity / productionRate)
     // If workersAssigned is lower, the progress will increase slower (optimalWorkerCount / workersAssigned)
@@ -119,6 +158,10 @@ public class Task {
     this.workersAssigned = 0;
   }
 
+  /**
+   * Used to determine whether all predecessor tasks are finished.
+   * @return a boolean variable, indicating whether all predecessor tasks are finished
+   */
   public boolean canBeStarted() {
     boolean canBeStarted = true;
     for (Task t : predecessorTasks) {
@@ -131,15 +174,17 @@ public class Task {
     return canBeStarted;
   }
 
-  // public void work(int workers) {
-  //   progress = (int)Math.min(progress + (workers / quantity) * 100, 100);
-  //   System.out.println(String.format("Progress: %03d percent (%s of %s) of task %s (%s) in location %s%n", progress, workers, quantity, id, activity, location));
-  // } // Move to workforce? - still need something to change progress
-
+  /**
+   * Used to determine whether this task i finished and thus no longer active.
+   * @return a boolean variable, indicating whether this task is finished
+   */
   public boolean isFinished() {
     return progress >= 100.0;
   }
 
+  /**
+   * Prints some metadata and the early/late start/finish variables.
+   */
   public void print() {
     // System.out.println(String.format(" --Task %s: %s, trade: %s, quantity: %s, dependency: %s", id, activity, trade, quantity, dependencies));
     System.out.print(String.format(" --%s%s (dur: % 2d), dep: %s", location, id, meanDuration, dependencies));
@@ -152,6 +197,9 @@ public class Task {
     System.out.println();
   }
 
+  /**
+   * Prints some metadata for this task and all tasks depending on this task. 
+   */
   public void printWithDependencies() {
     print();
     for (Task t : successorTasks) {

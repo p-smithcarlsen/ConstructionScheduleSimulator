@@ -19,6 +19,11 @@ public class TaskGraph {
     this.criticalPathTasks = null;
   }
 
+  /**
+   * Adds a task to the allTask list and returns the task.
+   * @param taskParameters is an array of strings with task metadata
+   * @return the task as a Task object
+   */
   public Task addTask(String[] taskParameters) {
     Task t = new Task(taskParameters);
     allTasks.add(t);
@@ -29,25 +34,21 @@ public class TaskGraph {
     return backlogTasks;
   }
 
+  /**
+   * Adds a dependency between two tasks; adds task 1 to the other task's
+   * successor list and task 2 to the first task's predecessor list. 
+   * @param predecessor is the task preceding the other task
+   * @param successor is the task succeeding the first task
+   */
   public void addTaskDependency(Task predecessor, Task successor) {
     predecessor.addSuccessor(successor);
     successor.addPredecessor(predecessor);
   }
 
-  // public void forwardPass(){
-  //   int crossover = 0;
-  //   for (Task t : backlogTasks) {
-  //     if(t.predecessorTasks.isEmpty()) {
-  //       t.earliestFinish = t.meanDuration -1;
-  //       crossover = t.meanDuration;
-  //     } else {
-  //       t.earliestStart = crossover;
-  //       t.earliestFinish = crossover + t.meanDuration -1;
-  //       crossover = t.earliestFinish +1;
-  //     }
-  //   }
-  // }
-
+  /**
+   * Iterates through all tasks, starting with task 0, and determines the 
+   * earliest start and earliest finish variables. 
+   */
   public void forwardPass() {
     Task t = allTasks.get(0);
     estimatedDeadline = forwardPass(t, 0);
@@ -79,13 +80,11 @@ public class TaskGraph {
   //   }
   // }
 
-  public void calculateFloat() {
-    for (Task t : allTasks) {
-      t.maximumTime = t.latestFinish - t.earliestStart;
-      t.taskFloat = t.maximumTime - t.meanDuration;
-    }
-  }
-
+  /**
+   * Iterates through all tasks reversed, starting with the last task. 
+   * Here, latest start and latest finish is calculated. 
+   * @param l
+   */
   public void backwardPass(Location l) {
     int end = l.tasks.get(l.tasks.size()-1).earliestFinish;
     Task temp = l.tasks.get(l.tasks.size()-1);
@@ -97,6 +96,16 @@ public class TaskGraph {
     }
     temp.latestFinish = end;
     temp.latestStart = end - temp.meanDuration+1;
+  }
+
+  /**
+   * Calculates the maximum time available and the float of a task.
+   */
+  public void calculateFloat() {
+    for (Task t : allTasks) {
+      t.maximumTime = t.latestFinish - t.earliestStart;
+      t.taskFloat = t.maximumTime - t.meanDuration;
+    }
   }
 
 // public void backwardPass(){
@@ -129,6 +138,9 @@ public class TaskGraph {
   //       longestDuration = t.longestPathDuration;
   //       criticalPath = path;
   
+  /**
+   * Determines the critical path through all the tasks.
+   */
   public void findCriticalPaths() {
     // for (int i = backlogTasks.size()-1; i >= 0; i--) {
     //   if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
@@ -168,6 +180,9 @@ public class TaskGraph {
     }
   }
 
+  /**
+   * Prints all critical tasks.
+   */
   public void printCriticalPath() {
     Task t = criticalPathTasks;
     while (t != null) {
@@ -186,16 +201,11 @@ public class TaskGraph {
     }
   }
 
+  /**
+   * 
+   * @param l
+   */
   public void locateEndPathTasks(Location l){
     endTasks.add(l.tasks.get(l.tasks.size()-1));
-  }
-
-  // not used anymore
-  public Task endOfPath(Task t){
-    Task end = t;
-    while(!end.successorTasks.isEmpty()) {
-      end = end.successorTasks.get(0);
-    }
-    return end;
   }
 }

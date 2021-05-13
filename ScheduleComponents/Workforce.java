@@ -10,16 +10,17 @@ public class Workforce {
   public int sz;
   public boolean idleWorkers;
 
-  public Workforce(int typesOfContractors) {
-    this.contractors = new Contractor[typesOfContractors];
-    this.sz = 0;
-    this.idleWorkers = false;
-  }
-
   public Workforce(Location[] locations) {
     groupTasks(locations);
   }
 
+  /**
+   * Iterates through all locations and their tasks, creating a map
+   * with the trade types and a list of their assigned tasks as 
+   * values. Subsequently, all contractors will be given their respective
+   * tasks and calculate the resulting worker demand.
+   * @param locations
+   */
   public void groupTasks(Location[] locations) {
     // Summarize necessary trades and related tasks
     // TODO: Get overview from LBMS object
@@ -44,13 +45,15 @@ public class Workforce {
     }
   }
 
+  /**
+   * Iterates through all contractors, letting them assign workers
+   * to the task they should work on. Contractors will prioritise
+   * assigning a number of workers equal to the optimal worker crew
+   * in the given task. 
+   * @param today
+   */
   public void assignWorkers(int today) {
     for (Contractor c : contractors)
       c.assignWorkers(today);
   }
-
-  // public void endOfTheDay() {
-  //   for (Contractor c : contractors)
-  //     c.availableWorkers = c.workers;
-  // }
 }
