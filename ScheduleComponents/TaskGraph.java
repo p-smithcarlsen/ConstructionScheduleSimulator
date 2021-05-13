@@ -128,6 +128,7 @@ public class TaskGraph {
   //     if (t.longestPathDuration > longestDuration) {
   //       longestDuration = t.longestPathDuration;
   //       criticalPath = path;
+  
   public void findCriticalPaths() {
     // for (int i = backlogTasks.size()-1; i >= 0; i--) {
     //   if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
