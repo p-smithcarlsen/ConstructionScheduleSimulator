@@ -34,17 +34,30 @@ public class TaskGraph {
     successor.addPredecessor(predecessor);
   }
 
-  public void forwardPass(){
-    int crossover = 0;
-    for (Task t : backlogTasks) {
-      if(t.predecessorTasks.isEmpty()) {
-        t.earliestFinish = t.meanDuration -1;
-        crossover = t.meanDuration;
-      } else {
-        t.earliestStart = crossover;
-          t.earliestFinish = crossover + t.meanDuration -1;
-          crossover = t.earliestFinish +1;
-      }
+  // public void forwardPass(){
+  //   int crossover = 0;
+  //   for (Task t : backlogTasks) {
+  //     if(t.predecessorTasks.isEmpty()) {
+  //       t.earliestFinish = t.meanDuration -1;
+  //       crossover = t.meanDuration;
+  //     } else {
+  //       t.earliestStart = crossover;
+  //       t.earliestFinish = crossover + t.meanDuration -1;
+  //       crossover = t.earliestFinish +1;
+  //     }
+  //   }
+  // }
+
+  public void forwardPass() {
+    Task t = backlogTasks.get(0);
+    forwardPass(t, 0);
+  }
+
+  public void forwardPass(Task t, int time) {
+    t.earliestStart = time;
+    t.earliestFinish = time + t.meanDuration;
+    for (Task t2 : t.successorTasks) {
+      forwardPass(t2, t.earliestFinish);
     }
   }
 
@@ -74,7 +87,6 @@ public class TaskGraph {
 
   public void printCriticalPath() {
     Task t = criticalPathTasks;
-    System.out.println(t.activity);
     while (t != null) {
       for (Task t2 : t.successorTasks) {
         if (t2.isCritical) {
@@ -89,5 +101,12 @@ public class TaskGraph {
       }
       break;      // TODO: printer ikke alle
     }
+  }
+
+  public void printTasks() {
+    for (Task t : backlogTasks) {
+      t.printWithDependencies();
+    }
+    criticalPathTasks.printWithDependencies();
   }
 }

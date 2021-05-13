@@ -17,8 +17,14 @@ public class DataGenerator {
   private String[] trades = new String[]{
     "Carpenter", "Cement/Concrete Finisher", "Electrician", "Flooring Installer", "Glazier", 
     "HVAC Tech", "Insulation Worker", "Plumber", "Roofing Mechanic", "Painter"};
+  private int[] optimalCrews = new int[]{
+    3, 3, 2, 3, 2, 2, 4, 4, 3, 4
+  };
   private double[] quantities = new double[]{
     12.0, 8.0, 6.0, 10.5, 7.0, 9.0, 6.5, 12.0, 7.0, 9.5};
+  private int[] productionRates = new int[]{
+    3, 3, 4, 2, 2, 4, 3, 2, 4, 3
+  };
 
   public DataGenerator() {}
 
@@ -29,7 +35,7 @@ public class DataGenerator {
    * @param locations
    * @param tasksPerLocation
    */
-  public String generateDataset(String directory, int locations, int tasksPerLocation) {
+  public String generateDataset(String directory, int locations, int tasksPerLocation, boolean repetitive) {
     File f = new File(String.format("%s/dataset.csv", directory));
     int i = 2;
     try {
@@ -40,14 +46,9 @@ public class DataGenerator {
 
       // Create filewriter and generate data
       FileWriter w = new FileWriter(f);
-      w.write(generateTaskData(locations, tasksPerLocation));
-      // w.write(generateTradeData());
+      if (repetitive) { w.write(generateRepetitiveTaskData(locations, tasksPerLocation)); }
+      else { w.write(generateTaskData(locations, tasksPerLocation)); }
       w.close();
-  
-      // Write info to console
-      // BufferedReader br = new BufferedReader(new FileReader(f));
-      // br.lines().forEach(s -> System.out.println(s));
-      // br.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -67,9 +68,32 @@ public class DataGenerator {
       sb.append(createLocation(i));
       
       for (int j = 0; j < tasksPerLocation; j++) {
-        sb.append(createTask(j, i));
+        sb.append(createTask(j, i, -1));
 
       }
+    }
+
+    return sb.toString();
+  }
+
+  /**
+   * 
+   * @param locations
+   * @param tasksPerLocation
+   * @return
+   */
+  public String generateRepetitiveTaskData(int locations, int tasksPerLocation) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(String.format("%s %s%n", locations, tasksPerLocation*locations));
+    int[] tasks = new int[tasksPerLocation];
+    for (int i = 0; i < tasksPerLocation; i++) { tasks[i] = r.nextInt(activities.length); }
+
+    for (int i = 0; i < locations; i++) {
+      sb.append(createLocation(i));
+      for (int j = 0; j < tasks.length; j++) {
+        sb.append(createTask(j, i, tasks[j]));
+      }
+      // System.out.println(sb.toString());
     }
 
     return sb.toString();
@@ -91,28 +115,29 @@ public class DataGenerator {
    * @param locationId
    * @return
    */
-  public String createTask(int taskId, int locationId) {
-    int rand = r.nextInt(activities.length);
+  public String createTask(int taskId, int locationId, int rand) {
+    if (rand == -1) rand = r.nextInt(activities.length);
     String activity = activities[rand];
     String trade = trades[rand];
-    // tradesUsed.put(trade, tradesUsed.containsKey(trade) ? tradesUsed.get(trade) + 1 : 1);
-    int optimalCrew = r.nextInt(5)+1;
+    int optimalCrew = optimalCrews[rand];
     double quantity = quantities[rand];
-    int productionRate = Math.min((int)quantity, r.nextInt(5)+1);
-    String dependency = "*";
-    if (taskId > 0) {
-      // if (r.nextInt(10) < 2 && locationId > 0) {
-        // dependency = "L" + (locationId-1);
-      // } else {                                             // For later (dependencies between locations)
-        dependency = "L" + locationId;
-      // }
-      dependency += String.format("=T%d", taskId-1);
+    int productionRate = productionRates[rand];
+    String dependency = "";
+    dependency = "L";
+    if (taskId == 0) {
+      if (locationId > 0) {
+        dependency += locationId-1 + "=T0";
+      } else {
+        dependency = "*";
+      }
+    } else if (taskId > 0) {
+      dependency += String.format("%d=T%d", locationId, taskId-1);
     }
     return String.format("T%d;L%d;%s;%s;%d;%2.2f;%d;%s%n", taskId, locationId, activity, trade, optimalCrew, quantity, productionRate, dependency);
   }
 
   public static void main(String[] args) {
     DataGenerator g = new DataGenerator();
-    g.generateDataset("Data/ScheduleData", 5, 5);
+    g.generateDataset("Data/ScheduleData", 5, 5, true);
   }
 }

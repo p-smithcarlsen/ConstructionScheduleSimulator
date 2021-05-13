@@ -76,7 +76,6 @@ public class LBMS {
     for (Location l : locations) {
       System.out.println(l.id);
       for (Task t : l.tasks) {
-        System.out.println(t.id + " " + t.earliestStart + " " + t.earliestFinish);
         System.out.println("predecessors " + t.predecessorTasks.size());
         for (Task tt : t.predecessorTasks) {
           System.out.println(tt.id);

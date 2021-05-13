@@ -36,7 +36,7 @@ public class Program {
   */
 
   public static void main(String[] args) throws IOException {
-    runSmallSchedule();
+    runSmallSchedule(true);
     Simulator s = new Simulator();
     s.runSimulation(lbms);
   }
@@ -46,8 +46,10 @@ public class Program {
    * @throws NumberFormatException
    * @throws IOException
    */
-  public static void runSmallSchedule() throws NumberFormatException, IOException {
-    String filePath = createDataset("Data/ScheduleData", 5, 10);
+  public static void runSmallSchedule(boolean repetitive) throws NumberFormatException, IOException {
+    String filePath = "";
+    if (repetitive) { filePath = createDataset("Data/ScheduleData", 5, 10, true); }
+    else { filePath = createDataset("Data/ScheduleData", 5, 10, false); }
     readDataIntoObjects(filePath);
   }
   
@@ -56,8 +58,10 @@ public class Program {
    * @throws NumberFormatException
    * @throws IOException
    */
-  public static void runMediumSchedule() throws NumberFormatException, IOException {
-    createDataset("Data/ScheduleData", 10, 25);
+  public static void runMediumSchedule(boolean repetitive) throws NumberFormatException, IOException {
+    String filePath = "";
+    if (repetitive) { filePath = createDataset("Data/ScheduleData", 10, 25, true); }
+    else { filePath = createDataset("Data/ScheduleData", 10, 25, false); }
   }
 
   /**
@@ -65,8 +69,10 @@ public class Program {
    * @throws NumberFormatException
    * @throws IOException
    */
-  public static void runLargeSchedule() throws NumberFormatException, IOException {
-    createDataset("Data/ScheduleData", 25, 60);
+  public static void runLargeSchedule(boolean repetitive) throws NumberFormatException, IOException {
+    String filePath = "";
+    if (repetitive) { filePath = createDataset("Data/ScheduleData", 25, 60, true); }
+    else { filePath = createDataset("Data/ScheduleData", 25, 60, false); }
   }
 
   /**
@@ -77,9 +83,9 @@ public class Program {
    * @throws NumberFormatException
    * @throws IOException
    */
-  public static String createDataset(String fileDir, int NO_LOCATIONS, int NO_TASKS_PER_LOCATION) throws NumberFormatException, IOException {
+  public static String createDataset(String fileDir, int NO_LOCATIONS, int NO_TASKS_PER_LOCATION, boolean repetitive) throws NumberFormatException, IOException {
     DataGenerator g = new DataGenerator();
-    return g.generateDataset(fileDir, NO_LOCATIONS, NO_TASKS_PER_LOCATION);
+    return g.generateDataset(fileDir, NO_LOCATIONS, NO_TASKS_PER_LOCATION, repetitive);
   }
 
   /**

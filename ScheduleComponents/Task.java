@@ -140,6 +140,21 @@ public class Task {
   }
 
   public void print() {
-    System.out.println(String.format(" --Task %s: %s, trade: %s, quantity: %s, dependency: %s", id, activity, trade, quantity, dependencies));
+    // System.out.println(String.format(" --Task %s: %s, trade: %s, quantity: %s, dependency: %s", id, activity, trade, quantity, dependencies));
+    System.out.print(String.format(" --%s%s (dur: % 2d), dep: %s", location, id, meanDuration, dependencies));
+    System.out.print(" pred: ");
+    for (Task t : predecessorTasks) System.out.print(t.location + "" + t.id + " ");
+    System.out.print("succ:");
+    for (Task t : successorTasks) System.out.print(t.location + "" + t.id + " ");
+    System.out.println();
+    System.out.println(String.format("   ES: %s, EF: %s, LS: %s, LF: %s", earliestStart, earliestFinish, latestStart, latestFinish));
+    System.out.println();
+  }
+
+  public void printWithDependencies() {
+    print();
+    for (Task t : successorTasks) {
+      t.printWithDependencies();
+    }
   }
 }

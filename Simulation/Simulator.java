@@ -13,16 +13,18 @@ public class Simulator {
     // Calculate durations for locations and tasks
     // Find critical path
     lbms.prepareLocations();
-    lbms.tasks.printCriticalPath();
+    // lbms.tasks.printCriticalPath();
+    lbms.tasks.printTasks();
 
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(lbms.locations);
 
-    lbms.printTasks();
+    // lbms.printTasks();
 
     // Go through project day by day until all tasks are finished
     while (true) {
       System.err.println("day: " + day);
+      
       // Assign workers
       workforce.assignWorkers(day);
 

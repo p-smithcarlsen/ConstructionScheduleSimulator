@@ -23,23 +23,23 @@ public class Workforce {
   public void groupTasks(Location[] locations) {
     // Summarize necessary trades and related tasks
     // TODO: Get overview from LBMS object
-    Map<String, List<Task>> tt = new HashMap<>();   // TODO: rename
+    Map<String, List<Task>> tradeTypesAndTasks = new HashMap<>();
     for (Location l : locations) {
       for (Task t : l.tasks) {
-        if (tt.containsKey(t.trade)) {
-          tt.get(t.trade).add(t);
+        if (tradeTypesAndTasks.containsKey(t.trade)) {
+          tradeTypesAndTasks.get(t.trade).add(t);
         } else {
-          tt.put(t.trade, new ArrayList<>());
-          tt.get(t.trade).add(t);
+          tradeTypesAndTasks.put(t.trade, new ArrayList<>());
+          tradeTypesAndTasks.get(t.trade).add(t);
         }
       }
     }
 
     // Hire contractors and tell them about their scheduled tasks
-    this.contractors = new Contractor[tt.size()];
-    for (String trade : tt.keySet()) {
+    this.contractors = new Contractor[tradeTypesAndTasks.size()];
+    for (String trade : tradeTypesAndTasks.keySet()) {
       contractors[sz] = new Contractor("C" + sz, trade);
-      contractors[sz].calculateWorkerDemand(tt.get(trade));
+      contractors[sz].calculateWorkerDemand(tradeTypesAndTasks.get(trade));
       sz++;
     }
   }
@@ -49,29 +49,9 @@ public class Workforce {
       c.assignWorkers(today);
   }
 
-  // public int typesOfContractors() {
-  //   return contractors.length;
-  // // }
-
-  // public void addContractor(String[] tradeParameters) {
-  //   contractors[sz] = new Contractor(String.format("C%d", sz), tradeParameters[0]);
-  //   sz++;
-  // }
-
-  // public void workOn(Task t) {
-  //   t.work(getWorkers(t.trade).assignWorkers(t.quantity * (100 - t.progress) / 100));
-  // }
-
-  // private Contractor getWorkers(String trade) {
-  //   for (Contractor c : contractors) {
-  //     if (c.trade.equals(trade)) return c;
-  //   }
-  //   return null;
-  // }
-
   public void endOfTheDay() {
     for (Contractor c : contractors)
-      c.availableWorkers = c.workers; // hvorfor ikke bare 0 her, når workers aldrig bliver kaldt noget sted?
+      c.availableWorkers = c.workers;
   }
 
   public void print() {
