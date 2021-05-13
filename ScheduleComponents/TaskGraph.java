@@ -86,21 +86,49 @@ public class TaskGraph {
     }
   }
 
-  public void backwardPass(){
-    for (Task task : endTasks) {
-      double lastStartCheck = criticalLastFinish;
-      Task tempTask = task;
-      while (!tempTask.predecessorTasks.isEmpty()) {
-        tempTask.latestFinish = (int) lastStartCheck;
-        tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
-        lastStartCheck = tempTask.latestFinish - tempTask.meanDuration;
-        tempTask = tempTask.predecessorTasks.get(0);
-      }
-      tempTask.latestFinish = (int) lastStartCheck;
-      tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
+  public void backwardPass(Location l) {
+    int end = l.tasks.get(l.tasks.size()-1).earliestFinish;
+    Task temp = l.tasks.get(l.tasks.size()-1);
+    while (!temp.predecessorTasks.isEmpty()) {
+      temp.latestFinish = end;
+      temp.latestStart = end - temp.meanDuration +1;
+      end = end - temp.meanDuration;
+      temp = temp.predecessorTasks.get(0);
     }
+    temp.latestFinish = end;
+    temp.latestStart = end - temp.meanDuration+1;
   }
 
+// public void backwardPass(){
+  
+// for (Task task : endTasks) {
+//     double lastStartCheck = criticalLastFinish;
+//     Task tempTask = task;
+//     while (!tempTask.predecessorTasks.isEmpty()) {
+//       tempTask.latestFinish = (int) lastStartCheck;
+//       tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
+//       lastStartCheck = tempTask.latestFinish - tempTask.meanDuration;
+//       tempTask = tempTask.predecessorTasks.get(0);
+//     }
+//     tempTask.latestFinish = (int) lastStartCheck;
+//     tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
+//   }
+// }
+
+  // public void calculateCriticalPath() {
+  //   for (int i = backlogTasks.size()-1; i >= 0; i--) {
+  //     if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
+  //   }
+
+  //   List<Task> path = null;
+  //   List<Task> criticalPath = null;
+  //   double longestDuration = 0;
+  //   for (Task t : backlogTasks) {
+  //     path = t.earliestPathDuration();
+  //     if (t.longestPathDuration > longestDuration) {
+  //       longestDuration = t.longestPathDuration;
+  //       criticalPath = path;
+  
   public void findCriticalPaths() {
     // for (int i = backlogTasks.size()-1; i >= 0; i--) {
     //   if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
@@ -158,13 +186,11 @@ public class TaskGraph {
     }
   }
 
-  public void locateEndPathTasks(){
-    for (Task task : backlogTasks) {
-      endTasks.add(endOfPath(task));
-    }
-    endTasks.add(endOfPath(criticalPathTasks));
+  public void locateEndPathTasks(Location l){
+    endTasks.add(l.tasks.get(l.tasks.size()-1));
   }
 
+  // not used anymore
   public Task endOfPath(Task t){
     Task end = t;
     while(!end.successorTasks.isEmpty()) {

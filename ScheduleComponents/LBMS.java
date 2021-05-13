@@ -10,12 +10,17 @@ public class LBMS {
     this.locations = locations;
   }
 
+  /**
+   * 
+   */
   public void prepareLocations() {
     createDependencies();
     tasks.forwardPass();
     tasks.findCriticalPaths();
-    tasks.locateEndPathTasks();
-    tasks.backwardPass();
+    for (Location l : locations) {
+      tasks.locateEndPathTasks(l);
+      tasks.backwardPass(l);
+    }
     tasks.calculateFloat();
   }
 
