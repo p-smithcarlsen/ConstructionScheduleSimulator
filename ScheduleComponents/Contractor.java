@@ -43,6 +43,7 @@ public class Contractor {
     int w = 0;
 
     for (Task t : scheduledTasks) {
+      // if (t.progress > 0) System.out.println(t.progress + ": " + t.isFinished());
       if (!t.isFinished() && t.canBeStarted()) {
         // t.earliestFinish > today, kan en task ikke godt slutte samme dag? i dettes setup vil den jo faile
         // >= ?

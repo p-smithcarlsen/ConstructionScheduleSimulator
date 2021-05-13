@@ -17,12 +17,13 @@ public class LBMS {
       // between tasks
       // Can we do the two next ones without having established all dependencies?
       // I.e. do we need to do another loop after this loop?
-      l.calculateDuration();    // of location
+      // l.calculateDuration();    // of location
       // l.forwardPass();          // i.e. durations of tasks
-      tasks.backwardPass(l); 
+      tasks.backwardPass(l);
+      
     }
-    tasks.calculateCriticalPath();
-    //tasks.locateEndPathTasks(); // gammel
+    // tasks.calculateCriticalPath();
+    //tasks.locateEndPathTasks(l); // gammel
     //tasks.backwardPass2(); // gammel
   }
 
