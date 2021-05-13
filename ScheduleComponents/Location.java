@@ -21,6 +21,10 @@ public class Location {
     tasks.add(t);
   }
 
+  public void addTask(Task t) {
+    tasks.add(t);
+  }
+
   public void forwardPass() {
     int currentTiming = 0;
     for (Task t : tasks) {

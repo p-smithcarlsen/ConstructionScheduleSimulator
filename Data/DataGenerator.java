@@ -61,7 +61,7 @@ public class DataGenerator {
    */
   public String generateTaskData(int locations, int tasksPerLocation) {
     StringBuilder sb = new StringBuilder();
-    sb.append(String.format("%s%n", locations));
+    sb.append(String.format("%s %s%n", locations, tasksPerLocation*locations));
 
     for (int i = 0; i < locations; i++) {
       sb.append(createLocation(i));

@@ -9,12 +9,14 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import ScheduleComponents.Location;
+import ScheduleComponents.Task;
+import ScheduleComponents.TaskGraph;
 
 public class DataParser {
 
+  private TaskGraph tasks;
   private Location[] locations;
   private int locationSize = 0;
-  // private Workforce workforce;
   NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
   public DataParser() {}
@@ -23,7 +25,10 @@ public class DataParser {
     File f = new File(String.format("Data/ScheduleData/%s", fileName));
     BufferedReader br = new BufferedReader(new FileReader(f));
     
-    locations = new Location[Integer.parseInt(br.readLine())];
+    String[] locationsAndTasks = br.readLine().split(" ");
+    locations = new Location[Integer.parseInt(locationsAndTasks[0])];
+    // tasks = new TaskGraph(Integer.parseInt(locationsAndTasks[1]));
+    tasks = new TaskGraph();
     String line = br.readLine();
     while (line != null) {
       if (line.startsWith("L")) {
@@ -35,13 +40,12 @@ public class DataParser {
       }
       line = br.readLine();
     }
-    
-    // workforce = new Workforce(Integer.parseInt(line));
-    // for (int i = 0; i < workforce.typesOfContractors(); i++) {
-    //   workforce.addContractor(br.readLine().split(";"));
-    // }
 
     br.close();
+  }
+
+  public void addTask(String line) {
+
   }
 
   /**
@@ -58,7 +62,12 @@ public class DataParser {
    * @param line
    */
   public void readTask(String line) {
-    locations[locationSize-1].addTask(line.split(";"));
+    Task t = tasks.addTask(line.split(";"));
+    locations[locationSize-1].addTask(t);
+  }
+
+  public TaskGraph getTasks() {
+    return tasks;
   }
 
   /**

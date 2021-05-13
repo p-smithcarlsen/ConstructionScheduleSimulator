@@ -7,7 +7,7 @@ public class Task {
   public String id;
   public String location;
   public String activity;
-  // public boolean criticality;
+  public boolean isCritical;
   public String trade;
   public int optimalWorkerCount;
   public int workersAssigned;         // Not part of taskParameters
@@ -17,7 +17,11 @@ public class Task {
   public double quantity;
   public int productionRate;
   public String dependencies;
+
   public List<Task> predecessorTasks = new ArrayList<>();
+  public List<Task> successorTasks = new ArrayList<>();
+  public double longestPathDuration;
+
   public int progress;                // Not part of taskParameters
 
   public int earliestStart;
@@ -53,6 +57,27 @@ public class Task {
 
   public void addPredecessor(Task t) {
     predecessorTasks.add(t);
+  }
+
+  public void addSuccessor(Task t) {
+    successorTasks.add(t);
+  }
+
+  public List<Task> earliestPathDuration() {
+    List<Task> criticalPath = new ArrayList<>();
+
+    for (Task t : successorTasks) {
+      List<Task> path = t.earliestPathDuration();
+      
+      if (path.get(path.size()-1).longestPathDuration > longestPathDuration) {
+        criticalPath = path;
+        longestPathDuration = criticalPath.get(criticalPath.size()-1).longestPathDuration;
+      }
+    }
+    
+    criticalPath.add(this);
+    longestPathDuration += meanDuration;
+    return criticalPath;
   }
 
   public void calculateEarliestTimings(int lastTaskFinished) {
