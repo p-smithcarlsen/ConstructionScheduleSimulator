@@ -34,6 +34,20 @@ public class TaskGraph {
     successor.addPredecessor(predecessor);
   }
 
+  public void forwardPass(){
+    int crossover = 0;
+    for (Task t : backlogTasks) {
+      if(t.predecessorTasks.isEmpty()) {
+        t.earliestFinish = t.meanDuration -1;
+        crossover = t.meanDuration;
+      } else {
+        t.earliestStart = crossover;
+          t.earliestFinish = crossover + t.meanDuration -1;
+          crossover = t.earliestFinish +1;
+      }
+    }
+  }
+
   public void calculateCriticalPath() {
     for (int i = backlogTasks.size()-1; i >= 0; i--) {
       if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
