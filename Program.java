@@ -2,14 +2,14 @@ import java.io.IOException;
 
 import Data.DataGenerator;
 import Data.DataParser;
-import ScheduleComponents.LBMS;
+import ScheduleComponents.ConstructionProject;
 import ScheduleComponents.Location;
 import ScheduleComponents.TaskGraph;
 import Simulation.Simulator;
 
 public class Program {
 
-  private static LBMS lbms;
+  private static ConstructionProject constructionProject;
 
   /*
   To-do:
@@ -34,7 +34,7 @@ public class Program {
   public static void main(String[] args) throws IOException {
     runSmallSchedule(true);
     Simulator s = new Simulator();
-    s.runSimulation(lbms);
+    s.runSimulation(constructionProject);
   }
 
   /**
@@ -104,6 +104,6 @@ public class Program {
     p.parseData(filePath);
     TaskGraph tasks = p.getTasks();
     Location[] locations = p.getLocations();
-    lbms = new LBMS(tasks, locations);
+    constructionProject = new ConstructionProject(tasks, locations);
   }
 }

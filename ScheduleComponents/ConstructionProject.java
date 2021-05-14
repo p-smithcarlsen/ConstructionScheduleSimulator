@@ -1,13 +1,15 @@
 package ScheduleComponents;
 
-public class LBMS {
+public class ConstructionProject {
 
   public TaskGraph tasks;
   public Location[] locations;
+  public DelayManager delays;
 
-  public LBMS(TaskGraph tasks, Location[] locations) {
+  public ConstructionProject(TaskGraph tasks, Location[] locations) {
     this.tasks = tasks;
     this.locations = locations;
+    this.delays = new DelayManager();
   }
 
   /**
@@ -21,11 +23,6 @@ public class LBMS {
     tasks.backwardPass();
     tasks.calculateFloat();
     tasks.findCriticalPaths();
-    tasks.printCriticalPath();
-    // for (Location l : locations) {
-    //   tasks.locateEndPathTasks(l);
-    // }
-    // tasks.calculateFloat();
   }
 
   /**
@@ -59,10 +56,12 @@ public class LBMS {
    * tasks will be incremented in this method. 
    */
   public void work() {
-    for (Location l : locations) {
-      for (Task t : l.tasks) {
-        t.work();
-      }
+    for (Task t : tasks.criticalTasks) {
+      t.work();
+    }
+
+    for (Task t : tasks.backlogTasks) {
+      t.work();
     }
   }
 
@@ -81,7 +80,6 @@ public class LBMS {
         if (t.isFinished()) {
           numCompletedTasksAtLocation++;
         }
-        
       }
       System.out.println("Location: " + "" + l.id + " Completed Tasks: " + numTasksLocation + "/" + numCompletedTasksAtLocation);
       numTotalTasks += numTasksLocation;

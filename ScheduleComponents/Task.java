@@ -132,7 +132,7 @@ public class Task {
 
   /**
    * Works the task, thus incrementing the progress of this task. Assigning
-   * the optimal worker count will increment the progress with the productionRate,
+   * the optimal worker count will increment the progress by the productionRate,
    * and assigning a higher number of workers will mean a diminishing factor of 
    * production (reflected in the workerContribution variable). After working the
    * task, the number of workers assigned is reset to 0.
@@ -141,10 +141,14 @@ public class Task {
     // An optimal worker count would increase the progress by (quantity / productionRate)
     // If workersAssigned is lower, the progress will increase slower (optimalWorkerCount / workersAssigned)
     // Providing more workers than the optimal crew size will contribute less and less
-    if (workersAssigned == 0) return;
+    if (workersAssigned == 0) {
+      // Not true - should be started next day actually (just disregard for now but dont delete)
+      // if (canBeStarted() && !isFinished()) System.out.println(trade + " not supplying workers to " + location + id + " despite task can be started");
+      return;
+    }
 
     //double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (optimalWorkerCount / workersAssigned);
-    double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (workersAssigned / optimalWorkerCount);
+    double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : ((double)workersAssigned / (double)optimalWorkerCount);
     // vil workesrAssigned og optimalworkercount som maks være =?
     // har byttet rundt på workersassigned og optimalworkercount, da det var sat op forkert og incase der var færre end det optimale, så skal det give mindre en 1
     //if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) * 0.5;
@@ -154,9 +158,12 @@ public class Task {
     this.progress += (workerContribution * productionRate) / quantity * 100;
     if (this.progress > 100) this.progress = 100;
     // do the work and update the progress
-    System.out.println(String.format("Progress: % 2.2f percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
+    // System.out.println(String.format("Progress: % 2.2f percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
+    System.out.println(String.format("%12s has finished %6.1f%% of %s%s", trade.substring(0,Math.min(12, trade.length())), progress, location, id));
     // Reset workers
     this.workersAssigned = 0;
+
+    // TODO: Print out whether task has been delayed
   }
 
   /**

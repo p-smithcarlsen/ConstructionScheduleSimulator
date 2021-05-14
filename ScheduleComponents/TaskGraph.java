@@ -119,65 +119,11 @@ public class TaskGraph {
       if (t.taskFloat == 0) t.isCritical = true;
     }
   }
-
-// public void backwardPass(){
-  
-// for (Task task : endTasks) {
-//     double lastStartCheck = criticalLastFinish;
-//     Task tempTask = task;
-//     while (!tempTask.predecessorTasks.isEmpty()) {
-//       tempTask.latestFinish = (int) lastStartCheck;
-//       tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
-//       lastStartCheck = tempTask.latestFinish - tempTask.meanDuration;
-//       tempTask = tempTask.predecessorTasks.get(0);
-//     }
-//     tempTask.latestFinish = (int) lastStartCheck;
-//     tempTask.latestStart = tempTask.latestFinish - tempTask.meanDuration +1;
-//   }
-// }
-
-  // public void calculateCriticalPath() {
-  //   for (int i = backlogTasks.size()-1; i >= 0; i--) {
-  //     if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
-  //   }
-
-  //   List<Task> path = null;
-  //   List<Task> criticalPath = null;
-  //   double longestDuration = 0;
-  //   for (Task t : backlogTasks) {
-  //     path = t.earliestPathDuration();
-  //     if (t.longestPathDuration > longestDuration) {
-  //       longestDuration = t.longestPathDuration;
-  //       criticalPath = path;
   
   /**
    * Determines the critical path through all the tasks.
    */
   public void findCriticalPaths() {
-    // for (int i = backlogTasks.size()-1; i >= 0; i--) {
-    //   if (backlogTasks.get(i).predecessorTasks.size() > 0) backlogTasks.remove(i);
-    // }
-
-    // List<Task> path = null;
-    // List<Task> criticalPath = null;
-    // double longestDuration = 0;
-    // for (Task t : allTasks) {
-    //   path = t.checkLengthOfPath();
-    //   if (t.longestPathDuration > longestDuration) {
-    //     longestDuration = t.longestPathDuration;
-    //     criticalPath = path;
-    //   }
-    // }
-
-    // criticalPathTasks = criticalPath.get(criticalPath.size()-1);
-    // criticalLastFinish = criticalPathTasks.longestPathDuration;
-    // allTasks.remove(criticalPathTasks);
-    // for (Task t : criticalPath) {
-    //   System.out.println(t.location + t.id);
-    //   t.isCritical = true;
-    //   allTasks.remove(t);
-    // }
-
     for (Task t : allTasks) {
       if (t.taskFloat > 0) {
         backlogTasks.add(t);
@@ -192,16 +138,16 @@ public class TaskGraph {
     for (Task t : criticalTasks)
       allTasks.remove(t);
 
-    for (Task t : allTasks) {
-      System.out.println("We still have task " + t.location + t.id + " in allTasks");
-    }
+    // for (Task t : allTasks) {
+    //   System.out.println("We still have task " + t.location + t.id + " in allTasks");
+    // }
   }
 
   /**
    * Prints all critical tasks.
    */
   public void printCriticalPath() {
-    // Task t = criticalPathTasks;
+    System.out.println("Critical path activities:");
     Task t = criticalTasks.get(0);
     System.out.println(t.location + t.id + ": " + t.activity);
     while (t != null) {

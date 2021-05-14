@@ -1,6 +1,7 @@
 package Simulation;
 
-import ScheduleComponents.LBMS;
+import ScheduleComponents.DelayManager;
+import ScheduleComponents.ConstructionProject;
 import ScheduleComponents.Workforce;
 
 public class Simulator {
@@ -18,12 +19,12 @@ public class Simulator {
    * option to perform an action.
    * @param lbms
    */
-  public void runSimulation(LBMS lbms) {
+  public void runSimulation(ConstructionProject constructionProject) {
     // Finds the critical path(s) in the tasks
-    lbms.prepareLocations();
+    constructionProject.prepareLocations();
 
     // Hire contractors and delegate tasks to individual contractors
-    workforce = new Workforce(lbms.locations);
+    workforce = new Workforce(constructionProject.locations, constructionProject.delays);
 
     // Go through project day by day until all tasks are finished
     while (true) {
@@ -33,13 +34,22 @@ public class Simulator {
       workforce.assignWorkers(day);
 
       // Work tasks
-      lbms.work();
+      constructionProject.work();
 
-      // Check if there are any alarms
+      // Check for delays (where can delays come from?)
+      // - workers being sick                   comes from contractor object
+      // - weather being disadvantageous        comes from lbms object
+      // - tasks taking longer than expected    comes from task object
+      // - material delivery delayed            comes from lbms object
+      
+
+      // Check worker supply vs worker demand
+      if (constructionProject.delays.unresolvedDelay()) workforce.forecastContractorSchedules(day);
 
       // Take actions
 
       // Got to next day
+      System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline);
       day++;
       if (day > 100) break;
     }

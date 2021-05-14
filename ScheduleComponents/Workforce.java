@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Workforce {
+
   public Contractor[] contractors;
   public int sz;
-  public boolean idleWorkers;
+  public DelayManager delays;
+  // public boolean idleWorkers;
 
-  public Workforce(Location[] locations) {
+  public Workforce(Location[] locations, DelayManager delays) {
+    this.delays = delays;
     groupTasks(locations);
   }
 
@@ -54,6 +57,18 @@ public class Workforce {
    */
   public void assignWorkers(int today) {
     for (Contractor c : contractors)
-      c.assignWorkers(today);
+      c.assignWorkers(today, delays);
+  }
+
+  /**
+   * Will only be triggered once a delay has been encountered. This 
+   * method walks through
+   * @param day is the current day
+   * @param forecast is how many days there should be forecasted
+   */
+  public void forecastContractorSchedules(int day) {
+    for (Contractor c : contractors) {
+      c.forecastWorkerSchedule(day);
+    }
   }
 }
