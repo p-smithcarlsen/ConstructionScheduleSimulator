@@ -32,7 +32,7 @@ public class Contractor {
     this.scheduledTasks = tasks;
     this.workerDemand = new int[scheduleLength+1];
     for (Task t : tasks) {
-      t.print();
+      // t.print();
       for (int i = t.earliestStart; i < t.earliestFinish; i++) {
         workerDemand[i] += t.optimalWorkerCount;
       }
