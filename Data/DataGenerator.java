@@ -125,13 +125,14 @@ public class DataGenerator {
     String dependency = "";
     dependency = "L";
     if (taskId == 0) {
-      if (locationId > 0) {
+      if (locationId > 0 && locationId != 3) {
         dependency += locationId-1 + "=T0";
       } else {
         dependency = "*";
       }
     } else if (taskId > 0) {
       dependency += String.format("%d=T%d", locationId, taskId-1);
+      if (locationId == 3 && taskId == 2) dependency += String.format(",L%d=T%d", locationId-1, taskId); 
     }
     return String.format("T%d;L%d;%s;%s;%d;%2.2f;%d;%s%n", taskId, locationId, activity, trade, optimalCrew, quantity, productionRate, dependency);
   }

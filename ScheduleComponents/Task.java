@@ -26,8 +26,8 @@ public class Task {
 
   public int earliestStart;
   public int earliestFinish;
-  public int latestStart;
-  public int latestFinish;
+  public int latestStart = Integer.MAX_VALUE;
+  public int latestFinish = Integer.MAX_VALUE;
   public int maximumTime;
   public int taskFloat;
 

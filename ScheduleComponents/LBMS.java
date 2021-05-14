@@ -18,12 +18,14 @@ public class LBMS {
   public void prepareLocations() {
     createDependencies();
     tasks.forwardPass();
-    tasks.findCriticalPaths();
-    for (Location l : locations) {
-      tasks.locateEndPathTasks(l);
-      tasks.backwardPass(l);
-    }
+    tasks.backwardPass();
     tasks.calculateFloat();
+    tasks.findCriticalPaths();
+    tasks.printCriticalPath();
+    // for (Location l : locations) {
+    //   tasks.locateEndPathTasks(l);
+    // }
+    // tasks.calculateFloat();
   }
 
   /**

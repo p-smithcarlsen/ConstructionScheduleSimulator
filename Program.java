@@ -17,7 +17,6 @@ public class Program {
   - Make task durations probability distributions
   - Make tasks into node network
       - Create algorithm to check for cycles
-  - Create a Task prototype (on random) instead of a random task with random properties from arrays
   - Make it possible to use "takt" in project
   - More variability in the projects possible to create (only repetitive/not repetitive)
       - Dependencies between repetitive tasks (task 3 in locations 2 depends on task 3 in location 1...)
@@ -26,12 +25,9 @@ public class Program {
       - Have more tasks that do not depend on each other (i.e. can choose between two tasks to do first)
       - A workable backlog (i.e. tasks that do not have predecessors - a little same as above)
           - This also means that it makes sense to go on the critical path and only take free tasks whenever resources are available
-  - Some workers providing more or less than 1 hour work per hour worked (factor 0.9 fx)
-  - Putting difficulty on tasks, so work is less effective
 
   For later:
   - Re-arranging tasks, e.g. changing critical path
-  - Splitting tasks Seppänen & Kenley, 2010: pp. 156
   - Include logic relationship in dependencies (F-S, F-F, S-S, S-F)
   */
 
