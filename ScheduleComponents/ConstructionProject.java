@@ -4,12 +4,12 @@ public class ConstructionProject {
 
   public TaskGraph tasks;
   public Location[] locations;
-  public DelayManager delays;
+  public AlarmManager delays;
 
   public ConstructionProject(TaskGraph tasks, Location[] locations) {
     this.tasks = tasks;
     this.locations = locations;
-    this.delays = new DelayManager();
+    this.delays = new AlarmManager();
   }
 
   /**

@@ -1,6 +1,7 @@
 package Simulation;
 
 import ScheduleComponents.ConstructionProject;
+import ScheduleComponents.Alarm;
 import ScheduleComponents.Workforce;
 
 public class Simulator {
@@ -27,7 +28,7 @@ public class Simulator {
 
     // Go through project day by day until all tasks are finished
     while (true) {
-      System.err.println("day: " + day);
+      System.err.println("\nday: " + day);
       
       // Assign workers
       workforce.assignWorkers(day);
@@ -43,14 +44,31 @@ public class Simulator {
       
 
       // Check worker supply vs worker demand
-      if (constructionProject.delays.unresolvedDelay()) workforce.forecastContractorSchedules(day);
+      for (Alarm d : constructionProject.delays.getUnresolvedDelays()) {
+        switch (d.type) {
+          case badWeather:
+
+          case delayedMaterials:
+
+          case taskDifficult:
+
+          case workerSick:
+            workforce.checkWorkerSupply(day+1, d);
+        }
+      }
 
       // Take actions
 
-      // Got to next day
-      System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline);
+      // If actions are taken, go through tasks to find out whether critical path has changed
+
+      // Go to next day
+      System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline + " (remaining tasks: " + constructionProject.tasks.numberOfRemainingTasks() + "\n");
       day++;
       if (day > 100) break;
+    }
+
+    for (Alarm d : constructionProject.delays.delays) {
+      System.out.println(d);
     }
   }
 }

@@ -187,7 +187,7 @@ public class Task {
    * @return a boolean variable, indicating whether this task is finished
    */
   public boolean isFinished() {
-    return progress >= 100.0;
+    return progress >= 99.999;  // Taking into account presicion of float values
   }
 
   /**

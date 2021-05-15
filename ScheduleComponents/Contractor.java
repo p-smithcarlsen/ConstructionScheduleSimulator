@@ -29,14 +29,22 @@ public class Contractor {
   public void calculateWorkerDemand(List<Task> tasks) {
     Collections.sort(tasks, new SortByEarliestStart());
     for (Task t : tasks)
-      if (t.latestFinish > scheduleLength) scheduleLength = t.latestFinish;
+      if (t.latestFinish > scheduleLength) scheduleLength = t.latestFinish+1;
 
     this.scheduledTasks = tasks;
-    this.workerDemand = new double[scheduleLength+1];
+    this.workerDemand = new double[scheduleLength];
     for (Task t : tasks) {
-      // t.print();
+      double remainingQuantity = t.quantity;
+      double productionRate = t.productionRate;
+      int sufficientWorkers = 0;
       for (int i = t.earliestStart; i < t.earliestFinish; i++) {
-        workerDemand[i] += t.optimalWorkerCount;
+        if (remainingQuantity >= productionRate) {
+          workerDemand[i] += t.optimalWorkerCount;
+          remainingQuantity -= productionRate;
+        } else {
+          sufficientWorkers = (int)Math.ceil((remainingQuantity / (double)t.productionRate) * (double)t.optimalWorkerCount);
+          workerDemand[i] += sufficientWorkers;
+        }
       }
     }
   }
@@ -47,30 +55,58 @@ public class Contractor {
    * predecessor tasks are finished.
    * @param today is the day of work
    */
-  public void assignWorkers(int today, DelayManager delays) {
+  public void assignWorkers(int today, AlarmManager delays) {
     if (today >= workerDemand.length) return;
     availableWorkers = (int)workerDemand[today]; // TODO: safe from double to int?
-    availableWorkers = checkForSickWorkers(availableWorkers, delays);
-    int w = 0;
-    // TODO: prioritize critical tasks
+    availableWorkers = checkForSickWorkers(today, availableWorkers, delays);
 
+    // First go through all critical tasks
     for (Task t : scheduledTasks) {
-      // makes sure a) the task is not finished; b) all predecessor tasks are finished
+      if (!t.isCritical) continue;
+      if (!t.isFinished() && t.canBeStarted()) {
+        assignWorkers(today, t, delays);
+      }
+    }
+
+    // Then go through all non-critical tasks
+    for (Task t : scheduledTasks) {
+      if (t.isCritical) continue;
       if (!t.isFinished() && t.canBeStarted()) {  
-        w = Math.min(t.optimalWorkerCount, availableWorkers);
-        // assigner enten det optimale antal workers, eller det mulige antal.
-        t.assignWorkers(w); 
-        // System.out.println(trade + " providing " + w + " of " + workerDemand[today] + " workers to task " + t.location + t.id);
-        // System.out.println(String.format("Contractor %s providing %s workers of %s available", id, w, availableWorkers));
-        availableWorkers -= w; // sørger for, de samme workers ikke kan assignes twice, samme dag. 
+        assignWorkers(today, t, delays);
       }
     }
   }
 
   /**
+   * 
+   * @param t
+   * @param delays
+   */
+  private void assignWorkers(int day, Task t, AlarmManager delays) {
+    int w = 0;
+    // Find out whether we can supply a lower number of workers
+    double remainingQuantity = (1 - (t.progress / 100)) * t.quantity;
+    int sufficientWorkers = 0;
+    if (remainingQuantity >= t.productionRate) {
+      sufficientWorkers = t.optimalWorkerCount;
+    } else {
+      sufficientWorkers = (int)Math.ceil((remainingQuantity / (double)t.productionRate) * (double)t.optimalWorkerCount);
+    }
+
+    w = Math.min(sufficientWorkers, availableWorkers);
+
+    // if (w < sufficientWorkers) {
+    //   delays.addDelays(new Alarm(day, Alarm.Type.workerSick, trade, "supplying " + w + " workers instead of " + sufficientWorkers));
+    // }
+
+    t.assignWorkers(w); 
+    availableWorkers -= w; // sørger for, de samme workers ikke kan assignes twice, samme dag. 
+  }
+
+  /**
    * Simulate workers being sick (each worker has a 3 sick days out of 200)
    */
-  private int checkForSickWorkers(int scheduledWorkers, DelayManager delays) {
+  private int checkForSickWorkers(int day, int scheduledWorkers, AlarmManager delays) {
     int sickWorkers = 0;
     for (int i = 0; i < scheduledWorkers; i++) {
       if (r.nextInt(200) < 3) {
@@ -78,61 +114,53 @@ public class Contractor {
       }
     }
     if (sickWorkers > 0) {
-      delays.addDelays(new Delay("Contractor " + id, sickWorkers + " workers are sick"));
-      System.out.println(String.format("%s has %d sick workers!", trade, sickWorkers));
+      delays.addDelays(new Alarm(day, Alarm.Type.workerSick, trade, "has " + sickWorkers + " sick worker(s)"));
     }
     return scheduledWorkers - sickWorkers;
   }
 
-  public void forecastWorkerSchedule(int day) {
-    // New strategy: Get overview of workers available (workerDemand)
-    // Go through tasks, starting with critical ones
-    // Determine new estimated finish for each
-    // Find out, whether this causes delays
-      // Specifically whether a new critical path is now found
+  public void checkWorkerSupply(int day, AlarmManager delays, Alarm d) {
+    double[] newWorkerDemand = new double[scheduleLength];
+    for (Task t : scheduledTasks) {
+      if (t.isFinished()) continue;
+      double remainingQuantity = (1 - (t.progress / 100)) * t.quantity;
+      double contributionPerWorker = (double)t.productionRate / (double)t.optimalWorkerCount;
+      double workersNeeded = Math.ceil(remainingQuantity / contributionPerWorker);
+      newWorkerDemand[t.latestFinish] += workersNeeded;
+      // newWorkerDemand[t.latestFinish] += workersNeeded % t.optimalWorkerCount;
+      // workersNeeded -= newWorkerDemand[t.latestFinish];
+      // int i = 1;
+      // while (workersNeeded > 0) {
+      //   newWorkerDemand[t.latestFinish-i] += t.optimalWorkerCount;
+      //   workersNeeded -= t.optimalWorkerCount;
+      //   i++;
+      // }
+    }
 
+    double hiredWorkers = 0;
+    double neededWorkers = 0;
+    int dayOfDelay = 0;
+    System.err.println(trade + ":");
+    for (int i = day; i < scheduleLength; i++) {
+      hiredWorkers += workerDemand[i];
+      neededWorkers += newWorkerDemand[i];
+      if (neededWorkers > hiredWorkers) {
+        dayOfDelay = i;
+        break;
+      }
+    }
+    System.out.println(trade + ": On day " + dayOfDelay + ", Hired = " + hiredWorkers + " | Needed = " + neededWorkers);
 
-    // Walk through tasks, finding latest finishes
-    // Determine new worker demand
-    // Compare with worker supply
-    // double[] newWorkerDemand = new double[scheduleLength+1];
-    // for (Task t : scheduledTasks) {
-    //   if (t.isFinished()) continue;
-    //   // Find the remaining quantity (work) for the task
-    //   double remainingQuantity = (1 - (t.progress / 100)) * t.quantity;
-    //   // Find the contribution of a single worker
-    //   double contributionPerWorker = t.productionRate / t.optimalWorkerCount;
-    //   // Determine the number of workers needed to work to complete task
-    //   double workersNeeded = remainingQuantity / contributionPerWorker;
+    if (dayOfDelay > 0) {
+      System.out.println("Delay is critical...");
+      estimateDelayImpact(d);
+    } else {
+     d.resolve(); 
+    }
+  }
 
-    //   double workersSupplied = 0;
-    //   double workersAvailable = 0;
-    //   for (int i = day; i < t.latestFinish; i++) {
-        
-    //   }
+  public void estimateDelayImpact(Alarm d) {
 
-
-
-
-
-
-
-    //   // Find average production needed per day
-    //   double neededProductionRate = remainingQuantity / (t.latestFinish - day);
-    //   // Find the average worker supply needed per day
-    //   double neededCrew = (neededProductionRate / t.productionRate) * t.optimalWorkerCount;
-    //   for (int i = day; i < t.latestFinish; i++) {
-    //     newWorkerDemand[i] += neededCrew;
-    //   }
-    // }
-
-    // double hiredWorkers = 0;
-    // double neededWorkers = 0;
-    // for (int i = day; i < scheduleLength; i++) {
-    //   hiredWorkers += workerDemand[i];
-    //   neededWorkers += newWorkerDemand[i];
-    //   System.out.println("Day " + i + ": Hired = " + hiredWorkers + " | Needed = " + neededWorkers);
-    // }
   }
 
   /**

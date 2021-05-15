@@ -137,10 +137,19 @@ public class TaskGraph {
 
     for (Task t : criticalTasks)
       allTasks.remove(t);
+  }
 
-    // for (Task t : allTasks) {
-    //   System.out.println("We still have task " + t.location + t.id + " in allTasks");
-    // }
+  public int numberOfRemainingTasks() {
+    int remainingTasks = 0;
+    for (Task t : criticalTasks) {
+      if (t.progress < 100) remainingTasks++;
+    }
+
+    for (Task t : backlogTasks) {
+      if (t.progress < 100) remainingTasks++;
+    }
+
+    return remainingTasks;
   }
 
   /**
