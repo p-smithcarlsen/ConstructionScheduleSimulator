@@ -4,26 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Task {
+  // Metadata and type
   public String id;
   public String location;
   public String activity;
-  public boolean isCritical;
   public String trade;
+  
+  // Duration and progress
+  public double quantity;
   public int optimalWorkerCount;
-  public int workersAssigned;         // Not part of taskParameters
-  // public int maxCrew;
   public int meanDuration;            // Not part of taskParameters
   public double standardDeviation;    // Not part of taskParameters
-  public double quantity;
+  public int workersAssigned;         // Not part of taskParameters
   public int productionRate;
-  public String dependencies;
-
-  public List<Task> predecessorTasks = new ArrayList<>();
-  public List<Task> successorTasks = new ArrayList<>();
-  public double longestPathDuration;
-
   public double progress;                // Not part of taskParameters
 
+  // Dependencies and path duration
+  public String dependencies;
+  public List<Task> predecessorTasks = new ArrayList<>();
+  public List<Task> successorTasks = new ArrayList<>();
+  // public double longestPathDuration;   // Not used
+
+  // Task timings and criticality
+  public boolean isCritical;
   public int earliestStart;
   public int earliestFinish;
   public int latestStart = Integer.MAX_VALUE;
@@ -32,14 +35,14 @@ public class Task {
   public int taskFloat;
 
   public Task(String[] taskParameters) {
-    createMetadata(taskParameters);
+    saveMetadata(taskParameters);
   }
 
   /**
    * Sets the metadata of this task based on the taskParameters input.
    * @param taskParameters is the string array of task metadata
    */
-  public void createMetadata(String[] taskParameters) {
+  public void saveMetadata(String[] taskParameters) {
     this.id = taskParameters[0];
     this.location = taskParameters[1];
     this.activity = taskParameters[2];
@@ -52,7 +55,6 @@ public class Task {
     
     // Calculate expected duration
     this.meanDuration = (int)Math.ceil(this.quantity / this.productionRate);
-    // System.out.println(this.id + ": " + "duration = " + this.meanDuration);
     // this.standardDeviation = 0.25;
   }
 
@@ -82,22 +84,22 @@ public class Task {
    * Also sets the longestPathDuration variable to this longest duration.
    * @return the path of tasks depending on this task with the longest duration.
    */
-  public List<Task> checkLengthOfPath() {
-    List<Task> longestPath = new ArrayList<>();
+  // public List<Task> checkLengthOfPath() {
+  //   List<Task> longestPath = new ArrayList<>();
 
-    for (Task t : successorTasks) {
-      List<Task> path = t.checkLengthOfPath();
+  //   for (Task t : successorTasks) {
+  //     List<Task> path = t.checkLengthOfPath();
       
-      if (path.get(path.size()-1).longestPathDuration > longestPathDuration) {
-        longestPath = path;
-        longestPathDuration = longestPath.get(longestPath.size()-1).longestPathDuration;
-      }
-    }
+  //     if (path.get(path.size()-1).longestPathDuration > longestPathDuration) {
+  //       longestPath = path;
+  //       longestPathDuration = longestPath.get(longestPath.size()-1).longestPathDuration;
+  //     }
+  //   }
     
-    longestPath.add(this);
-    longestPathDuration += meanDuration;
-    return longestPath;
-  }
+  //   longestPath.add(this);
+  //   longestPathDuration += meanDuration;
+  //   return longestPath;
+  // }
 
   /**
    * Sets the earliestStart and earliestFinish variables based on
@@ -117,7 +119,6 @@ public class Task {
   public void calculateLatestTimings(int deadline) {
     this.latestFinish = deadline;
     this.latestStart = deadline - meanDuration;
-    // Todo: calculate maximum time and criticality?
   }
 
   /**
@@ -139,31 +140,51 @@ public class Task {
    */
   public void work() {
     // An optimal worker count would increase the progress by (quantity / productionRate)
-    // If workersAssigned is lower, the progress will increase slower (optimalWorkerCount / workersAssigned)
     // Providing more workers than the optimal crew size will contribute less and less
-    if (workersAssigned == 0) {
-      // Not true - should be started next day actually (just disregard for now but dont delete)
-      // if (canBeStarted() && !isFinished()) System.out.println(trade + " not supplying workers to " + location + id + " despite task can be started");
-      return;
-    }
+    if (workersAssigned == 0) { return; }
 
-    //double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : (optimalWorkerCount / workersAssigned);
-    double workerContribution = workersAssigned >= optimalWorkerCount ? 1 : ((double)workersAssigned / (double)optimalWorkerCount);
-    // vil workesrAssigned og optimalworkercount som maks være =?
-    // har byttet rundt på workersassigned og optimalworkercount, da det var sat op forkert og incase der var færre end det optimale, så skal det give mindre en 1
-    //if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) * 0.5;
-    // kan der på nogen måde være assignet flere end den optimale mængde????
-    // hvad er formålet med dette if? at reducere contribution fra workers assigned over optimalen?
-
-    this.progress += (workerContribution * productionRate) / quantity * 100;
+    this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100) this.progress = 100;
-    // do the work and update the progress
-    // System.out.println(String.format("Progress: % 2.2f percent (%s of %s) of task %s (%s) in location %s", progress, workerContribution*productionRate, quantity, id, activity, location));
     System.out.println(String.format("%12s has finished %6.1f%% of %s%s", trade.substring(0,Math.min(12, trade.length())), progress, location, id));
+
     // Reset workers
     this.workersAssigned = 0;
 
     // TODO: Print out whether task has been delayed
+  }
+
+  /**
+   * 
+   * @param workers
+   * @return
+   */
+  private double transformWorkersToProgress(int workers) {
+    // If workersAssigned is equal or higher than optimalWorkerCount, contribution 
+    // is equal or higher than productionRate. Assigning more workers than optimal
+    // amount will provide less (half) productionRate per worker
+    double workerContribution = workers >= optimalWorkerCount ? 1 : ((double)workersAssigned / (double)optimalWorkerCount);
+    if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) / optimalWorkerCount * 0.5;
+    double progress = (workerContribution * productionRate) / quantity * 100;
+    return progress;
+  }
+
+  // This function is called when an alarm is encountered due to a delay.
+  public void recalculateDuration(int[] contractorSchedule, int tomorrow) {
+    // First, find out how much progress is still missing
+    double remainingQuantity = (100 - progress) * quantity / 100;
+    if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
+    this.meanDuration = (int)Math.ceil(remainingQuantity / this.productionRate);
+    // Second, determine whether the task can actually be finished
+
+    // for (int i = tomorrow; i < latestFinish; i++) {
+
+    // }
+
+    System.out.println(location + id + ": " + this.meanDuration + " (" + this.earliestStart + " to " + this.earliestFinish + ")");
+
+    // Second, determine the new estimated duration of this task
+
+    // Third, find out the timings of the task
   }
 
   /**

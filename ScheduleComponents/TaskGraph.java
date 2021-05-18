@@ -5,19 +5,11 @@ import java.util.List;
 
 public class TaskGraph {
   
-  public List<Task> allTasks;
-  public List<Task> backlogTasks;
-  public List<Task> endTasks = new ArrayList<>();
-  public Task criticalPathTasks;
-  public List<Task> criticalTasks;
+  public List<Task> tasks;
   public int estimatedDeadline;
-  public double criticalLastFinish;
 
   public TaskGraph() {
-    this.allTasks = new ArrayList<>();
-    this.backlogTasks = new ArrayList<>();
-    this.criticalPathTasks = null;
-    this.criticalTasks = new ArrayList<>();
+    this.tasks = new ArrayList<>();
   }
 
   /**
@@ -27,12 +19,12 @@ public class TaskGraph {
    */
   public Task addTask(String[] taskParameters) {
     Task t = new Task(taskParameters);
-    allTasks.add(t);
+    tasks.add(t);
     return t;
   }
 
-  public List<Task> getBacklogTasks() {
-    return backlogTasks;
+  public List<Task> getTasks() {
+    return tasks;
   }
 
   /**
@@ -50,11 +42,17 @@ public class TaskGraph {
    * Iterates through all tasks, starting with task 0, and determines the 
    * earliest start and earliest finish variables. 
    */
-  public void forwardPass() {
-    for (Task t : allTasks) {
-      if (t.predecessorTasks.size() == 0) {
-        estimatedDeadline = forwardPass(t, 0);
+  public void forwardPass(int day) {
+    for (Task t : tasks) {
+      if (t.isFinished()) continue;
+      boolean nextTask = true;
+      for (Task t2 : t.predecessorTasks) {
+        if (!t2.isFinished()) nextTask = false;
       }
+      if (nextTask) estimatedDeadline = forwardPass(t, day);
+      // if (t.predecessorTasks.size() == 0) {
+      //   estimatedDeadline = forwardPass(t, day);
+      // }
     }
   }
 
@@ -76,7 +74,7 @@ public class TaskGraph {
    * Here, latest start and latest finish is calculated. 
    */
   public void backwardPass() {
-    for (Task t : allTasks) {
+    for (Task t : tasks) {
       if (t.successorTasks.size() == 0) {
         backwardPass(t, estimatedDeadline);
       }
@@ -92,60 +90,28 @@ public class TaskGraph {
   }
 
   /**
-   * Iterates through all tasks reversed, starting with the last task. 
-   * Here, latest start and latest finish is calculated. 
-   * @param l
-   */
-  // public void backwardPass(Location l) {
-  //   int end = l.tasks.get(l.tasks.size()-1).earliestFinish;
-  //   Task temp = l.tasks.get(l.tasks.size()-1);
-  //   while (!temp.predecessorTasks.isEmpty()) {
-  //     temp.latestFinish = end;
-  //     temp.latestStart = end - temp.meanDuration +1;
-  //     end = end - temp.meanDuration;
-  //     temp = temp.predecessorTasks.get(0);
-  //   }
-  //   temp.latestFinish = end;
-  //   temp.latestStart = end - temp.meanDuration+1;
-  // }
-
-  /**
    * Calculates the maximum time available and the float of a task.
    */
   public void calculateFloat() {
-    for (Task t : allTasks) {
+    boolean newCriticalPath = false;
+    for (Task t : tasks) {
       t.maximumTime = t.latestFinish - t.earliestStart;
       t.taskFloat = t.maximumTime - t.meanDuration;
-      if (t.taskFloat == 0) t.isCritical = true;
-    }
-  }
-  
-  /**
-   * Determines the critical path through all the tasks.
-   */
-  public void findCriticalPaths() {
-    for (Task t : allTasks) {
-      if (t.taskFloat > 0) {
-        backlogTasks.add(t);
-      } else {
-        criticalTasks.add(t);
+      if (t.taskFloat == 0) {
+        if (!t.isCritical) { newCriticalPath = true; }
+        t.isCritical = true;
       }
     }
 
-    for (Task t : backlogTasks)
-      allTasks.remove(t);
-
-    for (Task t : criticalTasks)
-      allTasks.remove(t);
+    if (newCriticalPath) {
+      System.out.println("NB: We have obtained a new critical path!");
+      printCriticalPath();
+    }
   }
 
   public int numberOfRemainingTasks() {
     int remainingTasks = 0;
-    for (Task t : criticalTasks) {
-      if (t.progress < 100) remainingTasks++;
-    }
-
-    for (Task t : backlogTasks) {
+    for (Task t : tasks) {
       if (t.progress < 100) remainingTasks++;
     }
 
@@ -157,27 +123,22 @@ public class TaskGraph {
    */
   public void printCriticalPath() {
     System.out.println("Critical path activities:");
-    Task t = criticalTasks.get(0);
-    System.out.println(t.location + t.id + ": " + t.activity);
-    while (t != null) {
-      boolean end = true;
-      for (Task t2 : t.successorTasks) {
-        if (t2.isCritical) {
-          t = t2;
-          end = false;
-          System.out.println(t.location + t.id + ": " + t.activity);
+    for (int i = 0; i < tasks.size(); i++) {
+      Task t = tasks.get(i);
+      if (!t.isCritical || t.predecessorTasks.size() > 0) continue;
+      System.out.println(t.location + t.id + ": " + t.activity);
+      while (t != null) {
+        boolean end = true;
+        for (Task t2 : t.successorTasks) {
+          if (t2.isCritical) {
+            t = t2;
+            end = false;
+            System.out.println(t.location + t.id + ": " + t.activity);
+          }
         }
+  
+        if (end) break;
       }
-
-      if (end) break;
     }
-  }
-
-  /**
-   * 
-   * @param l
-   */
-  public void locateEndPathTasks(Location l){
-    endTasks.add(l.tasks.get(l.tasks.size()-1));
   }
 }

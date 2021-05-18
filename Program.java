@@ -26,15 +26,27 @@ public class Program {
       - A workable backlog (i.e. tasks that do not have predecessors - a little same as above)
           - This also means that it makes sense to go on the critical path and only take free tasks whenever resources are available
 
+  - allocate idle workers to other tasks, if possible
+  - enum on contractor type?
+  - re-arrange so taskgraph only has one graph
+  - run 1000 (or many) times and save data for a database
+
   For later:
   - Re-arranging tasks, e.g. changing critical path
   - Include logic relationship in dependencies (F-S, F-F, S-S, S-F)
   */
 
   public static void main(String[] args) throws IOException {
-    runSmallSchedule(true);
+    // runSmallSchedule(true);
+    // Simulator s = new Simulator();
+    // s.runSimulation(constructionProject);
+    loadScheduleData("dataset_26.csv");
     Simulator s = new Simulator();
     s.runSimulation(constructionProject);
+  }
+
+  public static void loadScheduleData(String filePath) throws NumberFormatException, IOException {
+    readDataIntoObjects(filePath);
   }
 
   /**

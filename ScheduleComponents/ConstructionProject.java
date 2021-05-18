@@ -1,15 +1,17 @@
 package ScheduleComponents;
 
+import java.util.List;
+
 public class ConstructionProject {
 
   public TaskGraph tasks;
   public Location[] locations;
-  public AlarmManager delays;
+  public AlarmManager alarms;
 
   public ConstructionProject(TaskGraph tasks, Location[] locations) {
     this.tasks = tasks;
     this.locations = locations;
-    this.delays = new AlarmManager();
+    this.alarms = new AlarmManager();
   }
 
   /**
@@ -19,10 +21,9 @@ public class ConstructionProject {
    */
   public void prepareLocations() {
     createDependencies();
-    tasks.forwardPass();
+    tasks.forwardPass(0);
     tasks.backwardPass();
     tasks.calculateFloat();
-    tasks.findCriticalPaths();
   }
 
   /**
@@ -30,7 +31,7 @@ public class ConstructionProject {
    * and successor lists.
    */
   private void createDependencies() {
-    for (Task t : tasks.allTasks) {
+    for (Task t : tasks.tasks) {
       String[] dependencies = t.getDependencies().split(",");
       if (dependencies[0].equals("*")) continue;
 
@@ -56,13 +57,31 @@ public class ConstructionProject {
    * tasks will be incremented in this method. 
    */
   public void work() {
-    for (Task t : tasks.criticalTasks) {
+    for (Task t : tasks.tasks) {
       t.work();
+    }
+  }
+
+  public void analyseTaskDelays(List<Alarm> alarms, Workforce w, int tomorrow) {
+    if (alarms.size() == 0) return;
+    for (Alarm a : alarms) {
+      if (!a.task.isCritical) continue;
+
+      int[] contractorSchedule = w.getContractorSchedule(a.trade);
+      a.task.recalculateDuration(contractorSchedule, tomorrow);
     }
 
-    for (Task t : tasks.backlogTasks) {
-      t.work();
+    for (Alarm a : alarms) {
+      if (a.task.isCritical) continue;
+      
+      int[] contractorSchedule = w.getContractorSchedule(a.trade);
+      a.task.recalculateDuration(contractorSchedule, tomorrow);
     }
+
+    tasks.forwardPass(tomorrow);
+    tasks.backwardPass();
+    tasks.calculateFloat();
+    w.updateContractorSchedules();
   }
 
   /**
@@ -93,7 +112,7 @@ public class ConstructionProject {
    */
   public void printTasks(){
     Task tempTask;
-    for (Task task : tasks.backlogTasks) {
+    for (Task task : tasks.tasks) {
       System.out.println();
       tempTask = task;
       while(!tempTask.successorTasks.isEmpty()) {
@@ -102,12 +121,5 @@ public class ConstructionProject {
       }
       System.out.print(tempTask.location + " " + tempTask.id + " ");
     }
-    Task tempCrit = tasks.criticalPathTasks;
-    System.out.println();
-    while (!tempCrit.successorTasks.isEmpty()) {
-      System.out.print(tempCrit.location + " " + tempCrit.id + " ");
-      tempCrit = tempCrit.successorTasks.get(0);
-    }
-    System.out.print(tempCrit.location + " " + tempCrit.id + " ");
   }
 }

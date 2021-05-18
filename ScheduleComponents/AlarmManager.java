@@ -5,28 +5,28 @@ import java.util.List;
 
 public class AlarmManager {
   
-  public List<Alarm> delays;
+  public List<Alarm> alarms;
   boolean unresolvedDelay;
 
   public AlarmManager() {
-    this.delays = new ArrayList<>();
+    this.alarms = new ArrayList<>();
   }
 
   public void addDelays(Alarm d) {
-    delays.add(d);
+    alarms.add(d);
     unresolvedDelay = true;
   }
 
   public boolean unresolvedDelay() {
-    for (Alarm d : delays) {
+    for (Alarm d : alarms) {
       if (!d.resolved) return true;
     }
     return unresolvedDelay;
   }
 
-  public List<Alarm> getUnresolvedDelays() {
+  public List<Alarm> getUnresolvedAlarms() {
     List<Alarm> unresolved = new ArrayList<>();
-    for (Alarm d : delays) {
+    for (Alarm d : alarms) {
       if (!d.resolved) unresolved.add(d);
     }
     return unresolved;
