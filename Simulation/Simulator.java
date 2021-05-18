@@ -62,7 +62,7 @@ public class Simulator {
       // If actions are taken, go through tasks to find out whether critical path has changed
 
       // Go to next day
-      System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline + " (remaining tasks: " + constructionProject.tasks.numberOfRemainingTasks() + "\n");
+      System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline + " (remaining tasks: " + constructionProject.tasks.numberOfRemainingTasks() + ")\n");
       day++;
       if (day > 100) break;
     }
