@@ -34,6 +34,6 @@ public class Location {
 
   public void print() {
     System.err.println(String.format("%nLocation %s (%s):", this.id, this.name));
-    tasks.stream().forEach(t -> t.print());
+    tasks.stream().forEach(t -> t.print(1));
   }
 }

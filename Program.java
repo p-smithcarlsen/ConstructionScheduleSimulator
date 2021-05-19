@@ -3,8 +3,6 @@ import java.io.IOException;
 import Data.DataGenerator;
 import Data.DataParser;
 import ScheduleComponents.ConstructionProject;
-import ScheduleComponents.Location;
-import ScheduleComponents.TaskGraph;
 import Simulation.Simulator;
 
 public class Program {
@@ -13,13 +11,11 @@ public class Program {
 
   /*
   To-do:
-  - Tracker, that always have an estimated forecast for when project is finished
   - Make task durations probability distributions
   - Make tasks into node network
       - Create algorithm to check for cycles
   - Make it possible to use "takt" in project
   - More variability in the projects possible to create (only repetitive/not repetitive)
-      - Dependencies between repetitive tasks (task 3 in locations 2 depends on task 3 in location 1...)
       - How to implement layer 4 logic? Buffers in place fx
       - Insert "special" dependencies as well? I.e. layer 5 logic, task 2.3 must be before task 3.1
       - Have more tasks that do not depend on each other (i.e. can choose between two tasks to do first)
@@ -28,21 +24,21 @@ public class Program {
 
   - allocate idle workers to other tasks, if possible
   - enum on contractor type?
-  - re-arrange so taskgraph only has one graph
   - run 1000 (or many) times and save data for a database
+  - find out when workers become idle (forecast)
+  - include buffers in dependencies
 
   For later:
-  - Re-arranging tasks, e.g. changing critical path
   - Include logic relationship in dependencies (F-S, F-F, S-S, S-F)
   */
 
   public static void main(String[] args) throws IOException {
-    // runSmallSchedule(true);
-    // Simulator s = new Simulator();
-    // s.runSimulation(constructionProject);
-    loadScheduleData("dataset_26.csv");
+    runSmallSchedule(true);
     Simulator s = new Simulator();
     s.runSimulation(constructionProject);
+    // loadScheduleData("dataset_26.csv");
+    // Simulator s = new Simulator();
+    // s.runSimulation(constructionProject);
   }
 
   public static void loadScheduleData(String filePath) throws NumberFormatException, IOException {
@@ -114,8 +110,6 @@ public class Program {
   public static void readDataIntoObjects(String filePath) throws NumberFormatException, IOException {
     DataParser p = new DataParser();
     p.parseData(filePath);
-    TaskGraph tasks = p.getTasks();
-    Location[] locations = p.getLocations();
-    constructionProject = new ConstructionProject(tasks, locations);
+    constructionProject = new ConstructionProject(p.getTasks(), p.getLocations());
   }
 }

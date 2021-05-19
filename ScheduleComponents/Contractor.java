@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Contractor {
   public String id;
@@ -15,6 +16,7 @@ public class Contractor {
   public int scheduleLength;
   public List<Task> scheduledTasks;
   public int availableWorkers;
+  public int sickWorkers;
 
   public Contractor(String id, String trade) {
     this.id = id;
@@ -37,6 +39,7 @@ public class Contractor {
     for (Task t : tasks) {
       if (t.isFinished()) continue;
       double remainingQuantity = t.quantity * (100 - t.progress) / 100;
+      if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
       double productionRate = t.productionRate;
       int sufficientWorkers = 0;
       for (int i = t.earliestStart; i < t.earliestFinish; i++) {
@@ -63,7 +66,8 @@ public class Contractor {
   public void assignWorkers(int today, AlarmManager alarms) {
     if (today >= workerDemand.length) return;
     availableWorkers = (int)workerDemand[today]; // TODO: safe from double to int?
-    availableWorkers = checkForSickWorkers(today, availableWorkers, alarms);
+    sickWorkers = checkForSickWorkers(today, availableWorkers, alarms);
+    availableWorkers -= sickWorkers;
 
     // First go through all critical tasks
     for (Task t : scheduledTasks) {
@@ -81,19 +85,11 @@ public class Contractor {
       }
     }
 
-    // Check whether workers are idle
-    List<Task> blockedTasks = new ArrayList<>();
-    for (Task t : scheduledTasks) {
-      if (t.earliestStart <= today && !t.canBeStarted()) {
-        blockedTasks.add(t);
-      }
+    if (availableWorkers > 0) { 
+      System.out.println(trade + " has " + availableWorkers + " idle workers!");
     }
 
-    if (availableWorkers > 0) { 
-      System.out.println(trade + " has " + availableWorkers + " unassigned workers!"); 
-      System.out.println("The following tasks have been blocked: ");
-      blockedTasks.forEach(t -> t.print());
-    }
+    sickWorkers = 0;
   }
 
   /**
@@ -119,7 +115,7 @@ public class Contractor {
     w = Math.min(sufficientWorkers, availableWorkers);
 
     if (w < sufficientWorkers) {
-      alarms.addDelays(new Alarm(day, t, trade, "supplying " + w + " workers instead of " + sufficientWorkers));
+      alarms.addDelays(new Alarm(day, t, trade, "supplying " + w + " workers instead of " + sufficientWorkers + " - sick workers : " + sickWorkers));
     }
 
     t.assignWorkers(w); 
@@ -140,53 +136,99 @@ public class Contractor {
         sickWorkers++;
       }
     }
-    return scheduledWorkers - sickWorkers;
+    return sickWorkers;
   }
 
-  // public void checkWorkerSupply(int day, AlarmManager delays, Alarm d) {
-  //   double[] newWorkerDemand = new double[scheduleLength];
-  //   for (Task t : scheduledTasks) {
-  //     if (t.isFinished()) continue;
-  //     double remainingQuantity = (1 - (t.progress / 100)) * t.quantity;
-  //     double contributionPerWorker = (double)t.productionRate / (double)t.optimalWorkerCount;
-  //     double workersNeeded = Math.ceil(remainingQuantity / contributionPerWorker);
-  //     newWorkerDemand[t.latestFinish] += workersNeeded;
-      // newWorkerDemand[t.latestFinish] += workersNeeded % t.optimalWorkerCount;
-      // workersNeeded -= newWorkerDemand[t.latestFinish];
-      // int i = 1;
-      // while (workersNeeded > 0) {
-      //   newWorkerDemand[t.latestFinish-i] += t.optimalWorkerCount;
-      //   workersNeeded -= t.optimalWorkerCount;
-      //   i++;
-      // }
+  public boolean checkWorkerSupply(int[] newWorkerDemand, int day) {
+    double hiredWorkers = 0;
+    double neededWorkers = 0;
+    int dayOfDelay = 0;
+    for (int i = day; i < scheduleLength; i++) {
+      hiredWorkers += workerDemand[i];
+      neededWorkers += newWorkerDemand[i];
+      // System.out.printf("%3d: %3.0f  | %3-.0f%n", i, hiredWorkers, neededWorkers);
+      if (neededWorkers > hiredWorkers) {
+        dayOfDelay = i;
+        // if (dayOfDelay == 0) {
+        //   System.out.println("");
+        // }
+        System.err.println(trade + ":");
+        System.out.println(trade + ": On day " + dayOfDelay + ", Hired = " + hiredWorkers + " | Needed = " + neededWorkers);
+        break;
+      }
+    }
+
+    if (dayOfDelay > 0) {
+      int newEarliestFinish = estimateDelayImpact(day, dayOfDelay, (int)(neededWorkers - hiredWorkers), workerDemand);
+      // To Mikkel: This is some pretty complex stuff - just ask me about it if u wanna know :)
+      int latestEarliestFinish = 0;
+      Task t = null;
+      for (Task t2 : scheduledTasks) {
+        if (!t2.isCritical && t2.earliestFinish < newEarliestFinish && t2.earliestFinish > latestEarliestFinish) {
+          latestEarliestFinish = t2.earliestFinish;
+          t = t2;
+        }
+      }
+      System.out.println(t.location + t.id + " has gotten new earliest finish! (" + t.earliestFinish + " to " + newEarliestFinish + ")");
+      t.earliestFinish = newEarliestFinish;
+      return true;
+    } //else {
+      // No need to do anything?
     // }
 
-  //   double hiredWorkers = 0;
-  //   double neededWorkers = 0;
-  //   int dayOfDelay = 0;
-  //   System.err.println(trade + ":");
-  //   for (int i = day; i < scheduleLength; i++) {
-  //     hiredWorkers += workerDemand[i];
-  //     neededWorkers += newWorkerDemand[i];
-  //     if (neededWorkers > hiredWorkers) {
-  //       dayOfDelay = i;
-  //       break;
-  //     }
-  //   }
-  //   System.out.println(trade + ": On day " + dayOfDelay + ", Hired = " + hiredWorkers + " | Needed = " + neededWorkers);
+    return false;
+  }
 
-  //   if (dayOfDelay > 0) {
-  //     System.out.println(trade + " needs to hire another " + (neededWorkers - hiredWorkers) + " workers before day " + dayOfDelay);
-  //     estimateDelayImpact(d);
-  //   } else {
-  //     d.resolve(); 
-  //   }
-  // }
+  public int estimateDelayImpact(int today, int latestDay, int workerShortage, int[] workerDemand) {
+    Scanner sc = new Scanner(System.in);
+    int daysLeft = latestDay - today;
+    String prompt = "\n\n" +
+      trade + " need to provide " + workerShortage + " more manpower (workers) -" +
+      " or else the project is not able to be finished. The manpower may come from working" + 
+      " overtime/weekends or by hiring more workers. If the manpower is not provided in the" + 
+      " next " + daysLeft + " days, the project deadline will be pushed back!" + 
+      " Can the contractor supply this by means of overtime or more workers? (Y/N)";
+    System.err.println(prompt);
+    String resp = sc.nextLine().toLowerCase();
+    int attempt = 1;
+    while (!resp.equals("y") && !resp.equals("n")) {
+      System.out.println("I did not understand that - please try again!");
+      resp = sc.nextLine().toLowerCase();
+      if (attempt >= 2) {
+        System.err.println("I was unable to read any of that... Without proper input, I have to shut down");
+        System.exit(1);
+      }
+      attempt++;
+    }
+    if (!resp.equals("y")) { 
+      System.out.println("\n\nYou can restart the project if you find the required resources..."); 
+      System.exit(1);
+    }
 
-  // public void estimateDelayImpact(Alarm d) {
-  //   // Find new early/late start/finish of all tasks with delay of given task
-    
-  // }
+    int i = 0;
+    int lastWorker = 0;
+    while (i < workerShortage) {
+      System.out.println("\n\nIn how many days can the contractor supply worker number " + (i+1) + "?");
+      resp = sc.nextLine();
+      try {
+        int days = Integer.parseInt(resp);
+        if (days > daysLeft) throw new Exception("That is too late! Please try again...");
+        // if (days < today) throw new Exception("We are already past day " + days + "! Please try again...");
+        workerDemand[today + days]++;
+        if (today + days > lastWorker) lastWorker = today + days;
+        i++;
+      } catch (NumberFormatException e) {
+        System.out.println("I don't understand that number! Please try again...");
+      } catch (Exception e) {
+        System.out.println(e.getMessage());
+      }
+    }
+
+    // Change earliest start/finish for task
+
+    // sc.close();
+    return lastWorker;
+  }
 
   /**
    * Used to sort tasks ascendingly by earliest finish time

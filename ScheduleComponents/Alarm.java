@@ -4,18 +4,9 @@ public class Alarm {
 
   public Task task;
   public int day;
-  // public Type type;
   public String trade;
   public String reason;
   public boolean resolved;
-
-  // public enum Type {
-  //   workerSick,
-  //   badWeather,
-  //   taskDifficult,
-  //   delayedMaterials,
-  //   taskDelayed
-  // }
 
   public Alarm(int day, Task task, String trade, String reason) {
     this.day = day;
@@ -30,6 +21,6 @@ public class Alarm {
   }
 
   public String toString() {
-    return "day " + day + " - " + trade + ": " + reason + " (resolved=" + resolved + ")";
+    return "day " + day + " - " + trade + ": " + reason;
   }
 }

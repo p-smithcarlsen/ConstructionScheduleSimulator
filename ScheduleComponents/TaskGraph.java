@@ -38,27 +38,40 @@ public class TaskGraph {
     successor.addPredecessor(predecessor);
   }
 
+  public void resetTimingsOfTasks() {
+    for (Task t : tasks) {
+      // t.earliestStart = 0;
+      // t.earliestFinish = 0;
+      t.latestStart = Integer.MAX_VALUE;
+      t.latestFinish = Integer.MAX_VALUE;
+    }
+  }
+
   /**
    * Iterates through all tasks, starting with task 0, and determines the 
    * earliest start and earliest finish variables. 
    */
   public void forwardPass(int day) {
+    int estimate = 0;
     for (Task t : tasks) {
       if (t.isFinished()) continue;
       boolean nextTask = true;
       for (Task t2 : t.predecessorTasks) {
         if (!t2.isFinished()) nextTask = false;
       }
-      if (nextTask) estimatedDeadline = forwardPass(t, day);
-      // if (t.predecessorTasks.size() == 0) {
-      //   estimatedDeadline = forwardPass(t, day);
-      // }
+      if (nextTask) {
+        estimate = forwardPass(t, day);
+        if (estimate > estimatedDeadline) {
+          System.out.println("New estimated project deadline!");
+          estimatedDeadline = estimate;
+        }
+      }
     }
   }
 
-  public int forwardPass(Task t, int time) {
-    if (time > t.earliestStart) t.earliestStart = time;
-    if (time + t.meanDuration > t.earliestFinish) t.earliestFinish = time + t.meanDuration;
+  public int forwardPass(Task t, int day) {
+    if (day > t.earliestStart) t.earliestStart = day;
+    if (day + t.meanDuration > t.earliestFinish) t.earliestFinish = day + t.meanDuration;
     int estimate = 0;
     int latestFinish = t.earliestFinish;
     for (Task t2 : t.successorTasks) {
@@ -95,24 +108,59 @@ public class TaskGraph {
   public void calculateFloat() {
     boolean newCriticalPath = false;
     for (Task t : tasks) {
+      if (t.isFinished()) {
+        t.isCritical = false;
+        continue;
+      }
       t.maximumTime = t.latestFinish - t.earliestStart;
       t.taskFloat = t.maximumTime - t.meanDuration;
       if (t.taskFloat == 0) {
-        if (!t.isCritical) { newCriticalPath = true; }
+        if (!t.isCritical) { 
+          newCriticalPath = true;
+        }
         t.isCritical = true;
+      } else {
+        t.isCritical = false;
       }
     }
 
     if (newCriticalPath) {
       System.out.println("NB: We have obtained a new critical path!");
-      printCriticalPath();
     }
+    printCriticalPath();
+  }
+
+  public int[] forecastWorkerDemand(String trade) {
+    int[] workerDemand = new int[estimatedDeadline+1];
+    for (Task t : tasks) {
+      if (t.isFinished()) continue;
+      if (t.trade.equals(trade)) {
+        double remainingQuantity = (1 - (t.progress / 100)) * t.quantity;
+        if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
+        double productionRate = t.productionRate;
+        int sufficientWorkers = 0;
+        int i = 0;
+        while (remainingQuantity > 0) {
+          if (remainingQuantity >= productionRate) {
+            workerDemand[t.latestFinish-i] += t.optimalWorkerCount;
+            remainingQuantity -= productionRate;
+          } else {
+            sufficientWorkers = (int)Math.ceil((remainingQuantity / (double)t.productionRate) * (double)t.optimalWorkerCount);
+            workerDemand[t.latestFinish-i] += sufficientWorkers;
+            remainingQuantity = 0;
+          }
+          i++;
+        }
+      }
+    }
+
+    return workerDemand;
   }
 
   public int numberOfRemainingTasks() {
     int remainingTasks = 0;
     for (Task t : tasks) {
-      if (t.progress < 100) remainingTasks++;
+      if (!t.isFinished()) remainingTasks++;
     }
 
     return remainingTasks;
@@ -125,7 +173,12 @@ public class TaskGraph {
     System.out.println("Critical path activities:");
     for (int i = 0; i < tasks.size(); i++) {
       Task t = tasks.get(i);
-      if (!t.isCritical || t.predecessorTasks.size() > 0) continue;
+      if (!t.isCritical) continue;
+      boolean nextTask = true;
+      for (Task t2 : t.predecessorTasks) {
+        if (t2.isCritical && !t2.isFinished()) nextTask = false;
+      }
+      if (!nextTask) continue;
       System.out.println(t.location + t.id + ": " + t.activity);
       while (t != null) {
         boolean end = true;

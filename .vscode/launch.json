@@ -8,6 +8,7 @@
             "type": "java",
             "name": "Launch Current File",
             "request": "launch",
+            "console": "integratedTerminal",
             "mainClass": "${file}"
         },
         {

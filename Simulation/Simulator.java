@@ -1,6 +1,7 @@
 package Simulation;
 
 import ScheduleComponents.ConstructionProject;
+import ScheduleComponents.Task;
 import ScheduleComponents.Alarm;
 import ScheduleComponents.Workforce;
 
@@ -22,7 +23,8 @@ public class Simulator {
   public void runSimulation(ConstructionProject constructionProject) {
     // Finds the critical path(s) in the tasks
     constructionProject.prepareLocations();
-    // constructionProject.tasks.printCriticalPath();
+    int[][] adj = new int[constructionProject.locations.length][constructionProject.locations[0].tasks.size()];
+    for (Task t : constructionProject.tasks.tasks) { t.printWithDependencies(adj, 1); }
 
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(constructionProject.locations, constructionProject.alarms);
@@ -30,6 +32,11 @@ public class Simulator {
     // Go through project day by day until all tasks are finished
     while (true) {
       System.err.println("\nday: " + day);
+      if (constructionProject.tasks.numberOfRemainingTasks() > 0) {
+        System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline + " (remaining tasks: " + constructionProject.tasks.numberOfRemainingTasks() + ")");
+      } else {
+        System.out.println("All tasks finished!");
+      }
       
       // Assign workers
       workforce.assignWorkers(day);
@@ -52,7 +59,7 @@ public class Simulator {
       // If actions are taken, go through tasks to find out whether critical path has changed
 
       // Go to next day
-      System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline + " (remaining tasks: " + constructionProject.tasks.numberOfRemainingTasks() + ")\n");
+      System.out.println();
       day++;
       if (day > 100) break;
     }

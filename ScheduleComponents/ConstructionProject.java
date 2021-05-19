@@ -64,24 +64,39 @@ public class ConstructionProject {
 
   public void analyseTaskDelays(List<Alarm> alarms, Workforce w, int tomorrow) {
     if (alarms.size() == 0) return;
-    for (Alarm a : alarms) {
-      if (!a.task.isCritical) continue;
-
-      int[] contractorSchedule = w.getContractorSchedule(a.trade);
-      a.task.recalculateDuration(contractorSchedule, tomorrow);
-    }
-
-    for (Alarm a : alarms) {
-      if (a.task.isCritical) continue;
-      
-      int[] contractorSchedule = w.getContractorSchedule(a.trade);
-      a.task.recalculateDuration(contractorSchedule, tomorrow);
-    }
-
+    // Check whether delay has caused new critical path
+    for (Task t : tasks.tasks) { if (!t.isFinished()) { t.recalculateDuration(); } }
+    tasks.resetTimingsOfTasks();
     tasks.forwardPass(tomorrow);
     tasks.backwardPass();
     tasks.calculateFloat();
-    w.updateContractorSchedules();
+    int[][] adj = new int[locations.length][locations[0].tasks.size()];
+    for (Task t : tasks.tasks) t.printWithDependencies(adj, 1);
+    boolean delays = false;
+    for (Alarm a : alarms) {
+      // Ask when the contractor can have the delayed task finished
+      int[] workerDemand = tasks.forecastWorkerDemand(a.trade);
+      delays = w.getContractor(a.trade).checkWorkerSupply(workerDemand, tomorrow);
+      // if (newTaskEarlyFinish >= 0) {
+        // System.out.println(a.task.location + a.task.id + " has gotten new earliest finish! (" + a.task.earliestFinish + " to " + newTaskEarlyFinish + ")");
+        // a.task.earliestFinish = newTaskEarlyFinish;
+        // delays = true;
+      // }
+      a.resolve();
+    }
+
+    // If delays have happened, we need to align early/late start/finishes again 
+    if (delays) {
+      tasks.resetTimingsOfTasks();
+      tasks.forwardPass(tomorrow);
+      tasks.backwardPass();
+      tasks.calculateFloat();
+      adj = new int[locations.length][locations[0].tasks.size()];
+      for (Task t : tasks.tasks) t.printWithDependencies(adj, 1);
+    }
+
+    // Check whether any other contractors are getting delayed from the later finish time
+
   }
 
   /**

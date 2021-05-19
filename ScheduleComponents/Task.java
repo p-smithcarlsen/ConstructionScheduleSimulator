@@ -27,8 +27,8 @@ public class Task {
 
   // Task timings and criticality
   public boolean isCritical;
-  public int earliestStart;
-  public int earliestFinish;
+  public int earliestStart = 0;
+  public int earliestFinish = 0;
   public int latestStart = Integer.MAX_VALUE;
   public int latestFinish = Integer.MAX_VALUE;
   public int maximumTime;
@@ -79,29 +79,6 @@ public class Task {
   }
 
   /**
-   * Iterates over all tasks in the successor list and their successor 
-   * tasks. Finds the longest duration of tasks depending on this task. 
-   * Also sets the longestPathDuration variable to this longest duration.
-   * @return the path of tasks depending on this task with the longest duration.
-   */
-  // public List<Task> checkLengthOfPath() {
-  //   List<Task> longestPath = new ArrayList<>();
-
-  //   for (Task t : successorTasks) {
-  //     List<Task> path = t.checkLengthOfPath();
-      
-  //     if (path.get(path.size()-1).longestPathDuration > longestPathDuration) {
-  //       longestPath = path;
-  //       longestPathDuration = longestPath.get(longestPath.size()-1).longestPathDuration;
-  //     }
-  //   }
-    
-  //   longestPath.add(this);
-  //   longestPathDuration += meanDuration;
-  //   return longestPath;
-  // }
-
-  /**
    * Sets the earliestStart and earliestFinish variables based on
    * the previous task.
    * @param lastTaskFinished
@@ -145,7 +122,7 @@ public class Task {
 
     this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100) this.progress = 100;
-    System.out.println(String.format("%12s has finished %6.1f%% of %s%s", trade.substring(0,Math.min(12, trade.length())), progress, location, id));
+    System.out.println(String.format("%12s has finished %6.1f%% of %s%s %s", trade.substring(0,Math.min(12, trade.length())), progress, location, id, isCritical ? "(Critical)" : ""));
 
     // Reset workers
     this.workersAssigned = 0;
@@ -168,23 +145,14 @@ public class Task {
     return progress;
   }
 
-  // This function is called when an alarm is encountered due to a delay.
-  public void recalculateDuration(int[] contractorSchedule, int tomorrow) {
-    // First, find out how much progress is still missing
+  /**
+   * This function is called when an alarm is encountered due to a delay.
+   * Based on the remaining quantity, it calculates the remaining duration.
+   */
+  public void recalculateDuration() {
     double remainingQuantity = (100 - progress) * quantity / 100;
     if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
     this.meanDuration = (int)Math.ceil(remainingQuantity / this.productionRate);
-    // Second, determine whether the task can actually be finished
-
-    // for (int i = tomorrow; i < latestFinish; i++) {
-
-    // }
-
-    System.out.println(location + id + ": " + this.meanDuration + " (" + this.earliestStart + " to " + this.earliestFinish + ")");
-
-    // Second, determine the new estimated duration of this task
-
-    // Third, find out the timings of the task
   }
 
   /**
@@ -214,25 +182,37 @@ public class Task {
   /**
    * Prints some metadata and the early/late start/finish variables.
    */
-  public void print() {
+  public void print(int level) {
     // System.out.println(String.format(" --Task %s: %s, trade: %s, quantity: %s, dependency: %s", id, activity, trade, quantity, dependencies));
-    System.out.print(String.format(" --%s%s (dur: % 2d), dep: %s", location, id, meanDuration, dependencies));
-    System.out.print(" pred: ");
+    // System.out.print(String.format(" --%s%s (dur: % 2d), dep: %s", location, id, meanDuration, dependencies));
+    // System.out.print(" pred: ");
+    // for (Task t : predecessorTasks) System.out.print(t.location + "" + t.id + " ");
+    // System.out.print("succ:");
+    // for (Task t : successorTasks) System.out.print(t.location + "" + t.id + " ");
+    // System.out.println();
+    // System.out.println(String.format("   ES: %s, EF: %s, LS: %s, LF: %s", earliestStart, earliestFinish, latestStart, latestFinish));
+    // System.out.println();
+
+    System.out.printf(" ".repeat(level*2-1) + "|" + "-" + "%s%s" + " ".repeat(20-level*2) + "%s (d=%02d, es=%02d, ef=%02d, ls=%02d, lf=%02d)   [ ", location, id, isCritical ? "(C)" : "   ", meanDuration, earliestStart, earliestFinish, latestStart, latestFinish);
     for (Task t : predecessorTasks) System.out.print(t.location + "" + t.id + " ");
-    System.out.print("succ:");
+    System.out.printf("]  [ ");
     for (Task t : successorTasks) System.out.print(t.location + "" + t.id + " ");
-    System.out.println();
-    System.out.println(String.format("   ES: %s, EF: %s, LS: %s, LF: %s", earliestStart, earliestFinish, latestStart, latestFinish));
-    System.out.println();
+    System.out.printf("]%n");
   }
 
   /**
    * Prints some metadata for this task and all tasks depending on this task. 
    */
-  public void printWithDependencies() {
-    print();
+  public void printWithDependencies(int[][] adj, int level) {
+    if (adj[Integer.parseInt("" + location.charAt(1))][Integer.parseInt("" + id.charAt(1))] == 1) return;
+    if (!isFinished()) {
+      print(level);
+    } else {
+      System.out.println();
+    }
+    adj[Integer.parseInt("" + location.charAt(1))][Integer.parseInt("" + id.charAt(1))] = 1;
     for (Task t : successorTasks) {
-      t.printWithDependencies();
+      t.printWithDependencies(adj, level + 1);
     }
   }
 }
