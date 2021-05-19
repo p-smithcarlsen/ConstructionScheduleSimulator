@@ -64,39 +64,70 @@ public class ConstructionProject {
 
   public void analyseTaskDelays(List<Alarm> alarms, Workforce w, int tomorrow) {
     if (alarms.size() == 0) return;
-    // Check whether delay has caused new critical path
-    for (Task t : tasks.tasks) { if (!t.isFinished()) { t.recalculateDuration(); } }
-    tasks.resetTimingsOfTasks();
-    tasks.forwardPass(tomorrow);
-    tasks.backwardPass();
-    tasks.calculateFloat();
-    int[][] adj = new int[locations.length][locations[0].tasks.size()];
-    for (Task t : tasks.tasks) t.printWithDependencies(adj, 1);
-    boolean delays = false;
+    // We know that there has been an undersupply of workers to a task, which
+    // means that a task has progressed more slowly than expected. This means
+    // that theere will be a higher need of workers at some point, maybe also a delay.
+    // Since we try to finish critical tasks first, it often do not lead to a pushback
+    // of the project deadline - instead just an increased early finish of a backlog task.
+
+    // First, go through all tasks that are started but not finished (0 < progress < 100)
+    // We are 'resetting' the project from day *tomorrow*, so we need to recalculate 
+    // durations. (i.e. if a task is half done, and its original duration is 4, then its
+    // new duration will be shorter because some work has already be performed).
+    // New durations will probably mean new timinigs of some tasks (probably the ones that
+    // are currently being worked and tasks that depend on these). So we need to reset timings
+    // Related to real life: A contractor tells the project manager that there is a delay,
+    // now the project manager needs to figure out how this affects the schedule...
+    tasks.calculateTimingsAndFloats(tomorrow);
+    tasks.printTasksWithDependencies(locations.length, locations[0].tasks.size());
+    
+    // The project manager has now assessed the situation, and has probably assessed
+    // that the schedule (although some tasks having a longer earliest finish) is OK.
+    // However, we still need to address whether we have enough workers to complete
+    // all the tasks. If contractors have initially only hired the amount of workers
+    // that is able to finish the assigned tasks, then we will need an additional
+    // number of workers (equal to the amount calling in sick). They need to come in
+    // at the latest when the last similar task (same trade type) has its latest 
+    // finish date. Otherwise, the task will go over its latest finish, push back
+    // depending tasks and extend project deadline.
+    boolean otherContractorsNeedToReschedule = false;
     for (Alarm a : alarms) {
-      // Ask when the contractor can have the delayed task finished
+      // We know which contractor is lacking behind, so we will forecast the worker
+      // demand for this contractor:
       int[] workerDemand = tasks.forecastWorkerDemand(a.trade);
-      delays = w.getContractor(a.trade).checkWorkerSupply(workerDemand, tomorrow);
-      // if (newTaskEarlyFinish >= 0) {
-        // System.out.println(a.task.location + a.task.id + " has gotten new earliest finish! (" + a.task.earliestFinish + " to " + newTaskEarlyFinish + ")");
-        // a.task.earliestFinish = newTaskEarlyFinish;
-        // delays = true;
-      // }
+      // We will compare the worker demand with the worker supply and determine 
+      // when (if so) a task's latest finish will be pushed back
+      otherContractorsNeedToReschedule = w.getContractor(a.trade).checkWorkerSupply(a.task, workerDemand, tomorrow);
+      tasks.determineScheduledTimings(a.task, w.contractorSchedules);
       a.resolve();
     }
 
-    // If delays have happened, we need to align early/late start/finishes again 
-    if (delays) {
-      tasks.resetTimingsOfTasks();
-      tasks.forwardPass(tomorrow);
-      tasks.backwardPass();
-      tasks.calculateFloat();
-      adj = new int[locations.length][locations[0].tasks.size()];
-      for (Task t : tasks.tasks) t.printWithDependencies(adj, 1);
+    // If there has been a change in a contractor's schedule, we need to go over the schedules, 
+    // finding out whether contractors are actually supplying workers on the correct days...
+    if (otherContractorsNeedToReschedule) {
+      for (Contractor c : w.contractors) {
+        suggestScheduleChange(tasks.forecastWorkerDemand(c.trade), c.workerDemand);
+      }
+      tasks.determineScheduledTimings(w.contractorSchedules);
     }
+  }
 
-    // Check whether any other contractors are getting delayed from the later finish time
+  public boolean suggestScheduleChange(int[] neededWorkers, int[] scheduledWorkers) {
+    int i = 0; 
+    System.out.println(neededWorkers.length + " : " + scheduledWorkers.length);
+    while (i < neededWorkers.length && i < scheduledWorkers.length) {
+      System.out.println(neededWorkers[i] + " : " + scheduledWorkers[i]);
+      i++;
+    }
+    return false;
+  }
 
+  public void printStatus() {
+    if (tasks.numberOfRemainingTasks() > 0) {
+      System.out.println("Estimated deadline of project: day " + tasks.estimatedDeadline + " (remaining tasks: " + tasks.numberOfRemainingTasks() + ")");
+    } else {
+      System.out.println("All tasks finished!");
+    }
   }
 
   /**

@@ -1,7 +1,10 @@
 package ScheduleComponents;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class TaskGraph {
   
@@ -38,6 +41,25 @@ public class TaskGraph {
     successor.addPredecessor(predecessor);
   }
 
+  /**
+   * This function is called when the schedule needs to be reset from a 
+   * given day (the day before tomorrow). All timings will be reset and 
+   * recalculated, so ES/EF/LS/LF timings are correct.
+   * 
+   * Subsequently, it will be determined whether we have a new critical path.
+   * @param tomorrow
+   */
+  public void calculateTimingsAndFloats(int tomorrow) {
+    for (Task t : tasks) {
+      if (!t.isFinished() && t.progress > 0) 
+        t.recalculateDuration();
+    }
+    resetTimingsOfTasks();
+    forwardPass(tomorrow);
+    backwardPass();
+    calculateFloat();
+  }
+
   public void resetTimingsOfTasks() {
     for (Task t : tasks) {
       // t.earliestStart = 0;
@@ -70,16 +92,25 @@ public class TaskGraph {
   }
 
   public int forwardPass(Task t, int day) {
-    if (day > t.earliestStart) t.earliestStart = day;
-    if (day + t.meanDuration > t.earliestFinish) t.earliestFinish = day + t.meanDuration;
+    if (day > t.earliestStart) {
+      // System.out.println(t.location + t.id + ": earliestStart from " + t.earliestStart + " to " + day);
+      t.earliestStart = day;
+    }
+    if (day + t.meanDuration > t.earliestFinish) {
+      // System.out.println(t.location + t.id + ": earliestFinish from " + t.earliestFinish + " to " + (day + t.meanDuration));
+      t.earliestFinish = day + t.meanDuration;
+    }
     int estimate = 0;
     int latestFinish = t.earliestFinish;
     for (Task t2 : t.successorTasks) {
       estimate = forwardPass(t2, t.earliestFinish);
       if (estimate > latestFinish) latestFinish = estimate;
     }
-
     return latestFinish;
+  }
+
+  public void forwardPassWithScheduledTimings(int day) {
+    System.out.println("With scheduled timings!");
   }
 
   /**
@@ -95,8 +126,14 @@ public class TaskGraph {
   }
 
   public void backwardPass(Task t, int deadline) {
-    if (deadline < t.latestFinish) t.latestFinish = deadline;
-    if (deadline - t.meanDuration < t.latestStart) t.latestStart = deadline - t.meanDuration;
+    if (deadline < t.latestFinish) {
+      // System.out.println(t.location + t.id + ": latestFinish from " + t.latestFinish + " to " + deadline);
+      t.latestFinish = deadline;
+    }
+    if (deadline - t.meanDuration < t.latestStart) {
+      // System.out.println(t.location + t.id + ": latestStart from " + t.latestStart + " to " + (deadline - t.meanDuration));
+      t.latestStart = deadline - t.meanDuration;
+    }
     for (Task t2 : t.predecessorTasks) {
       backwardPass(t2, t.latestStart);
     }
@@ -127,16 +164,84 @@ public class TaskGraph {
     if (newCriticalPath) {
       System.out.println("NB: We have obtained a new critical path!");
     }
-    printCriticalPath();
+    // printCriticalPath();
   }
 
+  /**
+   * 
+   * @param contractorSchedules
+   */
+  public void determineScheduledTimings(Map<String, int[]> contractorSchedules) {
+    Map<String, int[]> copiedSchedules = new HashMap<>();
+    for (Entry<String, int[]> e : contractorSchedules.entrySet()) {
+      copiedSchedules.put(e.getKey(), e.getValue().clone());
+    }
+    
+    for (Task t : tasks) {
+      calculateTaskProduction(t, true, copiedSchedules.get(t.trade));
+    }
+
+    for (Task t : tasks) {
+      calculateTaskProduction(t, false, copiedSchedules.get(t.trade));
+    }
+  }
+
+  /**
+   * 
+   * @param t
+   * @param contractorSchedules
+   */
+  public void determineScheduledTimings(Task t, Map<String, int[]> contractorSchedules) {
+    Map<String, int[]> copiedSchedules = new HashMap<>();
+    for (Entry<String, int[]> e : contractorSchedules.entrySet()) {
+      if (e.getKey().equals(t.trade))
+        copiedSchedules.put(e.getKey(), e.getValue().clone());
+    }
+
+    calculateTaskProduction(t, t.isCritical, copiedSchedules.get(t.trade));
+  }
+
+  /**
+   * 
+   * @param t
+   * @param critical
+   * @param contractorSchedule
+   */
+  private void calculateTaskProduction(Task t, boolean critical, int[] contractorSchedule) {
+    if (t.isFinished()) return;
+    if (t.isCritical != critical) return;
+    double remainingQuantity = t.getRemainingQuantity();
+    
+    int day = t.earliestStart;
+    t.scheduledStart = Integer.MAX_VALUE;
+    t.scheduledFinish = Integer.MAX_VALUE;
+    while (remainingQuantity > 0) {
+      if (day >= contractorSchedule.length) {
+        System.out.println("");
+      }
+      if (day < t.scheduledStart) t.scheduledStart = day;
+      int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
+      sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
+      int workersScheduled = Math.min(contractorSchedule[day], sufficientWorkers);
+      double production = (double)workersScheduled / (double)t.optimalWorkerCount * (double)t.productionRate;
+      remainingQuantity -= production;
+      contractorSchedule[day] -= workersScheduled;
+      day++;
+      if (remainingQuantity <= 0) t.scheduledFinish = day;
+    }
+  }
+
+  /**
+   * 
+   * @param trade
+   * @return
+   */
   public int[] forecastWorkerDemand(String trade) {
     int[] workerDemand = new int[estimatedDeadline+1];
     for (Task t : tasks) {
       if (t.isFinished()) continue;
       if (t.trade.equals(trade)) {
-        double remainingQuantity = (1 - (t.progress / 100)) * t.quantity;
-        if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
+        double remainingQuantity = t.getRemainingQuantity();
         double productionRate = t.productionRate;
         int sufficientWorkers = 0;
         int i = 0;
@@ -157,6 +262,10 @@ public class TaskGraph {
     return workerDemand;
   }
 
+  /**
+   * 
+   * @return
+   */
   public int numberOfRemainingTasks() {
     int remainingTasks = 0;
     for (Task t : tasks) {
@@ -166,9 +275,11 @@ public class TaskGraph {
     return remainingTasks;
   }
 
-  /**
-   * Prints all critical tasks.
-   */
+  public void printTasksWithDependencies(int locations, int tasksPerLocation) {
+    int[][] adj = new int[locations][tasksPerLocation];
+    for (Task t : tasks) t.printWithDependencies(adj, 1);
+  }
+  
   public void printCriticalPath() {
     System.out.println("Critical path activities:");
     for (int i = 0; i < tasks.size(); i++) {

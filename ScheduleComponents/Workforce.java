@@ -12,7 +12,6 @@ public class Workforce {
   public Map<String, List<Task>> tradeTypesAndTasks;
   public int sz;
   public AlarmManager delays;
-  // public boolean idleWorkers;
 
   public Workforce(Location[] locations, AlarmManager delays) {
     this.delays = delays;
@@ -79,18 +78,4 @@ public class Workforce {
     for (Contractor c : contractors)
       c.assignWorkers(today, delays);
   }
-
-  // public void resolveDelay(Alarm d) {
-  //   getContractor(d.origin).resolveDelay(d);
-  // }
-
-  /**
-   * Will only be triggered once a delay has been encountered. This 
-   * method walks through
-   * @param day is the current day
-   * @param forecast is how many days there should be forecasted
-   */
-  // public void checkWorkerSupply(int day, Alarm d) {
-  //   getContractor(d.origin).checkWorkerSupply(day, delays, d);
-  // }
 }

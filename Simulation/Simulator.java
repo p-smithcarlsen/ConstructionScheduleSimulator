@@ -18,25 +18,23 @@ public class Simulator {
    * workers to tasks and subsequently performs the work. If any alarms
    * materialize, the project manager will get feedback and possibly an 
    * option to perform an action.
-   * @param lbms
+   * @param constructionProject
    */
   public void runSimulation(ConstructionProject constructionProject) {
-    // Finds the critical path(s) in the tasks
+    // Find the critical path(s) in the tasks
     constructionProject.prepareLocations();
+    // Print overview of tasks (and dependencies)
     int[][] adj = new int[constructionProject.locations.length][constructionProject.locations[0].tasks.size()];
     for (Task t : constructionProject.tasks.tasks) { t.printWithDependencies(adj, 1); }
 
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(constructionProject.locations, constructionProject.alarms);
 
+    constructionProject.tasks.determineScheduledTimings(workforce.contractorSchedules);
+
     // Go through project day by day until all tasks are finished
     while (true) {
-      System.err.println("\nday: " + day);
-      if (constructionProject.tasks.numberOfRemainingTasks() > 0) {
-        System.out.println("Estimated deadline of project: day " + constructionProject.tasks.estimatedDeadline + " (remaining tasks: " + constructionProject.tasks.numberOfRemainingTasks() + ")");
-      } else {
-        System.out.println("All tasks finished!");
-      }
+      System.err.println("\nday: " + day + "\n");
       
       // Assign workers
       workforce.assignWorkers(day);

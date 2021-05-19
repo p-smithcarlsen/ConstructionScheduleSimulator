@@ -31,6 +31,8 @@ public class Task {
   public int earliestFinish = 0;
   public int latestStart = Integer.MAX_VALUE;
   public int latestFinish = Integer.MAX_VALUE;
+  public int scheduledStart;
+  public int scheduledFinish;
   public int maximumTime;
   public int taskFloat;
 
@@ -105,7 +107,7 @@ public class Task {
    * @param workers
    */
   public void assignWorkers(int workers) {
-    this.workersAssigned = workers;
+    this.workersAssigned += workers;
   }
 
   /**
@@ -135,13 +137,16 @@ public class Task {
    * @param workers
    * @return
    */
-  private double transformWorkersToProgress(int workers) {
+  public double transformWorkersToProgress(int workers) {
     // If workersAssigned is equal or higher than optimalWorkerCount, contribution 
     // is equal or higher than productionRate. Assigning more workers than optimal
     // amount will provide less (half) productionRate per worker
-    double workerContribution = workers >= optimalWorkerCount ? 1 : ((double)workersAssigned / (double)optimalWorkerCount);
-    if (workersAssigned > optimalWorkerCount) workerContribution += (workersAssigned - optimalWorkerCount) / optimalWorkerCount * 0.5;
-    double progress = (workerContribution * productionRate) / quantity * 100;
+    double contributionPerWorker = (double)productionRate / (double)optimalWorkerCount;
+    double workerContribution = workers * contributionPerWorker;
+    double progress = workerContribution / quantity * 100;
+    // double workerContribution = workers >= optimalWorkerCount ? 1 : ((double)workers / (double)optimalWorkerCount);
+    // if (workers > optimalWorkerCount) workerContribution += (workers - optimalWorkerCount) / optimalWorkerCount * 1;
+    // double progress = (workerContribution * productionRate) / quantity * 100;
     return progress;
   }
 
@@ -150,9 +155,14 @@ public class Task {
    * Based on the remaining quantity, it calculates the remaining duration.
    */
   public void recalculateDuration() {
+    double remainingQuantity = getRemainingQuantity();
+    this.meanDuration = (int)Math.ceil(remainingQuantity / this.productionRate);
+  }
+
+  public double getRemainingQuantity() {
     double remainingQuantity = (100 - progress) * quantity / 100;
     if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
-    this.meanDuration = (int)Math.ceil(remainingQuantity / this.productionRate);
+    return remainingQuantity;
   }
 
   /**
