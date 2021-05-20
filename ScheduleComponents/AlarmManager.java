@@ -6,7 +6,7 @@ import java.util.List;
 public class AlarmManager {
   
   public List<Alarm> alarms;
-  boolean unresolvedDelay;
+  boolean unresolvedAlarm;
 
   public AlarmManager() {
     this.alarms = new ArrayList<>();
@@ -14,16 +14,24 @@ public class AlarmManager {
 
   public void addDelays(Alarm d) {
     alarms.add(d);
-    unresolvedDelay = true;
+    unresolvedAlarm = true;
   }
 
+  /**
+   * 
+   * @return
+   */
   public boolean unresolvedDelay() {
     for (Alarm d : alarms) {
       if (!d.resolved) return true;
     }
-    return unresolvedDelay;
+    return unresolvedAlarm;
   }
 
+  /**
+   * 
+   * @return
+   */
   public List<Alarm> getUnresolvedAlarms() {
     List<Alarm> unresolved = new ArrayList<>();
     for (Alarm d : alarms) {
@@ -32,7 +40,11 @@ public class AlarmManager {
     return unresolved;
   }
 
-  public void delayResolved(Alarm d) {
-    d.resolve();
+  /**
+   * 
+   * @param d
+   */
+  public void resolveAlarm(Alarm a) {
+    a.resolve();
   }
 }

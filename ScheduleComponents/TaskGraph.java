@@ -9,10 +9,14 @@ import java.util.Map.Entry;
 public class TaskGraph {
   
   public List<Task> tasks;
+  public int locations;
+  public int tasksPerLocation;
   public int estimatedDeadline;
 
-  public TaskGraph() {
+  public TaskGraph(int locations, int tasksPerLocation) {
     this.tasks = new ArrayList<>();
+    this.locations = locations;
+    this.tasksPerLocation = tasksPerLocation;
   }
 
   /**
@@ -110,7 +114,40 @@ public class TaskGraph {
   }
 
   public void forwardPassWithScheduledTimings(int day) {
+    int estimate = 0;
+    for (Task t : tasks) {
+      if (t.isFinished()) continue;
+      boolean nextTask = true;
+      for (Task t2 : t.predecessorTasks) {
+        if (!t2.isFinished()) nextTask = false;
+      }
+      if (nextTask) {
+        estimate = forwardPassWithScheduledTimings(t, day);
+        if (estimate > estimatedDeadline) {
+          System.out.println("New estimated project deadline!");
+          estimatedDeadline = estimate;
+        }
+      }
+    }
     System.out.println("With scheduled timings!");
+  }
+
+  private int forwardPassWithScheduledTimings(Task t, int day) {
+    if (day > t.earliestStart) {
+      // System.out.println(t.location + t.id + ": earliestStart from " + t.earliestStart + " to " + day);
+      t.earliestStart = day;
+    }
+    if (day + t.meanDuration > t.earliestFinish) {
+      // System.out.println(t.location + t.id + ": earliestFinish from " + t.earliestFinish + " to " + (day + t.meanDuration));
+      t.earliestFinish = day + t.meanDuration;
+    }
+    int estimate = 0;
+    int latestFinish = t.earliestFinish;
+    for (Task t2 : t.successorTasks) {
+      estimate = forwardPass(t2, t.earliestFinish);
+      if (estimate > latestFinish) latestFinish = estimate;
+    }
+    return latestFinish;
   }
 
   /**
@@ -143,7 +180,6 @@ public class TaskGraph {
    * Calculates the maximum time available and the float of a task.
    */
   public void calculateFloat() {
-    boolean newCriticalPath = false;
     for (Task t : tasks) {
       if (t.isFinished()) {
         t.isCritical = false;
@@ -152,53 +188,57 @@ public class TaskGraph {
       t.maximumTime = t.latestFinish - t.earliestStart;
       t.taskFloat = t.maximumTime - t.meanDuration;
       if (t.taskFloat == 0) {
-        if (!t.isCritical) { 
-          newCriticalPath = true;
+        if (!t.isCritical) {
+          System.out.println("L" + t.location + "T" + t.id + " was not critical but just became critical!");
         }
         t.isCritical = true;
       } else {
         t.isCritical = false;
+        if (t.isCritical) {
+          System.out.println("L" + t.location + "T" + t.id + " was critical but is not any longer!");
+        }
       }
     }
-
-    if (newCriticalPath) {
-      System.out.println("NB: We have obtained a new critical path!");
-    }
-    // printCriticalPath();
   }
 
   /**
    * 
    * @param contractorSchedules
    */
-  public void determineScheduledTimings(Map<String, int[]> contractorSchedules) {
+  public void determineScheduledTimings(Map<String, int[]> contractorSchedules, int tomorrow) {
     Map<String, int[]> copiedSchedules = new HashMap<>();
     for (Entry<String, int[]> e : contractorSchedules.entrySet()) {
       copiedSchedules.put(e.getKey(), e.getValue().clone());
     }
-    
+
+    String[] startNfinish = new String[tasks.size()];
+    int[][] adj = new int[locations][tasksPerLocation];
     for (Task t : tasks) {
-      calculateTaskProduction(t, true, copiedSchedules.get(t.trade));
+      if (t.isCritical) {
+        boolean nextTask = true;
+        for (Task t2 : t.predecessorTasks) {
+          if (!t2.isFinished()) {
+            nextTask = false;
+          }
+        }
+        if (nextTask) {
+          calculateTaskProduction(t, copiedSchedules, tomorrow, adj, startNfinish);
+        }
+      }
     }
-
     for (Task t : tasks) {
-      calculateTaskProduction(t, false, copiedSchedules.get(t.trade));
+      if (!t.isCritical) {
+        boolean nextTask = true;
+        for (Task t2 : t.predecessorTasks) {
+          if (!t2.isFinished()) {
+            nextTask = false;
+          }
+        }
+        if (nextTask) {
+          calculateTaskProduction(t, copiedSchedules, tomorrow, adj, startNfinish);
+        }
+      }
     }
-  }
-
-  /**
-   * 
-   * @param t
-   * @param contractorSchedules
-   */
-  public void determineScheduledTimings(Task t, Map<String, int[]> contractorSchedules) {
-    Map<String, int[]> copiedSchedules = new HashMap<>();
-    for (Entry<String, int[]> e : contractorSchedules.entrySet()) {
-      if (e.getKey().equals(t.trade))
-        copiedSchedules.put(e.getKey(), e.getValue().clone());
-    }
-
-    calculateTaskProduction(t, t.isCritical, copiedSchedules.get(t.trade));
   }
 
   /**
@@ -207,28 +247,126 @@ public class TaskGraph {
    * @param critical
    * @param contractorSchedule
    */
-  private void calculateTaskProduction(Task t, boolean critical, int[] contractorSchedule) {
-    if (t.isFinished()) return;
-    if (t.isCritical != critical) return;
-    double remainingQuantity = t.getRemainingQuantity();
-    
-    int day = t.earliestStart;
-    t.scheduledStart = Integer.MAX_VALUE;
-    t.scheduledFinish = Integer.MAX_VALUE;
-    while (remainingQuantity > 0) {
-      if (day >= contractorSchedule.length) {
-        System.out.println("");
+  private Pair calculateTaskProduction(Task t, Map<String, int[]> copiedSchedules, int tomorrow, int[][] adj, String[] SF) {
+    int[] contractorSchedule = copiedSchedules.get(t.trade);
+    int earliestScheduledStart = tomorrow;
+    int predecessorFinish = 0;
+    for (Task t2 : t.predecessorTasks) {
+      if (t2.isFinished()) continue;
+      if (adj[t2.location][t2.id] == 0) {
+        Pair p = calculateTaskProduction(t2, copiedSchedules, 0, adj, SF);
+        predecessorFinish = p.scheduledFinish;
+        copiedSchedules = p.constructorSchedules;
+        adj[t2.location][t2.id] = 1;
+        if (predecessorFinish > earliestScheduledStart) earliestScheduledStart = predecessorFinish;
+      } else {
+        if (t2.scheduledFinish > earliestScheduledStart) earliestScheduledStart = t2.scheduledFinish;
       }
-      if (day < t.scheduledStart) t.scheduledStart = day;
-      int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
-      sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
-      int workersScheduled = Math.min(contractorSchedule[day], sufficientWorkers);
-      double production = (double)workersScheduled / (double)t.optimalWorkerCount * (double)t.productionRate;
-      remainingQuantity -= production;
-      contractorSchedule[day] -= workersScheduled;
-      day++;
-      if (remainingQuantity <= 0) t.scheduledFinish = day;
     }
+    t.scheduledStart = earliestScheduledStart;
+    double remainingQuantity = 0;
+    int[] shortStaffedDays = new int[contractorSchedule.length];
+    if (adj[t.location][t.id] == 0) {
+      remainingQuantity = t.getRemainingQuantity();
+      int i = t.scheduledStart;
+      SF[t.location * 5 + t.id] += "|S" + t.scheduledStart;
+      while (remainingQuantity > 0 && i < contractorSchedule.length) {
+        int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
+        sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
+        sufficientWorkers = Math.min(sufficientWorkers, contractorSchedule[i]);
+        if (sufficientWorkers < t.optimalWorkerCount) shortStaffedDays[i] = t.optimalWorkerCount - sufficientWorkers;
+        double production = (double)sufficientWorkers / (double)t.optimalWorkerCount * (double)t.productionRate;
+        contractorSchedule[i] -= sufficientWorkers;
+        remainingQuantity -= production;
+        i++;
+        if (remainingQuantity <= 0) { 
+          t.scheduledFinish = i; 
+          SF[t.location * 5 + t.id] += "|F" + t.scheduledFinish;
+        }
+      }
+    }
+
+    if (remainingQuantity > 0) {
+      double productionPerWorker = (double)t.productionRate / (double)t.optimalWorkerCount;
+      int understaffedDay = 0;
+      for (int day = 0; day < contractorSchedule.length; day++) {
+        if (contractorSchedule[day] > 0) {
+          for (int j = day; j < shortStaffedDays.length; j++) {
+            if (shortStaffedDays[j] > 0) {
+              understaffedDay = j;
+              shortStaffedDays[j]--;
+              break;
+            }
+          }
+          System.out.println(t.trade + ": A worker will be idle on day " + day + " and should be " +
+          "rescheduled to day " + understaffedDay);
+          remainingQuantity -= productionPerWorker;
+          contractorSchedule[day]--;
+          contractorSchedule[understaffedDay]++;
+          day--;
+        }
+        if (remainingQuantity <= 0) {
+          t.scheduledFinish = understaffedDay+1;
+          SF[t.location * 5 + t.id] += "|F" + t.scheduledFinish;
+          break;
+        }
+      }
+    }
+
+    adj[t.location][t.id] = 1;
+    for (Task t2 : t.successorTasks) {
+      if (!t2.isCritical) continue;
+      calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj, SF);
+    }
+    for (Task t2 : t.successorTasks) {
+      if (t2.isCritical) continue;
+      calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj, SF);
+    }
+
+    return new Pair(t.scheduledFinish, copiedSchedules);
+    // return t.scheduledFinish;
+
+
+
+
+
+
+
+
+
+
+
+    // if (t.isFinished()) return;
+    // if (t.isCritical != critical) return;
+    // double remainingQuantity = t.getRemainingQuantity();
+    
+    // int day = t.earliestStart;
+    // t.scheduledStart = Integer.MAX_VALUE;
+    // t.scheduledFinish = Integer.MAX_VALUE;
+    // while (remainingQuantity > 0) {
+    //   if (day >= contractorSchedule.length) {
+    //     System.out.println("");
+    //   }
+    //   if (day < t.scheduledStart) t.scheduledStart = day;
+    //   int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
+    //   sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
+    //   int workersScheduled = Math.min(contractorSchedule[day], sufficientWorkers);
+    //   double production = (double)workersScheduled / (double)t.optimalWorkerCount * (double)t.productionRate;
+    //   remainingQuantity -= production;
+    //   contractorSchedule[day] -= workersScheduled;
+    //   day++;
+    //   if (remainingQuantity <= 0) t.scheduledFinish = day;
+    // }
+
+    // if (cascade) {
+    //   for (Task t2 : t.successorTasks) {
+    //     if (t2.trade.equals(t.trade)) calculateTaskProduction(t2, t2.isCritical, contractorSchedule, cascade);
+    //   }
+    // }
+  }
+
+  public void determineScheduledTimings(Contractor c) {
+    
   }
 
   /**
@@ -290,19 +428,29 @@ public class TaskGraph {
         if (t2.isCritical && !t2.isFinished()) nextTask = false;
       }
       if (!nextTask) continue;
-      System.out.println(t.location + t.id + ": " + t.activity);
+      System.out.println("L" + t.location + "T" + t.id + ": " + t.activity);
       while (t != null) {
         boolean end = true;
         for (Task t2 : t.successorTasks) {
           if (t2.isCritical) {
             t = t2;
             end = false;
-            System.out.println(t.location + t.id + ": " + t.activity);
+            System.out.println("L" + t.location + "T" + t.id + ": " + t.activity);
           }
         }
   
         if (end) break;
       }
+    }
+  }
+
+  private class Pair {
+    public int scheduledFinish;
+    public Map<String, int[]> constructorSchedules;
+
+    public Pair(int scheduledFinish, Map<String, int[]> constructorSchedules) {
+      this.scheduledFinish = scheduledFinish;
+      this.constructorSchedules = constructorSchedules;
     }
   }
 }

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
-  public String id;
+  public int id;
   public String name;
   public Task currentTask;
   public List<Task> tasks = new ArrayList<Task>();   // Turn into node network
   public int duration;
 
   public Location(String[] locationParameters) {
-    this.id = locationParameters[0];
+    this.id = Integer.parseInt(""+locationParameters[0].charAt(1));
     this.name = locationParameters[1];
     this.duration = 0;
   }
@@ -24,9 +24,9 @@ public class Location {
     tasks.add(t);
   }
 
-  public Task getTask(String id) {
+  public Task getTask(int id) {
     for (Task t : tasks) {
-      if (t.id.equals(id)) return t;
+      if (t.id == id) return t;
     }
 
     return null;

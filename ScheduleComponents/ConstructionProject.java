@@ -37,15 +37,17 @@ public class ConstructionProject {
 
       for (String d : dependencies) {
         String[] dependency = d.split("=");
-        Task predecessor = getLocation(dependency[0]).getTask(dependency[1]);
+        int location = Integer.parseInt(""+dependency[0].charAt(1));
+        int task = Integer.parseInt(""+dependency[1].charAt(1));
+        Task predecessor = getLocation(location).getTask(task);
         tasks.addTaskDependency(predecessor, t);
       }
     }
   }
 
-  public Location getLocation(String id) {
+  public Location getLocation(int id) {
     for (Location l : locations) {
-      if (l.id.equals(id)) return l;
+      if (l.id == id) return l;
     }
 
     return null;
@@ -62,8 +64,7 @@ public class ConstructionProject {
     }
   }
 
-  public void analyseTaskDelays(List<Alarm> alarms, Workforce w, int tomorrow) {
-    if (alarms.size() == 0) return;
+  public void analyseAlarms(List<Alarm> alarms, Workforce w, int tomorrow) {
     // We know that there has been an undersupply of workers to a task, which
     // means that a task has progressed more slowly than expected. This means
     // that theere will be a higher need of workers at some point, maybe also a delay.
@@ -78,7 +79,7 @@ public class ConstructionProject {
     // are currently being worked and tasks that depend on these). So we need to reset timings
     // Related to real life: A contractor tells the project manager that there is a delay,
     // now the project manager needs to figure out how this affects the schedule...
-    tasks.calculateTimingsAndFloats(tomorrow);
+    tasks.calculateTimingsAndFloats(tomorrow);    // Take account for the small delay the sick worker may have caused
     tasks.printTasksWithDependencies(locations.length, locations[0].tasks.size());
     
     // The project manager has now assessed the situation, and has probably assessed
@@ -97,26 +98,69 @@ public class ConstructionProject {
       int[] workerDemand = tasks.forecastWorkerDemand(a.trade);
       // We will compare the worker demand with the worker supply and determine 
       // when (if so) a task's latest finish will be pushed back
-      otherContractorsNeedToReschedule = w.getContractor(a.trade).checkWorkerSupply(a.task, workerDemand, tomorrow);
-      tasks.determineScheduledTimings(a.task, w.contractorSchedules);
+      Contractor delayedContractor = w.getContractor(a.trade);
+      otherContractorsNeedToReschedule = delayedContractor.checkWorkerSupply(a.task, workerDemand, tomorrow);
+      tasks.determineScheduledTimings(w.contractorSchedules, tomorrow);
+      // delayedContractor.scheduleTasks(tomorrow);
+      // tasks.determineScheduledTimings(a.task, w.contractorSchedules);
       a.resolve();
+
+      // if (otherContractorsNeedToReschedule) {
+      //   boolean scheduleChanged = true;
+      //   while (scheduleChanged) {
+      //     for (Contractor c : w.contractors) {
+      //       if (!c.trade.equals(a.trade)) {
+      //         scheduleChanged = c.alignWorkerSchedule(tomorrow);
+      //       }
+      //     }
+      //   }
+  
+      //   if (scheduleChanged) {
+      //     for (Contractor c : w.contractors) {
+      //       c.reschedule();
+      //     }
+      //   }
+      //   tasks.determineScheduledTimings(w.contractorSchedules, tomorrow);
+      // }
     }
 
     // If there has been a change in a contractor's schedule, we need to go over the schedules, 
     // finding out whether contractors are actually supplying workers on the correct days...
-    if (otherContractorsNeedToReschedule) {
-      for (Contractor c : w.contractors) {
-        suggestScheduleChange(tasks.forecastWorkerDemand(c.trade), c.workerDemand);
-      }
-      tasks.determineScheduledTimings(w.contractorSchedules);
-    }
+    // if (otherContractorsNeedToReschedule) {
+    //   boolean scheduleChanged = true;
+    //   while (scheduleChanged) {
+    //     for (Contractor c : w.contractors) {
+    //       scheduleChanged = c.alignWorkerSchedule(tomorrow);
+    //     }
+    //   }
+
+    //   if (scheduleChanged) {
+    //     for (Contractor c : w.contractors) {
+    //       c.reschedule();
+    //     }
+    //   }
+    //   tasks.determineScheduledTimings(w.contractorSchedules);
+      // tasks.forwardPassWithScheduledTimings(tomorrow);
+      // for (Contractor c : w.contractors) {
+      //   suggestScheduleChange(tasks.forecastWorkerDemand(c.trade), c.workerDemand);
+      // }
+      // tasks.determineScheduledTimings(w.contractorSchedules);
+    // }
   }
 
   public boolean suggestScheduleChange(int[] neededWorkers, int[] scheduledWorkers) {
     int i = 0; 
     System.out.println(neededWorkers.length + " : " + scheduledWorkers.length);
-    while (i < neededWorkers.length && i < scheduledWorkers.length) {
-      System.out.println(neededWorkers[i] + " : " + scheduledWorkers[i]);
+    while (i < neededWorkers.length || i < scheduledWorkers.length) {
+      int needed = 0;
+      int scheduled = 0;
+      if (i < neededWorkers.length) {
+        needed = neededWorkers[i];
+      } else { needed = -1; }
+      if (i < scheduledWorkers.length) {
+        scheduled = scheduledWorkers[i];
+      } else { scheduled = -1; }
+      System.out.printf("%03d : %03%n", needed, scheduled);
       i++;
     }
     return false;

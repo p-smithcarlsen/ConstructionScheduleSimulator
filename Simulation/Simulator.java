@@ -1,7 +1,6 @@
 package Simulation;
 
 import ScheduleComponents.ConstructionProject;
-import ScheduleComponents.Task;
 import ScheduleComponents.Alarm;
 import ScheduleComponents.Workforce;
 
@@ -24,17 +23,17 @@ public class Simulator {
     // Find the critical path(s) in the tasks
     constructionProject.prepareLocations();
     // Print overview of tasks (and dependencies)
-    int[][] adj = new int[constructionProject.locations.length][constructionProject.locations[0].tasks.size()];
-    for (Task t : constructionProject.tasks.tasks) { t.printWithDependencies(adj, 1); }
+    constructionProject.tasks.printTasksWithDependencies(constructionProject.locations.length, constructionProject.locations[0].tasks.size());
 
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(constructionProject.locations, constructionProject.alarms);
 
-    constructionProject.tasks.determineScheduledTimings(workforce.contractorSchedules);
+    constructionProject.tasks.determineScheduledTimings(workforce.contractorSchedules, 0);
 
     // Go through project day by day until all tasks are finished
     while (true) {
       System.err.println("\nday: " + day + "\n");
+      constructionProject.printStatus();
       
       // Assign workers
       workforce.assignWorkers(day);
@@ -48,13 +47,10 @@ public class Simulator {
       // - tasks taking longer than expected    comes from task object
       // - material delivery delayed            comes from lbms object
       
-
-      // Check worker supply vs worker demand
-      constructionProject.analyseTaskDelays(constructionProject.alarms.getUnresolvedAlarms(), workforce, day+1);
-
-      // Take actions
-
-      // If actions are taken, go through tasks to find out whether critical path has changed
+      // If any alarms, take actions
+      if (constructionProject.alarms.getUnresolvedAlarms().size() > 0) {
+        constructionProject.analyseAlarms(constructionProject.alarms.getUnresolvedAlarms(), workforce, day+1);
+      }
 
       // Go to next day
       System.out.println();

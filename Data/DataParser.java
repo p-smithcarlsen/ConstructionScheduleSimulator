@@ -33,8 +33,10 @@ public class DataParser {
     BufferedReader br = new BufferedReader(new FileReader(f));
     
     String[] locationsAndTasks = br.readLine().split(" ");
-    locations = new Location[Integer.parseInt(locationsAndTasks[0])];
-    tasks = new TaskGraph();
+    int locationNumber = Integer.parseInt(locationsAndTasks[0]);
+    int taskPerLocationNumber = Integer.parseInt(locationsAndTasks[0]);
+    locations = new Location[locationNumber];
+    tasks = new TaskGraph(locationNumber, taskPerLocationNumber);
     String line = br.readLine();
     while (line != null) {
       if (line.startsWith("L")) {

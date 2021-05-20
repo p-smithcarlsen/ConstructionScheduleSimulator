@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Task {
   // Metadata and type
-  public String id;
-  public String location;
+  public int id;
+  public int location;
   public String activity;
   public String trade;
   
@@ -45,8 +45,8 @@ public class Task {
    * @param taskParameters is the string array of task metadata
    */
   public void saveMetadata(String[] taskParameters) {
-    this.id = taskParameters[0];
-    this.location = taskParameters[1];
+    this.id = Integer.parseInt(""+taskParameters[0].charAt(1));
+    this.location = Integer.parseInt(""+taskParameters[1].charAt(1));
     this.activity = taskParameters[2];
     this.trade = taskParameters[3];
     this.optimalWorkerCount = Integer.parseInt(taskParameters[4]);
@@ -124,7 +124,7 @@ public class Task {
 
     this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100) this.progress = 100;
-    System.out.println(String.format("%12s has finished %6.1f%% of %s%s %s", trade.substring(0,Math.min(12, trade.length())), progress, location, id, isCritical ? "(Critical)" : ""));
+    System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %s", trade.substring(0,Math.min(12, trade.length())), progress, location, id, isCritical ? "(Critical)" : ""));
 
     // Reset workers
     this.workersAssigned = 0;
@@ -203,10 +203,15 @@ public class Task {
     // System.out.println(String.format("   ES: %s, EF: %s, LS: %s, LF: %s", earliestStart, earliestFinish, latestStart, latestFinish));
     // System.out.println();
 
-    System.out.printf(" ".repeat(level*2-1) + "|" + "-" + "%s%s" + " ".repeat(20-level*2) + "%s (d=%02d, es=%02d, ef=%02d, ls=%02d, lf=%02d)   [ ", location, id, isCritical ? "(C)" : "   ", meanDuration, earliestStart, earliestFinish, latestStart, latestFinish);
-    for (Task t : predecessorTasks) System.out.print(t.location + "" + t.id + " ");
+    System.out.printf(" ".repeat(level*2-1) + "|" + "-" + "L%sT%s" + " ".repeat(20-level*2) + 
+      "%s (d=%02d, es=%02d, ef=%02d, ls=%02d, lf=%02d)   ", 
+      location, id, isCritical ? "(C)" : "   ", meanDuration, 
+      earliestStart, earliestFinish, latestStart, latestFinish);
+    String tradeSubstring = trade.substring(0, Math.min(trade.length(), 15));
+    System.out.printf("%-15s  [ ", tradeSubstring);
+    for (Task t : predecessorTasks) System.out.print("L" + t.location + "T" + t.id + " ");
     System.out.printf("]  [ ");
-    for (Task t : successorTasks) System.out.print(t.location + "" + t.id + " ");
+    for (Task t : successorTasks) System.out.print("L" + t.location + "T" + t.id + " ");
     System.out.printf("]%n");
   }
 
@@ -214,13 +219,13 @@ public class Task {
    * Prints some metadata for this task and all tasks depending on this task. 
    */
   public void printWithDependencies(int[][] adj, int level) {
-    if (adj[Integer.parseInt("" + location.charAt(1))][Integer.parseInt("" + id.charAt(1))] == 1) return;
+    if (adj[location][id] == 1) return;
     if (!isFinished()) {
       print(level);
     } else {
       System.out.println();
     }
-    adj[Integer.parseInt("" + location.charAt(1))][Integer.parseInt("" + id.charAt(1))] = 1;
+    adj[location][id] = 1;
     for (Task t : successorTasks) {
       t.printWithDependencies(adj, level + 1);
     }
