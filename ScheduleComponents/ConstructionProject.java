@@ -79,8 +79,7 @@ public class ConstructionProject {
     // are currently being worked and tasks that depend on these). So we need to reset timings
     // Related to real life: A contractor tells the project manager that there is a delay,
     // now the project manager needs to figure out how this affects the schedule...
-    tasks.calculateTimingsAndFloats(tomorrow);    // Take account for the small delay the sick worker may have caused
-    // tasks.printTasksWithDependencies(locations.length, locations[0].tasks.size());
+    tasks.calculateTimingsAndFloats(tomorrow);    
     
     // The project manager has now assessed the situation, and has probably assessed
     // that the schedule (although some tasks having a longer earliest finish) is OK.
@@ -103,68 +102,12 @@ public class ConstructionProject {
       // delayedContractor.scheduleTasks(tomorrow);
       // tasks.determineScheduledTimings(a.task, w.contractorSchedules);
       a.resolve();
-
-      // if (otherContractorsNeedToReschedule) {
-      //   boolean scheduleChanged = true;
-      //   while (scheduleChanged) {
-      //     for (Contractor c : w.contractors) {
-      //       if (!c.trade.equals(a.trade)) {
-      //         scheduleChanged = c.alignWorkerSchedule(tomorrow);
-      //       }
-      //     }
-      //   }
-  
-      //   if (scheduleChanged) {
-      //     for (Contractor c : w.contractors) {
-      //       c.reschedule();
-      //     }
-      //   }
-      //   tasks.determineScheduledTimings(w.contractorSchedules, tomorrow);
-      // }
     }
-
-    // If there has been a change in a contractor's schedule, we need to go over the schedules, 
-    // finding out whether contractors are actually supplying workers on the correct days...
-    // if (otherContractorsNeedToReschedule) {
-    //   boolean scheduleChanged = true;
-    //   while (scheduleChanged) {
-    //     for (Contractor c : w.contractors) {
-    //       scheduleChanged = c.alignWorkerSchedule(tomorrow);
-    //     }
-    //   }
-
-    //   if (scheduleChanged) {
-    //     for (Contractor c : w.contractors) {
-    //       c.reschedule();
-    //     }
-    //   }
-    //   tasks.determineScheduledTimings(w.contractorSchedules);
-      // tasks.forwardPassWithScheduledTimings(tomorrow);
-      // for (Contractor c : w.contractors) {
-      //   suggestScheduleChange(tasks.forecastWorkerDemand(c.trade), c.workerDemand);
-      // }
-      // tasks.determineScheduledTimings(w.contractorSchedules);
-    // }
   }
 
-  public boolean suggestScheduleChange(int[] neededWorkers, int[] scheduledWorkers) {
-    int i = 0; 
-    System.out.println(neededWorkers.length + " : " + scheduledWorkers.length);
-    while (i < neededWorkers.length || i < scheduledWorkers.length) {
-      int needed = 0;
-      int scheduled = 0;
-      if (i < neededWorkers.length) {
-        needed = neededWorkers[i];
-      } else { needed = -1; }
-      if (i < scheduledWorkers.length) {
-        scheduled = scheduledWorkers[i];
-      } else { scheduled = -1; }
-      System.out.printf("%03d : %03%n", needed, scheduled);
-      i++;
-    }
-    return false;
-  }
-
+  /**
+   * Prints the estimated project deadline and the number of remaining tasks
+   */
   public void printStatus() {
     if (tasks.numberOfRemainingTasks() > 0) {
       System.out.println("Estimated deadline of project: day " + tasks.estimatedDeadline + " (remaining tasks: " + tasks.numberOfRemainingTasks() + ")");

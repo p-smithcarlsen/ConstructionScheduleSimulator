@@ -52,15 +52,16 @@ public class Contractor {
         }
       }
     }
-    
     return workerDemand;
   }
 
   /**
-   * Iterates over the contractor's tasks and assigns workers to the
-   * active ones. A task is active if it is not finished and if all
-   * predecessor tasks are finished.
-   * @param today is the day of work
+   * Iterates over all tasks assigned to this contractor and assigns
+   * workers to the tasks. A task will be considered if it is not 
+   * finished and if all its preceding tasks have been finished. The
+   * function prioritizes critical tasks.
+   * @param today is the day, on which we want to assign workers
+   * @param alarms is the AlarmManager, able to create alarms
    */
   public void assignWorkers(int today, AlarmManager alarms) {
     if (today >= workerDemand.length) return;
@@ -104,9 +105,15 @@ public class Contractor {
   }
 
   /**
+   * Assigns workers by finding the optimal number of workers for the given task
+   * and determining whether this number of workers is available today.
    * 
-   * @param t
-   * @param delays
+   * Every day, a worker has a chance of calling in sick. If workers call in sick 
+   * and the available worker amount is less than expected, an alarm will be created.
+   * @param day is the day, on which we want to assign workers
+   * @param t is the task, to which we want to assign workers
+   * @param alarms is the Alarm Manager, which is able to create alarms
+   * @param sickWorkers is the number of sick workers on the day
    */
   private void assignWorkers(int day, Task t, AlarmManager alarms, int sickWorkers) {
     // Find out whether we can supply a lower number of workers
@@ -123,7 +130,6 @@ public class Contractor {
 
     // Find the number of workers assigned
     w = Math.min(sufficientWorkers, availableWorkers);
-
     if (w < sufficientWorkers && sickWorkers > 0) {
       alarms.addDelays(new Alarm(day, t, trade, "Has sick workers : " + sickWorkers));
     }
@@ -158,60 +164,26 @@ public class Contractor {
   /**
    * Compares the worker demand with the worker supply. If there is a worker
    * shortage, it will be determined how many workers are needed by which day.
-   * 
-   * @param newWorkerDemand
-   * @param day
+   * @param newWorkerDemand is the int array of needed workers until project deadline
+   * @param day is the given day, from which we want to estimate worker supply
    * @return true if worker schedule has been changed - false otherwise
    */
-  public boolean checkWorkerSupply(Task t, int[] newWorkerDemand, int day) {
+  public void checkWorkerSupply(Task t, int[] newWorkerDemand, int day) {
     double hiredWorkers = 0;
     double neededWorkers = 0;
     int dayOfDelay = 0;
     for (int i = day; i < scheduleLength; i++) {
       hiredWorkers += workerDemand[i];
       neededWorkers += newWorkerDemand[i];
-      // System.out.printf("%3d: %3.0f  | %3.0f%n", i, hiredWorkers, neededWorkers);
       if (neededWorkers > hiredWorkers) {
         dayOfDelay = i;
-        // System.err.println(trade + ":");
-        // System.out.println(trade + ": On day " + dayOfDelay + ", Hired = " + hiredWorkers + " | Needed = " + neededWorkers);
         break;
       }
     }
 
-    // System.out.println("Does this break too soon? What if there is a larger worker shortage the following day?");
+    System.out.println("Does this break too soon? What if there is a larger worker shortage the following day?");
 
-    if (dayOfDelay > 0) return delayLatestTask(t, day, dayOfDelay, (int)(neededWorkers - hiredWorkers));
-    return false;
-  }
-
-  /**
-   * 
-   * @param day
-   * @param dayOfDelay
-   * @param workerShortage
-   * @return
-   */
-  public boolean delayLatestTask(Task t, int day, int dayOfDelay, int workerShortage) {
-    // // To Mikkel: This is some pretty complex stuff - just ask me about it if u wanna know :)
-    // Find out when the latest worker is supplied. This determines which task will be pushed back
-    boolean otherContractorsNeedToReschedule = askContractorForMoreManpower(t, day, dayOfDelay, workerShortage);
-    System.out.println("Do we need more info? What if the worker shortage actually delays multiple tasks?");
-    // Find a task that is not critical and can be started before this time.
-    // Among all the tasks that live up to these criteria, the task with the earliestFinish
-    // furthest out in the future will have its earliestFinish extended (making the least possible impact) 
-    // because the resources are not available before that day 
-    // int latestEarliestFinish = 0;
-    // Task t = null;
-    // for (Task t2 : scheduledTasks) {
-    //   if (!t2.isCritical && t2.earliestFinish < newEarliestFinish && t2.earliestFinish > latestEarliestFinish) {
-    //     latestEarliestFinish = t2.earliestFinish;
-    //     t = t2;
-    //   }
-    // }
-    // System.out.println(t.location + t.id + " has gotten new earliest finish! (" + t.earliestFinish + " to " + newEarliestFinish + ")");
-    // t.earliestFinish = newEarliestFinish;
-    return otherContractorsNeedToReschedule;
+    if (dayOfDelay > 0) askContractorForMoreManpower(t, day, dayOfDelay, (int)(neededWorkers - hiredWorkers));
   }
 
   /**
@@ -222,9 +194,8 @@ public class Contractor {
    * @param workerShortage is the amount of workers needed before 'latestDay'
    * @return the day of the last worker supplied
    */
-  public boolean askContractorForMoreManpower(Task t, int day, int latestDay, int workerShortage) {
+  public void askContractorForMoreManpower(Task t, int day, int latestDay, int workerShortage) {
     // Supply workers at latest this day to be able to keep project deadline intact
-    // System.out.println("Tomorrow is day " + day);
     int daysLeft = latestDay - day;
     // Supply workers at latest this day to be able to keep contractor schedules intact
     int startOfDependingTask = Integer.MAX_VALUE;
@@ -245,17 +216,15 @@ public class Contractor {
     prompt += "\nWriting '1' means supplying a worker tomorrow.";
     System.err.println(prompt);
 
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);  // Do not close - if you do, the program crashes :(
     int i = 0; 
     int lastWorker = 0;
-    boolean otherContractorsNeedToReschedule = false;
     String resp = "";
     while (i < workerShortage) {
       System.out.println("\n\nIn how many days can the contractor supply worker number " + (i+1) + "?");
       resp = sc.nextLine();
       try {
         int days = Integer.parseInt(resp);
-        if (days > daysLeftBeforeReschedule) otherContractorsNeedToReschedule = true;
         if (days > daysLeft) throw new Exception("That is too late! Please try again...");
         int dayOfSupply = day + days - 1;
         workerDemand[dayOfSupply]++;
@@ -267,144 +236,7 @@ public class Contractor {
         System.out.println(e.getMessage());
       }
     }
-
-    return otherContractorsNeedToReschedule;
   }
-
-  public void scheduleTasks(int tomorrow) {
-    int[] copyWorkerDemand = workerDemand.clone();
-
-    for (Task t : scheduledTasks) {
-      if (t.isFinished()) continue;
-      if (t.isCritical) {
-        determineScheduledTimings(t, copyWorkerDemand, tomorrow);
-      }
-    }
-    for (Task t : scheduledTasks) {
-      if (t.isFinished()) continue;
-      if (!t.isCritical) {
-        determineScheduledTimings(t, copyWorkerDemand, tomorrow);
-      }
-    }
-  }
-
-  private void determineScheduledTimings(Task t, int[] copyWorkerDemand, int tomorrow) {
-    // boolean taskDelayed = false;
-    int earliestScheduledStart = tomorrow;
-    for (Task t2 : t.predecessorTasks) {
-      if (t2.scheduledFinish > earliestScheduledStart) earliestScheduledStart = t2.scheduledFinish;
-    }
-    t.scheduledStart = earliestScheduledStart;
-    double remainingQuantity = t.getRemainingQuantity();
-    int[] shortStaffedDays = new int[copyWorkerDemand.length];
-    int i = t.scheduledStart;
-    while (remainingQuantity > 0 && i < copyWorkerDemand.length) {
-      int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
-      sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
-      sufficientWorkers = Math.min(sufficientWorkers, copyWorkerDemand[i]);
-      if (sufficientWorkers < t.optimalWorkerCount) shortStaffedDays[i] = t.optimalWorkerCount - sufficientWorkers;
-      double production = (double)sufficientWorkers / (double)t.optimalWorkerCount * (double)t.productionRate;
-      copyWorkerDemand[i] -= sufficientWorkers;
-      remainingQuantity -= production;
-      i++;
-      if (remainingQuantity <= 0) { t.scheduledFinish = i; }
-    }
-
-    if (remainingQuantity > 0) {
-      double productionPerWorker = (double)t.productionRate / (double)t.optimalWorkerCount;
-      int understaffedDay = 0;
-      for (int day = 0; day < copyWorkerDemand.length; day++) {
-        if (copyWorkerDemand[day] > 0) {
-          for (int j = day; j < shortStaffedDays.length; j++) {
-            if (shortStaffedDays[j] > 0) {
-              understaffedDay = j;
-              shortStaffedDays[j]--;
-              break;
-            }
-          }
-          // System.out.println(trade + ": A worker will be idle on day " + day + " and should be " +
-          // "rescheduled to day " + understaffedDay);
-          remainingQuantity -= productionPerWorker;
-          copyWorkerDemand[day]--;
-          copyWorkerDemand[understaffedDay]++;
-          day--;
-        }
-        if (remainingQuantity <= 0) {
-          t.scheduledFinish = understaffedDay+1;
-          break;
-        }
-      }
-    }
-
-    // if (taskDelayed) {
-    //   cascadeScheduledTimings(t);
-    // }
-  }
-
-  // private void cascadeScheduledTimings(Task t) {
-  //   for (Task t2 : t.successorTasks) {
-  //     if (t2.trade.equals(trade)) {
-  //       if (t.scheduledFinish > t2.scheduledStart) {
-  //         t2.scheduledStart = t.scheduledFinish;
-  //         cascadeScheduledTimings(t2);
-  //       }
-  //     }
-  //   }
-  // }
-
-  // public boolean alignWorkerSchedule(int day) {
-  //   // Create copy of scheduled tasks and worker demand
-  //   // Task: 
-  //   //    remaining quantity calculated from quantity and progress
-  //   //    started when previous task is scheduled to end
-  //   //    end equals latest finish
-  //   int[] newSchedule = new int[workerDemand.length];
-  //   for (Task t : scheduledTasks) {
-  //     if (t.isFinished()) continue; 
-  //     int scheduledStart = day;
-  //     for (Task t2 : t.predecessorTasks) {
-  //       if (t2.scheduledFinish >= scheduledStart) scheduledStart = t2.scheduledFinish;
-  //     }
-  //     double remainingQuantity = t.getRemainingQuantity();
-  //     int i = 0;
-  //     while (remainingQuantity > 0) {
-  //       int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
-  //       sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
-  //       double production = (double)sufficientWorkers / (double)t.optimalWorkerCount * (double)t.productionRate;
-  //       newSchedule[scheduledStart + i] += sufficientWorkers;
-  //       remainingQuantity -= production;
-  //       // if (production > 0 && scheduledStart + day > t.latestFinish) {
-  //       //   System.out.println("");
-  //       // }
-  //       i++;
-  //     }
-  //   }
-
-  //   int[] copyWorkerDemand = workerDemand.clone();
-  //   // Walk through schedule, decreasing workers for each workable task (scheduled start/finish)
-  //   boolean scheduleChanged = false;
-  //   int[] idleWorkers = new int[copyWorkerDemand.length];
-  //   for (int i = day; i < copyWorkerDemand.length; i++) {
-  //     copyWorkerDemand[i] -= newSchedule[i];
-  //     if (copyWorkerDemand[i] > 0) idleWorkers[i] += copyWorkerDemand[i];
-  //     // If worker should be moved, add to Reschedule object
-  //     int workerSurplus = copyWorkerDemand[i];
-  //     while (workerSurplus < 0) {
-  //       for (int j = 0; j < day; j++) {
-  //         if (idleWorkers[j] > 0) {
-  //           reschedules.add(new WorkerReschedule(j, i));
-  //           scheduleChanged = true;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   // save workers that will be unable to do tasks
-  //   // put workers when they are needed
-  //   // print how many are moved to where
-
-  //   // if workers are moved, return true. If no workers are moved, schedule is good
-  //   return scheduleChanged;
-  // }
 
   /**
    * Used to sort tasks ascendingly by earliest finish time

@@ -20,6 +20,11 @@ public class Workforce {
     updateContractorSchedules();
   }
 
+  /**
+   * Summarizes the trades (keys) and tasks (values) in a map structure. Subsequently
+   * instantiates a contractor in the contractors array for each key.
+   * @param locations is the array of locations, containing the task information
+   */
   public void groupTasks(Location[] locations) {
     for (Location l : locations) {
       for (Task t : l.tasks) {
@@ -39,11 +44,10 @@ public class Workforce {
   }
 
   /**
-   * Iterates through all locations and their tasks, creating a map
-   * with the trade types and a list of their assigned tasks as 
-   * values. Subsequently, all contractors will be given their respective
-   * tasks and calculate the resulting worker demand.
-   * @param locations
+   * Once the map of trades and related tasks is created, this function
+   * iterates over all contractors, providing them with their tasks, so
+   * they can calculate the worker demand throughout the construction
+   * project.
    */
   public void updateContractorSchedules() {
     // Align worker supply with tasks
@@ -72,7 +76,7 @@ public class Workforce {
    * to the task they should work on. Contractors will prioritise
    * assigning a number of workers equal to the optimal worker crew
    * in the given task. 
-   * @param today
+   * @param today is the given day, workers are being assigned
    */
   public void assignWorkers(int today) {
     for (Contractor c : contractors)

@@ -13,17 +13,16 @@ public class Task {
   // Duration and progress
   public double quantity;
   public int optimalWorkerCount;
-  public int meanDuration;            // Not part of taskParameters
-  public double standardDeviation;    // Not part of taskParameters
-  public int workersAssigned;         // Not part of taskParameters
+  public int meanDuration;
+  public double standardDeviation;
+  public int workersAssigned;
   public int productionRate;
-  public double progress;                // Not part of taskParameters
+  public double progress;
 
   // Dependencies and path duration
   public String dependencies;
   public List<Task> predecessorTasks = new ArrayList<>();
   public List<Task> successorTasks = new ArrayList<>();
-  // public double longestPathDuration;   // Not used
 
   // Task timings and criticality
   public boolean isCritical;
@@ -81,26 +80,6 @@ public class Task {
   }
 
   /**
-   * Sets the earliestStart and earliestFinish variables based on
-   * the previous task.
-   * @param lastTaskFinished
-   */
-  public void calculateEarliestTimings(int lastTaskFinished) {
-    this.earliestStart = lastTaskFinished;
-    this.earliestFinish = lastTaskFinished + meanDuration - 1; // tasks cant stop and start at the same time unit
-  }
-
-  /**
-   * Sets the latestStart and latestFinish variables based on the
-   * subsequent tasks. 
-   * @param deadline
-   */
-  public void calculateLatestTimings(int deadline) {
-    this.latestFinish = deadline;
-    this.latestStart = deadline - meanDuration;
-  }
-
-  /**
    * Assigns a number of workers to this task. Note that work is not 
    * performed yet, thus the progress is not incremented in this method.
    * Contractors will attempt to assign the optimal worker count.
@@ -118,35 +97,28 @@ public class Task {
    * task, the number of workers assigned is reset to 0.
    */
   public void work() {
-    // An optimal worker count would increase the progress by (quantity / productionRate)
-    // Providing more workers than the optimal crew size will contribute less and less
     if (workersAssigned == 0) { return; }
-
     this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100) this.progress = 100;
-    System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %s", trade.substring(0,Math.min(12, trade.length())), progress, location, id, isCritical ? "(Critical)" : ""));
+    System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %s", 
+      trade.substring(0,Math.min(12, trade.length())), progress, location, id, isCritical ? "(Critical)" : ""));
 
-    // Reset workers
     this.workersAssigned = 0;
-
-    // TODO: Print out whether task has been delayed
   }
 
   /**
-   * 
+   * Takes an amount of workers and determines the amount of progress that this
+   * translates into. If workersAssigned is equal or higher than optimalWorkerCount, 
+   * contribution is equal or higher than productionRate. So far, a worker 
+   * contributes a static amount of production and does not stagnate with higher
+   * numbers of workers. 
    * @param workers
    * @return
    */
   public double transformWorkersToProgress(int workers) {
-    // If workersAssigned is equal or higher than optimalWorkerCount, contribution 
-    // is equal or higher than productionRate. Assigning more workers than optimal
-    // amount will provide less (half) productionRate per worker
     double contributionPerWorker = (double)productionRate / (double)optimalWorkerCount;
     double workerContribution = workers * contributionPerWorker;
     double progress = workerContribution / quantity * 100;
-    // double workerContribution = workers >= optimalWorkerCount ? 1 : ((double)workers / (double)optimalWorkerCount);
-    // if (workers > optimalWorkerCount) workerContribution += (workers - optimalWorkerCount) / optimalWorkerCount * 1;
-    // double progress = (workerContribution * productionRate) / quantity * 100;
     return progress;
   }
 
@@ -159,6 +131,11 @@ public class Task {
     this.meanDuration = (int)Math.ceil(remainingQuantity / this.productionRate);
   }
 
+  /**
+   * Returns the amount of quantity still remaining to be completed, taking
+   * into account precision of floating point numbers. 
+   * @return
+   */
   public double getRemainingQuantity() {
     double remainingQuantity = (100 - progress) * quantity / 100;
     if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
@@ -183,26 +160,15 @@ public class Task {
 
   /**
    * Used to determine whether this task i finished and thus no longer active.
+   * The function takes account of precision of floating point values by returning
+   * true if the progress is higher than 99.999.
    * @return a boolean variable, indicating whether this task is finished
    */
   public boolean isFinished() {
-    return progress >= 99.999;  // Taking into account presicion of float values
+    return progress >= 99.999;  // Taking into account precision of float values
   }
 
-  /**
-   * Prints some metadata and the early/late start/finish variables.
-   */
   public void print(int level) {
-    // System.out.println(String.format(" --Task %s: %s, trade: %s, quantity: %s, dependency: %s", id, activity, trade, quantity, dependencies));
-    // System.out.print(String.format(" --%s%s (dur: % 2d), dep: %s", location, id, meanDuration, dependencies));
-    // System.out.print(" pred: ");
-    // for (Task t : predecessorTasks) System.out.print(t.location + "" + t.id + " ");
-    // System.out.print("succ:");
-    // for (Task t : successorTasks) System.out.print(t.location + "" + t.id + " ");
-    // System.out.println();
-    // System.out.println(String.format("   ES: %s, EF: %s, LS: %s, LF: %s", earliestStart, earliestFinish, latestStart, latestFinish));
-    // System.out.println();
-
     System.out.printf(" ".repeat(level*2-1) + "|" + "-" + "L%sT%s" + " ".repeat(20-level*2) + 
       "%s (d=%02d, es=%02d, ef=%02d, ls=%02d, lf=%02d)   ", 
       location, id, isCritical ? "(C)" : "   ", meanDuration, 
@@ -215,9 +181,6 @@ public class Task {
     System.out.printf("]%n");
   }
 
-  /**
-   * Prints some metadata for this task and all tasks depending on this task. 
-   */
   public void printWithDependencies(int[][] adj, int level) {
     if (adj[location][id] == 1) return;
     if (!isFinished()) {

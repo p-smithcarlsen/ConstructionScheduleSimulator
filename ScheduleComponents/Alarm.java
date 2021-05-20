@@ -16,6 +16,10 @@ public class Alarm {
     System.out.println(this);
   }
 
+  /**
+   * Turns the alarm into 'resolved', meaning we do not have to
+   * consider it a risk anymore.
+   */
   public void resolve() {
     this.resolved = true;
   }

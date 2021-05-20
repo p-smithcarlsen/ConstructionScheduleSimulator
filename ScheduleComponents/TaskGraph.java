@@ -66,8 +66,6 @@ public class TaskGraph {
 
   public void resetTimingsOfTasks() {
     for (Task t : tasks) {
-      // t.earliestStart = 0;
-      // t.earliestFinish = 0;
       t.latestStart = Integer.MAX_VALUE;
       t.latestFinish = Integer.MAX_VALUE;
     }
@@ -97,48 +95,9 @@ public class TaskGraph {
 
   public int forwardPass(Task t, int day) {
     if (day > t.earliestStart) {
-      // System.out.println(t.location + t.id + ": earliestStart from " + t.earliestStart + " to " + day);
       t.earliestStart = day;
     }
     if (day + t.meanDuration > t.earliestFinish) {
-      // System.out.println(t.location + t.id + ": earliestFinish from " + t.earliestFinish + " to " + (day + t.meanDuration));
-      t.earliestFinish = day + t.meanDuration;
-    }
-    int estimate = 0;
-    int latestFinish = t.earliestFinish;
-    for (Task t2 : t.successorTasks) {
-      estimate = forwardPass(t2, t.earliestFinish);
-      if (estimate > latestFinish) latestFinish = estimate;
-    }
-    return latestFinish;
-  }
-
-  public void forwardPassWithScheduledTimings(int day) {
-    int estimate = 0;
-    for (Task t : tasks) {
-      if (t.isFinished()) continue;
-      boolean nextTask = true;
-      for (Task t2 : t.predecessorTasks) {
-        if (!t2.isFinished()) nextTask = false;
-      }
-      if (nextTask) {
-        estimate = forwardPassWithScheduledTimings(t, day);
-        if (estimate > estimatedDeadline) {
-          System.out.println("New estimated project deadline!");
-          estimatedDeadline = estimate;
-        }
-      }
-    }
-    System.out.println("With scheduled timings!");
-  }
-
-  private int forwardPassWithScheduledTimings(Task t, int day) {
-    if (day > t.earliestStart) {
-      // System.out.println(t.location + t.id + ": earliestStart from " + t.earliestStart + " to " + day);
-      t.earliestStart = day;
-    }
-    if (day + t.meanDuration > t.earliestFinish) {
-      // System.out.println(t.location + t.id + ": earliestFinish from " + t.earliestFinish + " to " + (day + t.meanDuration));
       t.earliestFinish = day + t.meanDuration;
     }
     int estimate = 0;
@@ -164,11 +123,9 @@ public class TaskGraph {
 
   public void backwardPass(Task t, int deadline) {
     if (deadline < t.latestFinish) {
-      // System.out.println(t.location + t.id + ": latestFinish from " + t.latestFinish + " to " + deadline);
       t.latestFinish = deadline;
     }
     if (deadline - t.meanDuration < t.latestStart) {
-      // System.out.println(t.location + t.id + ": latestStart from " + t.latestStart + " to " + (deadline - t.meanDuration));
       t.latestStart = deadline - t.meanDuration;
     }
     for (Task t2 : t.predecessorTasks) {
@@ -202,8 +159,13 @@ public class TaskGraph {
   }
 
   /**
-   * 
-   * @param contractorSchedules
+   * This function goes through all tasks and compares with the scheduled workforce
+   * in the associated contractors. Once all worker reschedules have been determined
+   * and the scheduled finishes of tasks have been found, the function implements
+   * the worker reschedules in the contractor schedules and returns the updated schedule.
+   * @param contractorSchedules is the map with contractor types and their schedules
+   * @param tomorrow is the day, from which we need to create a new overview of when tasks are scheduled to finish
+   * @return an updated map with contractor types and their worker schedules
    */
   public Map<String, int[]> determineScheduledTimings(Map<String, int[]> contractorSchedules, int tomorrow) {
     Map<String, int[]> copiedSchedules = new HashMap<>();
@@ -211,7 +173,6 @@ public class TaskGraph {
       copiedSchedules.put(e.getKey(), e.getValue().clone());
     }
 
-    String[] startNfinish = new String[tasks.size()];
     int[][] adj = new int[locations][tasksPerLocation];
     List<WorkerReschedule> wr = new ArrayList<>();
     for (Task t : tasks) {
@@ -223,7 +184,7 @@ public class TaskGraph {
           }
         }
         if (nextTask) {
-          Tuple tuple = calculateTaskProduction(t, copiedSchedules, tomorrow, adj, startNfinish);
+          Tuple tuple = calculateTaskProduction(t, copiedSchedules, tomorrow, adj);
           tuple.reschedules.forEach(tup -> wr.add(tup));
         }
       }
@@ -237,7 +198,7 @@ public class TaskGraph {
           }
         }
         if (nextTask) {
-          Tuple tuple = calculateTaskProduction(t, copiedSchedules, tomorrow, adj, startNfinish);
+          Tuple tuple = calculateTaskProduction(t, copiedSchedules, tomorrow, adj);
           tuple.reschedules.forEach(tup -> wr.add(tup));
         }
       }
@@ -245,27 +206,26 @@ public class TaskGraph {
 
     for (WorkerReschedule r : wr) {
       int[] contractorSchedule = contractorSchedules.get(r.trade);
-      // for (int i = 0; i < contractorSchedule.length; i++) {
-      //   System.out.printf("% 4d", contractorSchedule[i]);
-      // }
-      // System.out.println();
       if (!r.isImplemented()) r.implement(contractorSchedule);
-      // for (int i = 0; i < contractorSchedule.length; i++) {
-      //   System.out.printf("% 4d", contractorSchedule[i]);
-      // }
-      // System.out.println("\n--");
     }
 
     return contractorSchedules;
   }
 
   /**
-   * 
-   * @param t
-   * @param critical
-   * @param contractorSchedule
+   * Goes through all tasks, the associated contractors and their schedules. The point
+   * is to estimate (based on the scheduled workforce) when the tasks will actually
+   * be finished. The function goes through tasks from preceding tasks to succeeding
+   * tasks.
+   * @param t is the task, we want to calculate scheduled finish for
+   * @param copiedSchedules is a map structure with all trades and their schedules
+   * @param tomorrow is the coming day, from which we want to predict task finishes
+   * @param adj is the adjacency matrix, keeping track of the visited tasks
+   * @return a tuple, where the interesting part is the list of worker reschedules (wr)
    */
-  private Tuple calculateTaskProduction(Task t, Map<String, int[]> copiedSchedules, int tomorrow, int[][] adj, String[] SF) {
+  private Tuple calculateTaskProduction(Task t, Map<String, int[]> copiedSchedules, int tomorrow, int[][] adj) {
+    // First, check if there are predecessor tasks, who we need to calculate production
+    // for before analysing this task (t)
     int[] contractorSchedule = copiedSchedules.get(t.trade);
     int earliestScheduledStart = tomorrow;
     int predecessorFinish = 0;
@@ -273,7 +233,7 @@ public class TaskGraph {
     for (Task t2 : t.predecessorTasks) {
       if (t2.isFinished()) continue;
       if (adj[t2.location][t2.id] == 0) {
-        Tuple p = calculateTaskProduction(t2, copiedSchedules, 0, adj, SF);
+        Tuple p = calculateTaskProduction(t2, copiedSchedules, 0, adj);
         p.reschedules.forEach(tup -> wr.add(tup));
         predecessorFinish = p.scheduledFinish;
         copiedSchedules = p.constructorSchedules;
@@ -283,13 +243,15 @@ public class TaskGraph {
         if (t2.scheduledFinish > earliestScheduledStart) earliestScheduledStart = t2.scheduledFinish;
       }
     }
+
+    // If this task has not already been gone through (adj[] == 1), then go
+    // through the worker supply of the contractor to determine the scheduled finish
     t.scheduledStart = earliestScheduledStart;
     double remainingQuantity = 0;
     int[] shortStaffedDays = new int[contractorSchedule.length];
     if (adj[t.location][t.id] == 0) {
       remainingQuantity = t.getRemainingQuantity();
       int i = t.scheduledStart;
-      SF[t.location * 5 + t.id] += "|S" + t.scheduledStart;
       while (remainingQuantity > 0 && i < contractorSchedule.length) {
         int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
         sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
@@ -301,11 +263,12 @@ public class TaskGraph {
         i++;
         if (remainingQuantity <= 0) { 
           t.scheduledFinish = i; 
-          SF[t.location * 5 + t.id] += "|F" + t.scheduledFinish;
         }
       }
     }
 
+    // If the task has not been finished, check if we can re-arrange workers
+    // so the remaining quantity can be completed
     if (remainingQuantity > 0) {
       double productionPerWorker = (double)t.productionRate / (double)t.optimalWorkerCount;
       int understaffedDay = 0;
@@ -318,8 +281,6 @@ public class TaskGraph {
               break;
             }
           }
-          // System.out.println(t.trade + ": A worker will be idle on day " + day + " and should be " +
-          // "rescheduled to day " + understaffedDay);
           wr.add(new WorkerReschedule(t.trade, day, understaffedDay));
           remainingQuantity -= productionPerWorker;
           contractorSchedule[day]--;
@@ -328,35 +289,37 @@ public class TaskGraph {
         }
         if (remainingQuantity <= 0) {
           t.scheduledFinish = understaffedDay+1;
-          SF[t.location * 5 + t.id] += "|F" + t.scheduledFinish;
           break;
         }
       }
     }
 
+    // Go through succeeding tasks and retrieve their worker reschedules
     adj[t.location][t.id] = 1;
     for (Task t2 : t.successorTasks) {
       if (!t2.isCritical) continue;
-      Tuple p = calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj, SF);
+      Tuple p = calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj);
       p.reschedules.forEach(tup -> wr.add(tup));
     }
     for (Task t2 : t.successorTasks) {
       if (t2.isCritical) continue;
-      Tuple p = calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj, SF);
+      Tuple p = calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj);
       p.reschedules.forEach(tup -> wr.add(tup));
     }
     
+    // scheduledFinish and copiedSchedules is used in the recursive calls of
+    // this function. The worker reschedules (wr) is used to collect the
+    // information found throughout the recursive calls.
     return new Tuple(t.scheduledFinish, copiedSchedules, wr);
   }
 
-  public void determineScheduledTimings(Contractor c) {
-    
-  }
-
   /**
-   * 
-   * @param trade
-   * @return
+   * Iterates over all tasks, finding the ones assigned to a given trade. 
+   * Once the relevant tasks have been found, the function determines when
+   * (at the latest) the contractor needs to put a certain amount of workers
+   * in order to not postpone the project deadline.
+   * @param trade is the trade whose worker demand we want
+   * @return an int array, denoting how many workers should be assigned each day
    */
   public int[] forecastWorkerDemand(String trade) {
     int[] workerDemand = new int[estimatedDeadline+1];
@@ -385,8 +348,9 @@ public class TaskGraph {
   }
 
   /**
-   * 
-   * @return
+   * Iterates over all tasks, incrementing a counter for each task
+   * that has not yet been finished. 
+   * @return the incremented counter, equal to the number of tasks remaining
    */
   public int numberOfRemainingTasks() {
     int remainingTasks = 0;
@@ -402,6 +366,9 @@ public class TaskGraph {
     for (Task t : tasks) t.printWithDependencies(adj, 1);
   }
   
+  /**
+   * Prints the current critical path
+   */
   public void printCriticalPath() {
     System.out.println("Critical path activities:");
     for (int i = 0; i < tasks.size(); i++) {
