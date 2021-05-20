@@ -171,16 +171,16 @@ public class Contractor {
     for (int i = day; i < scheduleLength; i++) {
       hiredWorkers += workerDemand[i];
       neededWorkers += newWorkerDemand[i];
-      System.out.printf("%3d: %3.0f  | %3.0f%n", i, hiredWorkers, neededWorkers);
+      // System.out.printf("%3d: %3.0f  | %3.0f%n", i, hiredWorkers, neededWorkers);
       if (neededWorkers > hiredWorkers) {
         dayOfDelay = i;
-        System.err.println(trade + ":");
-        System.out.println(trade + ": On day " + dayOfDelay + ", Hired = " + hiredWorkers + " | Needed = " + neededWorkers);
+        // System.err.println(trade + ":");
+        // System.out.println(trade + ": On day " + dayOfDelay + ", Hired = " + hiredWorkers + " | Needed = " + neededWorkers);
         break;
       }
     }
 
-    System.out.println("Does this break too soon? What if there is a larger worker shortage the following day?");
+    // System.out.println("Does this break too soon? What if there is a larger worker shortage the following day?");
 
     if (dayOfDelay > 0) return delayLatestTask(t, day, dayOfDelay, (int)(neededWorkers - hiredWorkers));
     return false;
@@ -225,7 +225,7 @@ public class Contractor {
    */
   public boolean askContractorForMoreManpower(Task t, int day, int latestDay, int workerShortage) {
     // Supply workers at latest this day to be able to keep project deadline intact
-    System.out.println("Tomorrow is day " + day);
+    // System.out.println("Tomorrow is day " + day);
     int daysLeft = latestDay - day;
     // Supply workers at latest this day to be able to keep contractor schedules intact
     int startOfDependingTask = Integer.MAX_VALUE;
@@ -233,7 +233,7 @@ public class Contractor {
       if (t2.scheduledStart < startOfDependingTask) startOfDependingTask = t2.scheduledStart;
     }
     int daysLeftBeforeReschedule = startOfDependingTask < Integer.MAX_VALUE ? startOfDependingTask - day : t.latestFinish;
-    String prompt = "\n\n To " + trade + ":\n" + 
+    String prompt = "\n\n # To " + trade + ":\n" + 
     "You need to provide " + workerShortage + " more manpower (workers) from either" +
     " working overtime/weekends or by hiring more workers. \nIf the extra manpower is not" +
     " provided in the next " + daysLeft + " days, the construction project will be delayed!";
@@ -252,7 +252,7 @@ public class Contractor {
     boolean otherContractorsNeedToReschedule = false;
     String resp = "";
     while (i < workerShortage) {
-      System.out.println("\n\n In how many days can the contractor supply worker number " + (i+1) + "?");
+      System.out.println("\n\nIn how many days can the contractor supply worker number " + (i+1) + "?");
       resp = sc.nextLine();
       try {
         int days = Integer.parseInt(resp);
@@ -323,8 +323,8 @@ public class Contractor {
               break;
             }
           }
-          System.out.println(trade + ": A worker will be idle on day " + day + " and should be " +
-          "rescheduled to day " + understaffedDay);
+          // System.out.println(trade + ": A worker will be idle on day " + day + " and should be " +
+          // "rescheduled to day " + understaffedDay);
           remainingQuantity -= productionPerWorker;
           copyWorkerDemand[day]--;
           copyWorkerDemand[understaffedDay]++;

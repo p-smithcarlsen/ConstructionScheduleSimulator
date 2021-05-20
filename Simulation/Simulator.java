@@ -32,7 +32,7 @@ public class Simulator {
 
     // Go through project day by day until all tasks are finished
     while (true) {
-      System.err.println("\nday: " + day + "\n");
+      System.err.printf("\n\n==========| day: % 3d |==========\n", day);
       constructionProject.printStatus();
       
       // Assign workers

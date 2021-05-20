@@ -80,7 +80,7 @@ public class ConstructionProject {
     // Related to real life: A contractor tells the project manager that there is a delay,
     // now the project manager needs to figure out how this affects the schedule...
     tasks.calculateTimingsAndFloats(tomorrow);    // Take account for the small delay the sick worker may have caused
-    tasks.printTasksWithDependencies(locations.length, locations[0].tasks.size());
+    // tasks.printTasksWithDependencies(locations.length, locations[0].tasks.size());
     
     // The project manager has now assessed the situation, and has probably assessed
     // that the schedule (although some tasks having a longer earliest finish) is OK.
