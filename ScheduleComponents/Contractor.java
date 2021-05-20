@@ -17,7 +17,6 @@ public class Contractor {
   public List<Task> scheduledTasks;
   public int availableWorkers;
   public int sickWorkers;
-  public List<WorkerReschedule> reschedules;
 
   public Contractor(String id, String trade) {
     this.id = id;
@@ -353,74 +352,59 @@ public class Contractor {
   //   }
   // }
 
-  public boolean alignWorkerSchedule(int day) {
-    // Create copy of scheduled tasks and worker demand
-    // Task: 
-    //    remaining quantity calculated from quantity and progress
-    //    started when previous task is scheduled to end
-    //    end equals latest finish
-    int[] newSchedule = new int[workerDemand.length];
-    for (Task t : scheduledTasks) {
-      if (t.isFinished()) continue; 
-      int scheduledStart = day;
-      for (Task t2 : t.predecessorTasks) {
-        if (t2.scheduledFinish >= scheduledStart) scheduledStart = t2.scheduledFinish;
-      }
-      double remainingQuantity = t.getRemainingQuantity();
-      int i = 0;
-      while (remainingQuantity > 0) {
-        int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
-        sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
-        double production = (double)sufficientWorkers / (double)t.optimalWorkerCount * (double)t.productionRate;
-        newSchedule[scheduledStart + i] += sufficientWorkers;
-        remainingQuantity -= production;
-        // if (production > 0 && scheduledStart + day > t.latestFinish) {
-        //   System.out.println("");
-        // }
-        i++;
-      }
-    }
+  // public boolean alignWorkerSchedule(int day) {
+  //   // Create copy of scheduled tasks and worker demand
+  //   // Task: 
+  //   //    remaining quantity calculated from quantity and progress
+  //   //    started when previous task is scheduled to end
+  //   //    end equals latest finish
+  //   int[] newSchedule = new int[workerDemand.length];
+  //   for (Task t : scheduledTasks) {
+  //     if (t.isFinished()) continue; 
+  //     int scheduledStart = day;
+  //     for (Task t2 : t.predecessorTasks) {
+  //       if (t2.scheduledFinish >= scheduledStart) scheduledStart = t2.scheduledFinish;
+  //     }
+  //     double remainingQuantity = t.getRemainingQuantity();
+  //     int i = 0;
+  //     while (remainingQuantity > 0) {
+  //       int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
+  //       sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
+  //       double production = (double)sufficientWorkers / (double)t.optimalWorkerCount * (double)t.productionRate;
+  //       newSchedule[scheduledStart + i] += sufficientWorkers;
+  //       remainingQuantity -= production;
+  //       // if (production > 0 && scheduledStart + day > t.latestFinish) {
+  //       //   System.out.println("");
+  //       // }
+  //       i++;
+  //     }
+  //   }
 
-    int[] copyWorkerDemand = workerDemand.clone();
-    // Walk through schedule, decreasing workers for each workable task (scheduled start/finish)
-    boolean scheduleChanged = false;
-    int[] idleWorkers = new int[copyWorkerDemand.length];
-    for (int i = day; i < copyWorkerDemand.length; i++) {
-      copyWorkerDemand[i] -= newSchedule[i];
-      if (copyWorkerDemand[i] > 0) idleWorkers[i] += copyWorkerDemand[i];
-      // If worker should be moved, add to Reschedule object
-      int workerSurplus = copyWorkerDemand[i];
-      while (workerSurplus < 0) {
-        for (int j = 0; j < day; j++) {
-          if (idleWorkers[j] > 0) {
-            reschedules.add(new WorkerReschedule(j, i));
-            scheduleChanged = true;
-          }
-        }
-      }
-    }
-    // save workers that will be unable to do tasks
-    // put workers when they are needed
-    // print how many are moved to where
+  //   int[] copyWorkerDemand = workerDemand.clone();
+  //   // Walk through schedule, decreasing workers for each workable task (scheduled start/finish)
+  //   boolean scheduleChanged = false;
+  //   int[] idleWorkers = new int[copyWorkerDemand.length];
+  //   for (int i = day; i < copyWorkerDemand.length; i++) {
+  //     copyWorkerDemand[i] -= newSchedule[i];
+  //     if (copyWorkerDemand[i] > 0) idleWorkers[i] += copyWorkerDemand[i];
+  //     // If worker should be moved, add to Reschedule object
+  //     int workerSurplus = copyWorkerDemand[i];
+  //     while (workerSurplus < 0) {
+  //       for (int j = 0; j < day; j++) {
+  //         if (idleWorkers[j] > 0) {
+  //           reschedules.add(new WorkerReschedule(j, i));
+  //           scheduleChanged = true;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   // save workers that will be unable to do tasks
+  //   // put workers when they are needed
+  //   // print how many are moved to where
 
-    // if workers are moved, return true. If no workers are moved, schedule is good
-    return scheduleChanged;
-  }
-
-  public void reschedule() {
-    for (WorkerReschedule m : reschedules) {
-
-    }
-  }
-  private class WorkerReschedule {
-    int fromDay;
-    int toDay;
-
-    public WorkerReschedule(int from, int to) {
-      this.fromDay = from;
-      this.toDay = to;
-    }
-  }
+  //   // if workers are moved, return true. If no workers are moved, schedule is good
+  //   return scheduleChanged;
+  // }
 
   /**
    * Used to sort tasks ascendingly by earliest finish time

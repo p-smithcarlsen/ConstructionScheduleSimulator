@@ -91,7 +91,6 @@ public class ConstructionProject {
     // at the latest when the last similar task (same trade type) has its latest 
     // finish date. Otherwise, the task will go over its latest finish, push back
     // depending tasks and extend project deadline.
-    boolean otherContractorsNeedToReschedule = false;
     for (Alarm a : alarms) {
       // We know which contractor is lacking behind, so we will forecast the worker
       // demand for this contractor:
@@ -99,7 +98,7 @@ public class ConstructionProject {
       // We will compare the worker demand with the worker supply and determine 
       // when (if so) a task's latest finish will be pushed back
       Contractor delayedContractor = w.getContractor(a.trade);
-      otherContractorsNeedToReschedule = delayedContractor.checkWorkerSupply(a.task, workerDemand, tomorrow);
+      delayedContractor.checkWorkerSupply(a.task, workerDemand, tomorrow);
       tasks.determineScheduledTimings(w.contractorSchedules, tomorrow);
       // delayedContractor.scheduleTasks(tomorrow);
       // tasks.determineScheduledTimings(a.task, w.contractorSchedules);

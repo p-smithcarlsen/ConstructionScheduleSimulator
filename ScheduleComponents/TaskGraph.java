@@ -249,7 +249,7 @@ public class TaskGraph {
       //   System.out.printf("% 4d", contractorSchedule[i]);
       // }
       // System.out.println();
-      r.implement(contractorSchedule);
+      if (!r.isImplemented()) r.implement(contractorSchedule);
       // for (int i = 0; i < contractorSchedule.length; i++) {
       //   System.out.printf("% 4d", contractorSchedule[i]);
       // }
@@ -458,6 +458,10 @@ public class TaskGraph {
       contractorSchedule[fromDay]--;
       contractorSchedule[toDay]++;
       this.implemented = true;
+    }
+
+    public boolean isImplemented() {
+      return this.implemented;
     }
 
     public String toString() {
