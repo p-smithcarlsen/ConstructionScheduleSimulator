@@ -216,6 +216,10 @@ public class Contractor {
     prompt += "\nWriting '1' means supplying a worker tomorrow.";
     System.err.println(prompt);
 
+    if (daysLeftBeforeReschedule > daysLeft) {
+      System.out.println("");
+    }
+
     Scanner sc = new Scanner(System.in);  // Do not close - if you do, the program crashes :(
     int i = 0; 
     int lastWorker = 0;

@@ -33,12 +33,12 @@ public class Program {
   */
 
   public static void main(String[] args) throws IOException {
-    // runSmallSchedule(true);
-    // Simulator s = new Simulator();
-    // s.runSimulation(constructionProject);
-    loadScheduleData("dataset_54.csv");
+    runSmallSchedule(true);
     Simulator s = new Simulator();
     s.runSimulation(constructionProject);
+    // loadScheduleData("dataset_54.csv");
+    // Simulator s = new Simulator();
+    // s.runSimulation(constructionProject);
   }
 
   public static void loadScheduleData(String filePath) throws NumberFormatException, IOException {

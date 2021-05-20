@@ -1,7 +1,6 @@
 package Simulation;
 
 import ScheduleComponents.ConstructionProject;
-import ScheduleComponents.Alarm;
 import ScheduleComponents.Workforce;
 
 public class Simulator {
@@ -22,17 +21,14 @@ public class Simulator {
   public void runSimulation(ConstructionProject constructionProject) {
     // Find the critical path(s) in the tasks
     constructionProject.prepareLocations();
-    // Print overview of tasks (and dependencies)
-    constructionProject.tasks.printTasksWithDependencies(constructionProject.locations.length, constructionProject.locations[0].tasks.size());
-
+    // constructionProject.tasks.printTasksWithDependencies(constructionProject.locations.length, constructionProject.locations[0].tasks.size());
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(constructionProject.locations, constructionProject.alarms);
-
+    // Go through all worker schedules and set their scheduled timings
     constructionProject.tasks.determineScheduledTimings(workforce.contractorSchedules, 0);
-
     // Go through project day by day until all tasks are finished
     while (true) {
-      System.err.printf("\n\n==========| day: % 3d |==========\n", day);
+      System.err.printf("\n\n\n==========| day: % 3d |==========\n", day);
       constructionProject.printStatus();
       
       // Assign workers
@@ -47,19 +43,14 @@ public class Simulator {
       // - tasks taking longer than expected    comes from task object
       // - material delivery delayed            comes from lbms object
       
-      // If any alarms, take actions
+      // If there are any alarms, resolve them
       if (constructionProject.alarms.getUnresolvedAlarms().size() > 0) {
         constructionProject.analyseAlarms(constructionProject.alarms.getUnresolvedAlarms(), workforce, day+1);
       }
 
       // Go to next day
-      System.out.println();
       day++;
       if (day > 100) break;
-    }
-
-    for (Alarm d : constructionProject.alarms.alarms) {
-      System.out.println(d);
     }
   }
 }
