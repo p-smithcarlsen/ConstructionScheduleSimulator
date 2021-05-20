@@ -180,7 +180,7 @@ public class Contractor {
       }
     }
 
-    // System.out.println("Does this break too soon? What if there is a larger worker shortage the following day?");
+    System.out.println("Does this break too soon? What if there is a larger worker shortage the following day?");
 
     if (dayOfDelay > 0) return delayLatestTask(t, day, dayOfDelay, (int)(neededWorkers - hiredWorkers));
     return false;
