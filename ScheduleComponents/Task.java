@@ -8,16 +8,18 @@ public class Task {
   public int id;
   public int location;
   public String activity;
-  public String trade;
+  public Contractor.Trade trade;
   
   // Duration and progress
   public double quantity;
   public int optimalWorkerCount;
+  public int scheduledDuration;
   public int meanDuration;
   public double standardDeviation;
   public int workersAssigned;
   public int productionRate;
   public double progress;
+  public int workerShortage;
 
   // Dependencies and path duration
   public String dependencies;
@@ -47,7 +49,7 @@ public class Task {
     this.id = Integer.parseInt(""+taskParameters[0].charAt(1));
     this.location = Integer.parseInt(""+taskParameters[1].charAt(1));
     this.activity = taskParameters[2];
-    this.trade = taskParameters[3];
+    this.trade = Contractor.Trade.valueOf(taskParameters[3]);
     this.optimalWorkerCount = Integer.parseInt(taskParameters[4]);
     taskParameters[5] = taskParameters[5].replaceAll(",", ".");
     this.quantity = Double.parseDouble(taskParameters[5]);
@@ -85,8 +87,29 @@ public class Task {
    * Contractors will attempt to assign the optimal worker count.
    * @param workers
    */
-  public void assignWorkers(int workers) {
+  public void assignWorkers(int workers, int day) {
+    int daysLeft = scheduledFinish - day;
+    double q = getRemainingQuantity();
+    // double pp = productionRate;
+    // double increment = pp / q;
+    double productionPerWorker = (double)productionRate / (double)optimalWorkerCount;
+    int totalWorkersNeeded = (int) Math.ceil(q / productionPerWorker);
+    int w = (int) Math.ceil((double)totalWorkersNeeded / (double)daysLeft);
+    // int workersPerDay = (int) Math.ceil(q / totalWorkersNeeded);
+    if ((workers + workersAssigned) < w) {
+      workerShortage = w - (workers + workersAssigned);
+    }
+    if (progress + transformWorkersToProgress(workers) + 0.01 >= 100) {
+      workerShortage = 0;
+    }
+    
     this.workersAssigned += workers;
+  }
+
+  public void assignExtraWorker(int workers, int day) {
+    System.out.println(trade + " supplied another worker to L" + location + "T" + id);
+    this.workersAssigned += workers;
+    workerShortage -= workers;
   }
 
   /**
@@ -100,10 +123,11 @@ public class Task {
     if (workersAssigned == 0) { return; }
     this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100) this.progress = 100;
+    if (this.progress < 0) {
+      System.out.println("");
+    }
     System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %s", 
-      trade.substring(0,Math.min(12, trade.length())), progress, location, id, isCritical ? "(Critical)" : ""));
-
-    this.workersAssigned = 0;
+      trade.toString().substring(0, Math.min(12, trade.toString().length())), progress, location, id, isCritical ? "(Critical)" : ""));
   }
 
   /**
@@ -119,6 +143,9 @@ public class Task {
     double contributionPerWorker = (double)productionRate / (double)optimalWorkerCount;
     double workerContribution = workers * contributionPerWorker;
     double progress = workerContribution / quantity * 100;
+    if (progress < 0) {
+      System.out.println("");
+    }
     return progress;
   }
 
@@ -173,7 +200,7 @@ public class Task {
       "%s (d=%02d, es=%02d, ef=%02d, ls=%02d, lf=%02d)   ", 
       location, id, isCritical ? "(C)" : "   ", meanDuration, 
       earliestStart, earliestFinish, latestStart, latestFinish);
-    String tradeSubstring = trade.substring(0, Math.min(trade.length(), 15));
+    String tradeSubstring = trade.toString().substring(0, Math.min(trade.toString().length(), 15));
     System.out.printf("%-15s  [ ", tradeSubstring);
     for (Task t : predecessorTasks) System.out.print("L" + t.location + "T" + t.id + " ");
     System.out.printf("]  [ ");

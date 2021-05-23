@@ -1,10 +1,13 @@
 package ScheduleComponents;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import ScheduleComponents.Contractor.Trade;
 
 public class TaskGraph {
   
@@ -12,6 +15,7 @@ public class TaskGraph {
   public int locations;
   public int tasksPerLocation;
   public int estimatedDeadline;
+  public int scheduledDeadline;
 
   public TaskGraph(int locations, int tasksPerLocation) {
     this.tasks = new ArrayList<>();
@@ -86,7 +90,6 @@ public class TaskGraph {
       if (nextTask) {
         estimate = forwardPass(t, day);
         if (estimate > estimatedDeadline) {
-          System.out.println("New estimated project deadline!");
           estimatedDeadline = estimate;
         }
       }
@@ -146,16 +149,24 @@ public class TaskGraph {
       t.taskFloat = t.maximumTime - t.meanDuration;
       if (t.taskFloat == 0) {
         if (!t.isCritical) {
-          System.out.println("L" + t.location + "T" + t.id + " was not critical but just became critical!");
+          // System.out.println("L" + t.location + "T" + t.id + " was not critical but just became critical!");
         }
         t.isCritical = true;
       } else {
         t.isCritical = false;
         if (t.isCritical) {
-          System.out.println("L" + t.location + "T" + t.id + " was critical but is not any longer!");
+          // System.out.println("L" + t.location + "T" + t.id + " was critical but is not any longer!");
         }
       }
     }
+  }
+  
+  public int scheduledDeadline() {
+    scheduledDeadline = 0;
+    for (Task t : tasks) {
+      if (t.scheduledFinish > scheduledDeadline) scheduledDeadline = t.scheduledFinish;
+    }
+    return scheduledDeadline;
   }
 
   /**
@@ -167,16 +178,16 @@ public class TaskGraph {
    * @param tomorrow is the day, from which we need to create a new overview of when tasks are scheduled to finish
    * @return an updated map with contractor types and their worker schedules
    */
-  public Map<String, int[]> determineScheduledTimings(Map<String, int[]> contractorSchedules, int tomorrow) {
-    Map<String, int[]> copiedSchedules = new HashMap<>();
-    for (Entry<String, int[]> e : contractorSchedules.entrySet()) {
+  public Map<Trade, int[]> determineScheduledTimings(Map<Trade, int[]> contractorSchedules, int tomorrow, Workforce w) {
+    Map<Trade, int[]> copiedSchedules = new HashMap<>();
+    for (Entry<Trade, int[]> e : contractorSchedules.entrySet()) {
       copiedSchedules.put(e.getKey(), e.getValue().clone());
     }
 
     int[][] adj = new int[locations][tasksPerLocation];
     List<WorkerReschedule> wr = new ArrayList<>();
     for (Task t : tasks) {
-      if (t.isCritical) {
+      if (t.isCritical && adj[t.location][t.id] == 0 && !t.isFinished()) {
         boolean nextTask = true;
         for (Task t2 : t.predecessorTasks) {
           if (!t2.isFinished()) {
@@ -185,12 +196,19 @@ public class TaskGraph {
         }
         if (nextTask) {
           Tuple tuple = calculateTaskProduction(t, copiedSchedules, tomorrow, adj);
+          // System.out.println(Arrays.deepToString(adj) + "   :   " + tuple.reschedules.size());
+          if (tuple.reschedules.size() > 0) {
+            System.out.println();
+          }
+          for (Trade trade : copiedSchedules.keySet()) {
+            copiedSchedules.put(trade, tuple.constructorSchedules.get(trade));
+          }
           tuple.reschedules.forEach(tup -> wr.add(tup));
         }
       }
     }
     for (Task t : tasks) {
-      if (!t.isCritical) {
+      if (!t.isCritical && adj[t.location][t.id] == 0 && !t.isFinished()) {
         boolean nextTask = true;
         for (Task t2 : t.predecessorTasks) {
           if (!t2.isFinished()) {
@@ -199,17 +217,73 @@ public class TaskGraph {
         }
         if (nextTask) {
           Tuple tuple = calculateTaskProduction(t, copiedSchedules, tomorrow, adj);
+          // System.out.println(Arrays.deepToString(adj) + "   :   " + tuple.reschedules.size());
+          if (tuple.reschedules.size() > 0) {
+            System.out.println();
+          }
+          for (Trade trade : copiedSchedules.keySet()) {
+            copiedSchedules.put(trade, tuple.constructorSchedules.get(trade));
+          }
           tuple.reschedules.forEach(tup -> wr.add(tup));
         }
       }
     }
 
-    for (WorkerReschedule r : wr) {
-      int[] contractorSchedule = contractorSchedules.get(r.trade);
-      if (!r.isImplemented()) r.implement(contractorSchedule);
+    System.out.println();
+
+    // reduceReschedules(wr);
+    for (Trade t : contractorSchedules.keySet()) {
+      for (WorkerReschedule r : wr) {
+        if (r.trade.equals(t) && !r.implemented) {
+          int[] contractorSchedule = contractorSchedules.get(t);
+          while (r.toDay >= contractorSchedule.length) {
+            int[] newContractorSchedule = new int[Math.max(contractorSchedule.length*2, r.toDay)];
+            for (int i = 0; i < contractorSchedule.length; i++) {
+              newContractorSchedule[i] = contractorSchedule[i];
+            }
+            contractorSchedule = newContractorSchedule;
+          }
+
+          contractorSchedules.put(t, contractorSchedule);
+          contractorSchedules.get(t)[r.fromDay]--;
+          if (contractorSchedules.get(t)[r.fromDay] < 0) {
+            System.out.printf("");
+          }
+          contractorSchedules.get(t)[r.toDay]++;
+          r.implemented = true;
+          // System.out.println(r);
+        }
+      }
     }
 
+    scheduledDeadline();
     return contractorSchedules;
+  }
+
+  public void reduceReschedules(List<WorkerReschedule> wr) {
+    List<WorkerReschedule> wrToBeDeleted = new ArrayList<>();
+
+    for (int i = 0; i < wr.size(); i++) {
+      WorkerReschedule r1 = wr.get(i);
+      for (int j = i+1; j < wr.size(); j++) {
+        WorkerReschedule r2 = wr.get(j);
+        if (r1.trade == r2.trade) {
+          if (r1.toDay == r2.fromDay) {
+            wr.add(new WorkerReschedule(r1.trade, r1.fromDay, r2.toDay));
+            wrToBeDeleted.add(r1);
+            wrToBeDeleted.add(r2);
+          } else if (r2.toDay == r1.fromDay) {
+            wr.add(new WorkerReschedule(r1.trade, r2.fromDay, r1.toDay));
+            wrToBeDeleted.add(r1);
+            wrToBeDeleted.add(r2);
+          }
+        }
+      }
+    }
+
+    for (WorkerReschedule r : wrToBeDeleted) {
+      wr.remove(r);
+    }
   }
 
   /**
@@ -223,7 +297,7 @@ public class TaskGraph {
    * @param adj is the adjacency matrix, keeping track of the visited tasks
    * @return a tuple, where the interesting part is the list of worker reschedules (wr)
    */
-  private Tuple calculateTaskProduction(Task t, Map<String, int[]> copiedSchedules, int tomorrow, int[][] adj) {
+  private Tuple calculateTaskProduction(Task t, Map<Trade, int[]> copiedSchedules, int tomorrow, int[][] adj) {
     // First, check if there are predecessor tasks, who we need to calculate production
     // for before analysing this task (t)
     int[] contractorSchedule = copiedSchedules.get(t.trade);
@@ -234,9 +308,11 @@ public class TaskGraph {
       if (t2.isFinished()) continue;
       if (adj[t2.location][t2.id] == 0) {
         Tuple p = calculateTaskProduction(t2, copiedSchedules, 0, adj);
+        // System.out.println(Arrays.deepToString(adj) + "   :   " + p.reschedules.size());
         p.reschedules.forEach(tup -> wr.add(tup));
         predecessorFinish = p.scheduledFinish;
         copiedSchedules = p.constructorSchedules;
+        contractorSchedule = copiedSchedules.get(t.trade);
         adj[t2.location][t2.id] = 1;
         if (predecessorFinish > earliestScheduledStart) earliestScheduledStart = predecessorFinish;
       } else {
@@ -248,50 +324,98 @@ public class TaskGraph {
     // through the worker supply of the contractor to determine the scheduled finish
     t.scheduledStart = earliestScheduledStart;
     double remainingQuantity = 0;
-    int[] shortStaffedDays = new int[contractorSchedule.length];
+    double production = 0;
     if (adj[t.location][t.id] == 0) {
       remainingQuantity = t.getRemainingQuantity();
       int i = t.scheduledStart;
-      while (remainingQuantity > 0 && i < contractorSchedule.length) {
-        int sufficientWorkers = (int)Math.ceil(remainingQuantity / t.productionRate * t.optimalWorkerCount);
-        sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
-        sufficientWorkers = Math.min(sufficientWorkers, contractorSchedule[i]);
-        if (sufficientWorkers < t.optimalWorkerCount) shortStaffedDays[i] = t.optimalWorkerCount - sufficientWorkers;
-        double production = (double)sufficientWorkers / (double)t.optimalWorkerCount * (double)t.productionRate;
-        contractorSchedule[i] -= sufficientWorkers;
-        remainingQuantity -= production;
-        i++;
-        if (remainingQuantity <= 0) { 
-          t.scheduledFinish = i; 
+      int taskFinish = 0;
+      while (i >= contractorSchedule.length) {
+        int[] newContractorSchedule = new int[contractorSchedule.length*2];
+        for (int j = 0; j < contractorSchedule.length; j++) {
+          newContractorSchedule[j] = contractorSchedule[j];
         }
+        contractorSchedule = newContractorSchedule;
       }
-    }
+      int[] shortStaffedDays = new int[contractorSchedule.length*2];
+      for (int j = tomorrow; j < shortStaffedDays.length; j++) {
+        shortStaffedDays[j] = t.optimalWorkerCount;
+      }
 
-    // If the task has not been finished, check if we can re-arrange workers
-    // so the remaining quantity can be completed
-    if (remainingQuantity > 0) {
-      double productionPerWorker = (double)t.productionRate / (double)t.optimalWorkerCount;
-      int understaffedDay = 0;
-      for (int day = 0; day < contractorSchedule.length; day++) {
-        if (contractorSchedule[day] > 0) {
-          for (int j = day; j < shortStaffedDays.length; j++) {
-            if (shortStaffedDays[j] > 0) {
-              understaffedDay = j;
-              shortStaffedDays[j]--;
-              break;
+      while (remainingQuantity > 0) {
+
+        if (i < contractorSchedule.length) {
+          int sufficientWorkers = (int)Math.ceil(remainingQuantity / (double)t.productionRate * (double)t.optimalWorkerCount);
+          sufficientWorkers = Math.min(sufficientWorkers, t.optimalWorkerCount);
+          sufficientWorkers = Math.min(sufficientWorkers, contractorSchedule[i]);
+          // if (sufficientWorkers < t.optimalWorkerCount) shortStaffedDays[i] = t.optimalWorkerCount - sufficientWorkers;
+          production = (double)sufficientWorkers / (double)t.optimalWorkerCount * (double)t.productionRate;
+          contractorSchedule[i] -= sufficientWorkers;
+          shortStaffedDays[i] -= sufficientWorkers;
+          if (sufficientWorkers > 0 && i > taskFinish) taskFinish = i;
+          remainingQuantity -= production;
+          
+          if (i-1 >= t.scheduledFinish && t.scheduledFinish != 0 && remainingQuantity > 0) {
+            int remainingWorkers = (int)Math.ceil(remainingQuantity / (double)t.productionRate * (double)t.optimalWorkerCount);
+            int d = t.scheduledStart;
+            while (remainingWorkers > 0) {
+              if (contractorSchedule[d] > 0) {
+                production = (double)1 / (double)t.optimalWorkerCount * (double)t.productionRate;
+                remainingQuantity -= production;
+                remainingWorkers--;
+                contractorSchedule[d]--;
+                // System.out.println("'Stealing' another worker to work on task L" + t.location + "T" + t.id + " on day " + d + " :)");
+              } else {
+                d++;
+              }
+              if (d > i) break;
             }
           }
-          wr.add(new WorkerReschedule(t.trade, day, understaffedDay));
-          remainingQuantity -= productionPerWorker;
-          contractorSchedule[day]--;
-          contractorSchedule[understaffedDay]++;
-          day--;
+
+        } else {
+          // If the task has not been finished, check if we can re-arrange workers
+          // so the remaining quantity can be completed
+          double productionPerWorker = (double)t.productionRate / (double)t.optimalWorkerCount;
+          int understaffedDay = 0;
+          for (int day = 0; day < contractorSchedule.length; day++) {
+            if (contractorSchedule[day] > 0) {
+              for (int j = day; j < shortStaffedDays.length; j++) {
+                if (shortStaffedDays[j] > 0) {
+                  understaffedDay = j;
+                  break;
+                }
+              }
+              wr.add(new WorkerReschedule(t.trade, day, understaffedDay));
+              remainingQuantity -= productionPerWorker;
+              contractorSchedule[day]--;
+              shortStaffedDays[understaffedDay]--;
+              // System.out.print(t.trade + ": day " + day + " -> " + understaffedDay + "    ");
+              // System.out.printf(" %-30s: day % 3d -> % 3d     ", t.trade, day, understaffedDay);
+              // System.out.printf("%-30s ", t.trade);
+              // for (int k = 0; k < contractorSchedule.length; k++) {
+              //   System.out.printf(" % 3d", contractorSchedule[k]);
+              // }
+              // System.out.println();
+              // if (contractorSchedule[day] < 0) {
+              //   System.out.println();
+              // }
+              if (contractorSchedule[day] > 0) {
+                day--;
+              }
+            }
+            if (understaffedDay > taskFinish) taskFinish = understaffedDay;
+            if (remainingQuantity <= 0) { break; }
+          }
+
+          if (remainingQuantity > 0) { 
+            System.out.println(t.trade + " not finishing task L" + t.location + "T" + t.id + "!!");
+          }
         }
-        if (remainingQuantity <= 0) {
-          t.scheduledFinish = understaffedDay+1;
-          break;
-        }
+
+        i++;
       }
+      System.out.println("L" + t.location + "T" + t.id + " has gotten a new scheduled finish: " + t.scheduledFinish + " -> " + (taskFinish+1));
+      t.scheduledFinish = taskFinish+1;
+      t.scheduledDuration = t.scheduledFinish - t.scheduledStart;
     }
 
     // Go through succeeding tasks and retrieve their worker reschedules
@@ -299,17 +423,22 @@ public class TaskGraph {
     for (Task t2 : t.successorTasks) {
       if (!t2.isCritical) continue;
       Tuple p = calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj);
+      // System.out.println(Arrays.deepToString(adj) + "   :   " + p.reschedules.size());
       p.reschedules.forEach(tup -> wr.add(tup));
+      copiedSchedules = p.constructorSchedules;
+      contractorSchedule = copiedSchedules.get(t.trade);
     }
     for (Task t2 : t.successorTasks) {
       if (t2.isCritical) continue;
       Tuple p = calculateTaskProduction(t2, copiedSchedules, t.scheduledFinish, adj);
+      // System.out.println(Arrays.deepToString(adj) + "   :   " + p.reschedules.size());
       p.reschedules.forEach(tup -> wr.add(tup));
     }
     
     // scheduledFinish and copiedSchedules is used in the recursive calls of
     // this function. The worker reschedules (wr) is used to collect the
     // information found throughout the recursive calls.
+    copiedSchedules.put(t.trade, contractorSchedule);
     return new Tuple(t.scheduledFinish, copiedSchedules, wr);
   }
 
@@ -321,21 +450,29 @@ public class TaskGraph {
    * @param trade is the trade whose worker demand we want
    * @return an int array, denoting how many workers should be assigned each day
    */
-  public int[] forecastWorkerDemand(String trade) {
+  public int[] forecastWorkerDemand(Trade trade) {
     int[] workerDemand = new int[estimatedDeadline+1];
     for (Task t : tasks) {
       if (t.isFinished()) continue;
       if (t.trade.equals(trade)) {
         double remainingQuantity = t.getRemainingQuantity();
         double productionRate = t.productionRate;
+        double optimalWorkers = t.optimalWorkerCount;
         int sufficientWorkers = 0;
         int i = 0;
         while (remainingQuantity > 0) {
           if (remainingQuantity >= productionRate) {
-            workerDemand[t.latestFinish-i] += t.optimalWorkerCount;
+            workerDemand[t.latestFinish-i] += optimalWorkers;
             remainingQuantity -= productionRate;
           } else {
-            sufficientWorkers = (int)Math.ceil((remainingQuantity / (double)t.productionRate) * (double)t.optimalWorkerCount);
+            double neededWorkers = (remainingQuantity / productionRate) * optimalWorkers;
+            if (Math.ceil(neededWorkers) != Math.ceil(Math.round(neededWorkers)))
+            if (Math.abs(neededWorkers % 1) < 0.001) neededWorkers = Math.round(neededWorkers);
+            neededWorkers = Math.ceil(neededWorkers);
+            sufficientWorkers = (int)Math.ceil((remainingQuantity / productionRate) * optimalWorkers);
+            if (neededWorkers != sufficientWorkers) {
+              System.out.println("");
+            }
             workerDemand[t.latestFinish-i] += sufficientWorkers;
             remainingQuantity = 0;
           }
@@ -397,10 +534,10 @@ public class TaskGraph {
 
   private class Tuple {
     public int scheduledFinish;
-    public Map<String, int[]> constructorSchedules;
+    public Map<Trade, int[]> constructorSchedules;
     public List<WorkerReschedule> reschedules;
 
-    public Tuple(int scheduledFinish, Map<String, int[]> constructorSchedules, List<WorkerReschedule> wr) {
+    public Tuple(int scheduledFinish, Map<Trade, int[]> constructorSchedules, List<WorkerReschedule> wr) {
       this.scheduledFinish = scheduledFinish;
       this.constructorSchedules = constructorSchedules;
       if (reschedules == null) reschedules = new ArrayList<>();
@@ -409,22 +546,31 @@ public class TaskGraph {
   }
 
   private class WorkerReschedule {
-    String trade;
+    Trade trade;
     int fromDay;
     int toDay;
     boolean implemented;
 
-    public WorkerReschedule(String trade, int from, int to) {
+    public WorkerReschedule(Trade trade, int from, int to) {
       this.trade = trade;
       this.fromDay = from;
       this.toDay = to;
       this.implemented = false;
     }
 
-    public void implement(int[] contractorSchedule) {
+    public int[] implement(int[] contractorSchedule) {
+      while (toDay >= contractorSchedule.length) {
+        int[] newContractorSchedule = new int[Math.max(contractorSchedule.length*2, toDay)];
+        for (int i = 0; i < contractorSchedule.length; i++) {
+          newContractorSchedule[i] = contractorSchedule[i];
+        }
+        contractorSchedule = newContractorSchedule;
+      }
       contractorSchedule[fromDay]--;
       contractorSchedule[toDay]++;
       this.implemented = true;
+      System.out.println(this);
+      return contractorSchedule;
     }
 
     public boolean isImplemented() {

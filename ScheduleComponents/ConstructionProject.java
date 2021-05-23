@@ -1,6 +1,9 @@
 package ScheduleComponents;
 
 import java.util.List;
+import java.util.Map;
+
+import ScheduleComponents.Contractor.Trade;
 
 public class ConstructionProject {
 
@@ -79,7 +82,6 @@ public class ConstructionProject {
     // are currently being worked and tasks that depend on these). So we need to reset timings
     // Related to real life: A contractor tells the project manager that there is a delay,
     // now the project manager needs to figure out how this affects the schedule...
-    tasks.calculateTimingsAndFloats(tomorrow);    
     
     // The project manager has now assessed the situation, and has probably assessed
     // that the schedule (although some tasks having a longer earliest finish) is OK.
@@ -91,17 +93,23 @@ public class ConstructionProject {
     // finish date. Otherwise, the task will go over its latest finish, push back
     // depending tasks and extend project deadline.
     for (Alarm a : alarms) {
-      // We know which contractor is lacking behind, so we will forecast the worker
-      // demand for this contractor:
-      int[] workerDemand = tasks.forecastWorkerDemand(a.trade);
       // We will compare the worker demand with the worker supply and determine 
       // when (if so) a task's latest finish will be pushed back
       Contractor delayedContractor = w.getContractor(a.trade);
-      delayedContractor.checkWorkerSupply(a.task, workerDemand, tomorrow);
-      tasks.determineScheduledTimings(w.contractorSchedules, tomorrow);
-      // delayedContractor.scheduleTasks(tomorrow);
-      // tasks.determineScheduledTimings(a.task, w.contractorSchedules);
+      delayedContractor.checkWorkerSupply(tomorrow);
+      Map<Trade, int[]> updatedSchedules = tasks.determineScheduledTimings(w.getContractorSchedule(), tomorrow, w);
+      for (Trade t : updatedSchedules.keySet()) {
+        w.getContractor(t).workerDemand = updatedSchedules.get(t);
+      }
       a.resolve();
+    }
+
+    tasks.calculateTimingsAndFloats(tomorrow);
+  }
+
+  public void endOfDay() {
+    for (Task t : tasks.tasks) {
+      t.workersAssigned = 0;
     }
   }
 
@@ -110,9 +118,18 @@ public class ConstructionProject {
    */
   public void printStatus() {
     if (tasks.numberOfRemainingTasks() > 0) {
-      System.out.println("Estimated deadline of project: day " + tasks.estimatedDeadline + " (remaining tasks: " + tasks.numberOfRemainingTasks() + ")");
+      System.out.println("Project deadline according to schedules: day " + tasks.scheduledDeadline + " (remaining tasks: " + tasks.numberOfRemainingTasks() + ")");
     } else {
       System.out.println("All tasks finished!");
+    }
+  }
+
+  public void printTaskAssignment() {
+    for (Task t : tasks.tasks) {
+      if (!t.isFinished() && t.canBeStarted()) {
+        double w = t.transformWorkersToProgress(t.workersAssigned);
+        System.out.printf("L%dT%d: Scheduled % 2d - % 2d  (progress=%5.1f, %5.1f)%n", t.location, t.id, t.scheduledStart, t.scheduledFinish, t.progress, t.progress+w);
+      }
     }
   }
 

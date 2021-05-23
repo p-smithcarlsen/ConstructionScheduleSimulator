@@ -5,12 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
+import ScheduleComponents.Contractor.Trade;
+
 public class DataGenerator {
 
   // Notice how activities of index x can be completed by trades of index x
   private String[] locationNames = new String[]{ "Ground Level", "First Floor", "Second Floor", "Third Floor", "Fourth Floor" };
   private String[] activities = new String[]{ "Wood Framing", "Finishing", "Electricity", "Flooring", "Glass Installation", "Heating/AC", "Insulation", "Sewage", "Piping", "Interior Walls" };
-  private String[] trades = new String[]{ "Carpenter", "Cement/Concrete Finisher", "Electrician", "Flooring Installer", "Glazier", "HVAC Tech", "Insulation Worker", "Plumber", "Roofing Mechanic", "Painter" };
+  private Trade[] trades = {Trade.Carpenter, Trade.CementOrConcreteFinisher, Trade.Electrician, Trade.FlooringInstaller, Trade.Glazier, Trade.HVACTech, Trade.InsulationWorker, Trade.Plumber, Trade.RoofingMechanic, Trade.Painter};
   private int[] optimalCrews = new int[]{ 3, 3, 2, 3, 2, 2, 4, 4, 3, 4 };
   private double[] quantities = new double[]{ 12.0, 8.0, 6.0, 10.5, 7.0, 9.0, 6.5, 12.0, 7.0, 9.5 };
   private int[] productionRates = new int[]{ 3, 3, 4, 2, 2, 4, 3, 2, 4, 3 };
@@ -118,7 +120,7 @@ public class DataGenerator {
   public String createTask(int taskId, int locationId, int rand) {
     if (rand == -1) rand = r.nextInt(activities.length);
     String activity = activities[rand];
-    String trade = trades[rand];
+    Trade trade = trades[rand];
     int optimalCrew = optimalCrews[rand];
     double quantity = quantities[rand];
     int productionRate = productionRates[rand];

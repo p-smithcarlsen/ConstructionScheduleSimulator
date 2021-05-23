@@ -25,17 +25,26 @@ public class Simulator {
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(constructionProject.locations, constructionProject.alarms);
     // Go through all worker schedules and set their scheduled timings
-    constructionProject.tasks.determineScheduledTimings(workforce.contractorSchedules, 0);
+    constructionProject.tasks.determineScheduledTimings(workforce.contractorSchedules, 0, workforce);
     // Go through project day by day until all tasks are finished
     while (true) {
-      System.err.printf("\n\n\n==========| day: % 3d |==========\n", day);
+      System.err.printf("\n\n==========| day: % 3d |==========\n", day);
       constructionProject.printStatus();
+      if (day >= constructionProject.tasks.scheduledDeadline && constructionProject.tasks.numberOfRemainingTasks() > 0) {
+        System.out.println("");
+      }
+      if (constructionProject.tasks.numberOfRemainingTasks() <= 0) {
+        break;
+      }
       
       // Assign workers
       workforce.assignWorkers(day);
+      
+      constructionProject.printTaskAssignment();
 
       // Work tasks
       constructionProject.work();
+      constructionProject.tasks.scheduledDeadline();
 
       // Check for delays (where can delays come from?)
       // - workers being sick                   comes from contractor object
@@ -48,9 +57,18 @@ public class Simulator {
         constructionProject.analyseAlarms(constructionProject.alarms.getUnresolvedAlarms(), workforce, day+1);
       }
 
+      // workforce.printContractorSchedules();
+
       // Go to next day
+      endOfDay(workforce, constructionProject);
       day++;
       if (day > 100) break;
     }
+    // constructionProject.tasks.printTasksWithDependencies(constructionProject.locations.length, constructionProject.locations[0].tasks.size());
+  }
+
+  public void endOfDay(Workforce w, ConstructionProject cp) {
+    w.endOfDay();
+    cp.endOfDay();
   }
 }
