@@ -40,7 +40,7 @@ public class Simulator {
       // Assign workers
       workforce.assignWorkers(day);
       
-      constructionProject.printTaskAssignment();
+      // constructionProject.printTaskAssignment();
 
       // Work tasks
       constructionProject.work();

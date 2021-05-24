@@ -99,7 +99,7 @@ public class Task {
     if ((workers + workersAssigned) < w) {
       workerShortage = w - (workers + workersAssigned);
     }
-    if (progress + transformWorkersToProgress(workers) + 0.01 >= 100) {
+    if (progress + transformWorkersToProgress(workers) + 0.001 >= 100) {
       workerShortage = 0;
     }
     
@@ -110,6 +110,7 @@ public class Task {
     System.out.println(trade + " supplied another worker to L" + location + "T" + id);
     this.workersAssigned += workers;
     workerShortage -= workers;
+    if (progress + transformWorkersToProgress(workersAssigned) + 0.001 >= 100) workerShortage = 0;
   }
 
   /**
@@ -126,8 +127,8 @@ public class Task {
     if (this.progress < 0) {
       System.out.println("");
     }
-    System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %s", 
-      trade.toString().substring(0, Math.min(12, trade.toString().length())), progress, location, id, isCritical ? "(Critical)" : ""));
+    System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %12s    (%3d  -  %3d)", 
+      trade.toString().substring(0, Math.min(12, trade.toString().length())), progress, location, id, isCritical ? "(Critical)" : "", scheduledStart, scheduledFinish));
   }
 
   /**

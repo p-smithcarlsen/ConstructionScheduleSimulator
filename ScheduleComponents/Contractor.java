@@ -96,36 +96,36 @@ public class Contractor {
       if (!t.isCritical) continue;
       if (!t.isFinished() && t.canBeStarted()) {
         assignWorkers(today, t, alarms);
-        if (t.workerShortage > 0 ) {
-          while (availableWorkers > 0 && t.workerShortage > 0) {
-            t.assignExtraWorker(1, today);
-            availableWorkers--;
-          }
-        }
+        // if (t.workerShortage > 0 ) {
+        //   while (availableWorkers > 0 && t.workerShortage > 0) {
+        //     t.assignExtraWorker(1, today);
+        //     availableWorkers--;
+        //   }
+        // }
       }
     }
     for (Task t : sortedTasks) {
       if (t.isCritical) continue;
       if (!t.isFinished() && t.canBeStarted() && t.workerShortage > 0) {
         assignWorkers(today, t, alarms);
-        if (t.workerShortage > 0 ) {
-          while (availableWorkers > 0 && t.workerShortage > 0) {
-            t.assignExtraWorker(1, today);
-            availableWorkers--;
-          }
-        }
+        // if (t.workerShortage > 0 ) {
+        //   while (availableWorkers > 0 && t.workerShortage > 0) {
+        //     t.assignExtraWorker(1, today);
+        //     availableWorkers--;
+        //   }
+        // }
       }
     }
     for (Task t : sortedTasks) {
       if (t.isCritical) continue;
       if (!t.isFinished() && t.canBeStarted() && t.workerShortage <= 0) {
         assignWorkers(today, t, alarms);
-        if (t.workerShortage > 0 ) {
-          while (availableWorkers > 0 && t.workerShortage > 0) {
-            t.assignExtraWorker(1, today);
-            availableWorkers--;
-          }
-        }
+        // if (t.workerShortage > 0 ) {
+        //   while (availableWorkers > 0 && t.workerShortage > 0) {
+        //     t.assignExtraWorker(1, today);
+        //     availableWorkers--;
+        //   }
+        // }
       }
     }
 
@@ -186,6 +186,7 @@ public class Contractor {
       double rate = (double)t.productionRate;
       double optimalWorkers = (double)t.optimalWorkerCount;
       sufficientWorkers = (int)Math.ceil((remainingQuantity / rate * optimalWorkers)) - t.workersAssigned;
+      // sufficientWorkers = sufficientWorkers - t.workerShortage;
       // System.out.printf("%f / %f * %f = %d%n", remainingQuantity, rate, optimalWorkers, sufficientWorkers);
     }
 
@@ -216,11 +217,16 @@ public class Contractor {
     int sickWorkers = 0;
     for (int i = 0; i < scheduledWorkers; i++) {
       if (r.nextInt(200) < 3) {
-        workerDemand[day]--;
+        // workerDemand[day]--;
         sickWorkers++;
       }
     }
-    return sickWorkers;
+    if (sickWorkers > 0) {
+      workerDemand[day]--;
+      return 1;
+    }
+    return 0;
+    // return sickWorkers;
   }
 
   /**
@@ -259,7 +265,7 @@ public class Contractor {
           remainingQuantity -= w*quantityPerWorker;
           currentWorkerSupply[i] -= w;
 
-          if (t.scheduledFinish-1 <= i && t.scheduledFinish != 0 && remainingQuantity > 0) {
+          if (i >= t.scheduledFinish && t.scheduledFinish != 0 && remainingQuantity > 0) {
             int d = t.scheduledStart;
             while (workersNeeded > 0) {
               if (currentWorkerSupply[d] > 0) {
@@ -281,13 +287,13 @@ public class Contractor {
             if (i <= firstDelay) firstDelay = i-1;
             break;
           }
-          if (i > t.scheduledFinish) {
+          if (i >= t.scheduledFinish) {
             if (i <= firstDelay) firstDelay = i-1;
           }
           i++;
         }
 
-        if (i > t.scheduledFinish && i < currentWorkerSupply.length) {
+        if (i >= t.scheduledFinish && i < currentWorkerSupply.length) {
           delayedTasks.add(t);
           if (i <= firstDelay) firstDelay = i-1;
         }
