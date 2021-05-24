@@ -90,12 +90,9 @@ public class Task {
   public void assignWorkers(int workers, int day) {
     int daysLeft = scheduledFinish - day;
     double q = getRemainingQuantity();
-    // double pp = productionRate;
-    // double increment = pp / q;
     double productionPerWorker = (double)productionRate / (double)optimalWorkerCount;
     int totalWorkersNeeded = (int) Math.ceil(q / productionPerWorker);
     int w = (int) Math.ceil((double)totalWorkersNeeded / (double)daysLeft);
-    // int workersPerDay = (int) Math.ceil(q / totalWorkersNeeded);
     if ((workers + workersAssigned) < w) {
       workerShortage = w - (workers + workersAssigned);
     }
@@ -166,7 +163,9 @@ public class Task {
    */
   public double getRemainingQuantity() {
     double remainingQuantity = (100 - progress) * quantity / 100;
-    if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
+    Double roundOff = Math.floor(remainingQuantity * 1000.0) / 1000.0;
+    if (roundOff != remainingQuantity) { remainingQuantity = roundOff; }
+    // if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
     return remainingQuantity;
   }
 

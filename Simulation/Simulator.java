@@ -39,8 +39,6 @@ public class Simulator {
       
       // Assign workers
       workforce.assignWorkers(day);
-      
-      // constructionProject.printTaskAssignment();
 
       // Work tasks
       constructionProject.work();
@@ -57,14 +55,11 @@ public class Simulator {
         constructionProject.analyseAlarms(constructionProject.alarms.getUnresolvedAlarms(), workforce, day+1);
       }
 
-      // workforce.printContractorSchedules();
-
       // Go to next day
       endOfDay(workforce, constructionProject);
       day++;
       if (day > 100) break;
     }
-    // constructionProject.tasks.printTasksWithDependencies(constructionProject.locations.length, constructionProject.locations[0].tasks.size());
   }
 
   public void endOfDay(Workforce w, ConstructionProject cp) {
