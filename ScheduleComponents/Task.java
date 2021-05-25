@@ -20,6 +20,7 @@ public class Task {
   public int productionRate;
   public double progress;
   public int workerShortage;
+  public int[] scheduledWorkers;
 
   // Dependencies and path duration
   public String dependencies;
@@ -39,6 +40,7 @@ public class Task {
 
   public Task(String[] taskParameters) {
     saveMetadata(taskParameters);
+    this.scheduledWorkers = new int[meanDuration];
   }
 
   /**
@@ -117,7 +119,7 @@ public class Task {
    * production (reflected in the workerContribution variable). After working the
    * task, the number of workers assigned is reset to 0.
    */
-  public void work() {
+  public void work(int day) {
     if (workersAssigned == 0) { return; }
     this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100) this.progress = 100;
@@ -126,6 +128,7 @@ public class Task {
     }
     System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %12s    (%3d  -  %3d)", 
       trade.toString().substring(0, Math.min(12, trade.toString().length())), progress, location, id, isCritical ? "(Critical)" : "", scheduledStart, scheduledFinish));
+    scheduledWorkers[day] -= workersAssigned;
   }
 
   /**
@@ -193,6 +196,34 @@ public class Task {
    */
   public boolean isFinished() {
     return progress >= 99.999;  // Taking into account precision of float values
+  }
+
+  public void scheduleWorkerAtDay(int day, int workers) {
+    while (day >= scheduledWorkers.length) {
+      int[] newSchedule = new int[scheduledWorkers.length*2];
+      for (int i = 0; i < scheduledWorkers.length; i++) {
+        newSchedule[i] = scheduledWorkers[i];
+      }
+      scheduledWorkers = newSchedule;
+    }
+
+    scheduledWorkers[day] += workers;
+  }
+
+  public void resetScheduledWorkers(int today) {
+    for (int i = today; i < scheduledWorkers.length; i++) {
+      scheduledWorkers[i] = 0;
+    }
+
+    System.out.printf("");
+  }
+
+  public void resizeSchedule(int length) {
+    int[] newSchedule = new int[length];
+    for (int i = 0; i < scheduledWorkers.length; i++) {
+      newSchedule[i] = scheduledWorkers[i];
+    }
+    scheduledWorkers = newSchedule;
   }
 
   public void print(int level) {

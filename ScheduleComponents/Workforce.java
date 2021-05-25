@@ -80,6 +80,12 @@ public class Workforce {
     return c.workerDemand;
   }
 
+  public void alignSchedules(int today) {
+    for (Contractor c : contractors) {
+      c.alignSchedule(today);
+    }
+  }
+
   public void printContractorSchedules() {
     int longestSchedule = 0;
     for (Contractor c : contractors) {
@@ -116,6 +122,12 @@ public class Workforce {
         }
       }
       System.out.println();
+    }
+  }
+
+  public void printContractorsAndTasks(int day) {
+    for (Contractor c : contractors) {
+      c.printScheduleAndTasks(day);
     }
   }
 

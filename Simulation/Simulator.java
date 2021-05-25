@@ -1,6 +1,10 @@
 package Simulation;
 
+import java.io.IOException;
+
+import Data.Logger;
 import ScheduleComponents.ConstructionProject;
+import ScheduleComponents.Task;
 import ScheduleComponents.Workforce;
 
 public class Simulator {
@@ -17,21 +21,29 @@ public class Simulator {
    * materialize, the project manager will get feedback and possibly an 
    * option to perform an action.
    * @param constructionProject
+   * @throws IOException
    */
-  public void runSimulation(ConstructionProject constructionProject) {
+  public void runSimulation(ConstructionProject constructionProject, Logger l) throws IOException {
     // Find the critical path(s) in the tasks
     constructionProject.prepareLocations();
     // constructionProject.tasks.printTasksWithDependencies(constructionProject.locations.length, constructionProject.locations[0].tasks.size());
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(constructionProject.locations, constructionProject.alarms);
+    l.log(workforce);
     // Go through all worker schedules and set their scheduled timings
     constructionProject.tasks.determineScheduledTimings(workforce.contractorSchedules, 0, workforce);
     // Go through project day by day until all tasks are finished
+    // constructionProject.tasks.printTaskSchedules(0);
+    // workforce.printContractorsAndTasks(day);
     while (true) {
       System.err.printf("\n\n==========| day: % 3d |==========\n", day);
       constructionProject.printStatus();
       if (day >= constructionProject.tasks.scheduledDeadline && constructionProject.tasks.numberOfRemainingTasks() > 0) {
-        System.out.println("");
+        // constructionProject.tasks.printTaskSchedules(day);
+        // workforce.printContractorsAndTasks(day);
+        for (Task t : constructionProject.tasks.tasks) {
+          if (!t.isFinished()) t.print(0);
+        }
       }
       if (constructionProject.tasks.numberOfRemainingTasks() <= 0) {
         break;
@@ -41,7 +53,7 @@ public class Simulator {
       workforce.assignWorkers(day);
 
       // Work tasks
-      constructionProject.work();
+      constructionProject.work(day);
       constructionProject.tasks.scheduledDeadline();
 
       // Check for delays (where can delays come from?)
@@ -53,13 +65,18 @@ public class Simulator {
       // If there are any alarms, resolve them
       if (constructionProject.alarms.getUnresolvedAlarms().size() > 0) {
         constructionProject.analyseAlarms(constructionProject.alarms.getUnresolvedAlarms(), workforce, day+1);
+        // constructionProject.tasks.printTaskSchedules(day);
       }
 
       // Go to next day
+      // constructionProject.tasks.printTaskSchedules(day);
+      workforce.alignSchedules(day+1);
+      // constructionProject.tasks.printTaskSchedules(day);
       endOfDay(workforce, constructionProject);
       day++;
       if (day > 100) break;
     }
+    l.end();
   }
 
   public void endOfDay(Workforce w, ConstructionProject cp) {

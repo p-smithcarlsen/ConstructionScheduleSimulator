@@ -26,7 +26,7 @@ public class ConstructionProject {
     createDependencies();
     tasks.forwardPass(0);
     tasks.backwardPass();
-    tasks.calculateFloat();
+    tasks.calculateFloat(0);
   }
 
   /**
@@ -61,9 +61,9 @@ public class ConstructionProject {
    * workers have been assigned for. Thus, the progress of the 
    * tasks will be incremented in this method. 
    */
-  public void work() {
+  public void work(int day) {
     for (Task t : tasks.tasks) {
-      t.work();
+      t.work(day);
     }
   }
 
@@ -97,10 +97,12 @@ public class ConstructionProject {
       // when (if so) a task's latest finish will be pushed back
       Contractor delayedContractor = w.getContractor(a.trade);
       delayedContractor.checkWorkerSupply(tomorrow);
+      // tasks.printTaskSchedules(tomorrow-1);
       Map<Trade, int[]> updatedSchedules = tasks.determineScheduledTimings(w.getContractorSchedule(), tomorrow, w);
       for (Trade t : updatedSchedules.keySet()) {
         w.getContractor(t).workerDemand = updatedSchedules.get(t);
       }
+      w.printContractorsAndTasks(tomorrow-1);
       a.resolve();
     }
 

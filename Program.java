@@ -2,12 +2,14 @@ import java.io.IOException;
 
 import Data.DataGenerator;
 import Data.DataParser;
+import Data.Logger;
 import ScheduleComponents.ConstructionProject;
 import Simulation.Simulator;
 
 public class Program {
 
   private static ConstructionProject constructionProject;
+  public static String filePath;
 
   /*
   To-do:
@@ -32,14 +34,20 @@ public class Program {
   */
 
   public static void main(String[] args) throws IOException {
-    for (int i = 0; i < 100; i++) {
+    // for (int i = 0; i < 100; i++) {
       runSmallSchedule(true);
+      int underscoreIndex = filePath.indexOf("_");
+      int fileNumber = 0;
+      try {
+        fileNumber = Integer.parseInt(filePath.substring(underscoreIndex+1, filePath.indexOf(".")));
+      } catch (NumberFormatException e) {}
+      Logger l = new Logger(fileNumber);
       Simulator s = new Simulator();
-      s.runSimulation(constructionProject);
+      s.runSimulation(constructionProject, l);
       // loadScheduleData("dataset_133.csv");
       // Simulator s = new Simulator();
       // s.runSimulation(constructionProject);
-    }
+    // }
   }
 
   public static void loadScheduleData(String filePath) throws NumberFormatException, IOException {
@@ -53,7 +61,7 @@ public class Program {
    * @throws IOException
    */
   public static void runSmallSchedule(boolean repetitive) throws NumberFormatException, IOException {
-    String filePath = "";
+    filePath = "";
     if (repetitive) { filePath = createDataset("Data/ScheduleData", 5, 5, true); }
     else { filePath = createDataset("Data/ScheduleData", 5, 5, false); }
     readDataIntoObjects(filePath);
@@ -66,7 +74,7 @@ public class Program {
    * @throws IOException
    */
   public static void runMediumSchedule(boolean repetitive) throws NumberFormatException, IOException {
-    String filePath = "";
+    filePath = "";
     if (repetitive) { filePath = createDataset("Data/ScheduleData", 10, 25, true); }
     else { filePath = createDataset("Data/ScheduleData", 10, 25, false); }
     readDataIntoObjects(filePath);
@@ -79,7 +87,7 @@ public class Program {
    * @throws IOException
    */
   public static void runLargeSchedule(boolean repetitive) throws NumberFormatException, IOException {
-    String filePath = "";
+    filePath = "";
     if (repetitive) { filePath = createDataset("Data/ScheduleData", 25, 60, true); }
     else { filePath = createDataset("Data/ScheduleData", 25, 60, false); }
     readDataIntoObjects(filePath);
