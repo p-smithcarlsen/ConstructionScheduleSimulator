@@ -1,6 +1,9 @@
 package ScheduleComponents;
 
 import java.util.List;
+import java.util.Map;
+
+import ScheduleComponents.Contractor.Trade;
 
 public class ConstructionProject {
 
@@ -23,7 +26,7 @@ public class ConstructionProject {
     createDependencies();
     tasks.forwardPass(0);
     tasks.backwardPass();
-    tasks.calculateFloat();
+    tasks.calculateFloat(0);
   }
 
   /**
@@ -58,9 +61,9 @@ public class ConstructionProject {
    * workers have been assigned for. Thus, the progress of the 
    * tasks will be incremented in this method. 
    */
-  public void work() {
+  public void work(int day) {
     for (Task t : tasks.tasks) {
-      t.work();
+      t.work(day);
     }
   }
 
@@ -79,8 +82,6 @@ public class ConstructionProject {
     // are currently being worked and tasks that depend on these). So we need to reset timings
     // Related to real life: A contractor tells the project manager that there is a delay,
     // now the project manager needs to figure out how this affects the schedule...
-    tasks.calculateTimingsAndFloats(tomorrow);    // Take account for the small delay the sick worker may have caused
-    // tasks.printTasksWithDependencies(locations.length, locations[0].tasks.size());
     
     // The project manager has now assessed the situation, and has probably assessed
     // that the schedule (although some tasks having a longer earliest finish) is OK.
@@ -91,86 +92,46 @@ public class ConstructionProject {
     // at the latest when the last similar task (same trade type) has its latest 
     // finish date. Otherwise, the task will go over its latest finish, push back
     // depending tasks and extend project deadline.
-    boolean otherContractorsNeedToReschedule = false;
     for (Alarm a : alarms) {
-      // We know which contractor is lacking behind, so we will forecast the worker
-      // demand for this contractor:
-      int[] workerDemand = tasks.forecastWorkerDemand(a.trade);
       // We will compare the worker demand with the worker supply and determine 
       // when (if so) a task's latest finish will be pushed back
       Contractor delayedContractor = w.getContractor(a.trade);
-      otherContractorsNeedToReschedule = delayedContractor.checkWorkerSupply(a.task, workerDemand, tomorrow);
-      tasks.determineScheduledTimings(w.contractorSchedules, tomorrow);
-      // delayedContractor.scheduleTasks(tomorrow);
-      // tasks.determineScheduledTimings(a.task, w.contractorSchedules);
+      delayedContractor.checkWorkerSupply(tomorrow);
+      // tasks.printTaskSchedules(tomorrow-1);
+      Map<Trade, int[]> updatedSchedules = tasks.determineScheduledTimings(w.getContractorSchedule(), tomorrow, w);
+      for (Trade t : updatedSchedules.keySet()) {
+        w.getContractor(t).workerDemand = updatedSchedules.get(t);
+      }
+      w.printContractorsAndTasks(tomorrow-1);
       a.resolve();
-
-      // if (otherContractorsNeedToReschedule) {
-      //   boolean scheduleChanged = true;
-      //   while (scheduleChanged) {
-      //     for (Contractor c : w.contractors) {
-      //       if (!c.trade.equals(a.trade)) {
-      //         scheduleChanged = c.alignWorkerSchedule(tomorrow);
-      //       }
-      //     }
-      //   }
-  
-      //   if (scheduleChanged) {
-      //     for (Contractor c : w.contractors) {
-      //       c.reschedule();
-      //     }
-      //   }
-      //   tasks.determineScheduledTimings(w.contractorSchedules, tomorrow);
-      // }
     }
 
-    // If there has been a change in a contractor's schedule, we need to go over the schedules, 
-    // finding out whether contractors are actually supplying workers on the correct days...
-    // if (otherContractorsNeedToReschedule) {
-    //   boolean scheduleChanged = true;
-    //   while (scheduleChanged) {
-    //     for (Contractor c : w.contractors) {
-    //       scheduleChanged = c.alignWorkerSchedule(tomorrow);
-    //     }
-    //   }
-
-    //   if (scheduleChanged) {
-    //     for (Contractor c : w.contractors) {
-    //       c.reschedule();
-    //     }
-    //   }
-    //   tasks.determineScheduledTimings(w.contractorSchedules);
-      // tasks.forwardPassWithScheduledTimings(tomorrow);
-      // for (Contractor c : w.contractors) {
-      //   suggestScheduleChange(tasks.forecastWorkerDemand(c.trade), c.workerDemand);
-      // }
-      // tasks.determineScheduledTimings(w.contractorSchedules);
-    // }
+    tasks.calculateTimingsAndFloats(tomorrow);
   }
 
-  public boolean suggestScheduleChange(int[] neededWorkers, int[] scheduledWorkers) {
-    int i = 0; 
-    System.out.println(neededWorkers.length + " : " + scheduledWorkers.length);
-    while (i < neededWorkers.length || i < scheduledWorkers.length) {
-      int needed = 0;
-      int scheduled = 0;
-      if (i < neededWorkers.length) {
-        needed = neededWorkers[i];
-      } else { needed = -1; }
-      if (i < scheduledWorkers.length) {
-        scheduled = scheduledWorkers[i];
-      } else { scheduled = -1; }
-      System.out.printf("%03d : %03%n", needed, scheduled);
-      i++;
+  public void endOfDay() {
+    for (Task t : tasks.tasks) {
+      t.workersAssigned = 0;
     }
-    return false;
   }
 
+  /**
+   * Prints the estimated project deadline and the number of remaining tasks
+   */
   public void printStatus() {
     if (tasks.numberOfRemainingTasks() > 0) {
-      System.out.println("Estimated deadline of project: day " + tasks.estimatedDeadline + " (remaining tasks: " + tasks.numberOfRemainingTasks() + ")");
+      System.out.println("Project deadline according to schedules: day " + tasks.scheduledDeadline + " (remaining tasks: " + tasks.numberOfRemainingTasks() + ")");
     } else {
       System.out.println("All tasks finished!");
+    }
+  }
+
+  public void printTaskAssignment() {
+    for (Task t : tasks.tasks) {
+      if (!t.isFinished() && t.canBeStarted()) {
+        double w = t.transformWorkersToProgress(t.workersAssigned);
+        System.out.printf("L%dT%d: Scheduled % 2d - % 2d  (progress=%5.1f, %5.1f)%n", t.location, t.id, t.scheduledStart, t.scheduledFinish, t.progress, t.progress+w);
+      }
     }
   }
 

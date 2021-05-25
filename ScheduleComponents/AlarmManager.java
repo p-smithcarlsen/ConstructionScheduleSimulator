@@ -18,7 +18,8 @@ public class AlarmManager {
   }
 
   /**
-   * 
+   * Returns a boolean value indicating whether there are currently
+   * any alarms that have not been resolved. 
    * @return
    */
   public boolean unresolvedDelay() {
@@ -29,7 +30,8 @@ public class AlarmManager {
   }
 
   /**
-   * 
+   * Iterates over all alarms, returning all alarms that have
+   * not yet been resolved.
    * @return
    */
   public List<Alarm> getUnresolvedAlarms() {
@@ -38,13 +40,5 @@ public class AlarmManager {
       if (!d.resolved) unresolved.add(d);
     }
     return unresolved;
-  }
-
-  /**
-   * 
-   * @param d
-   */
-  public void resolveAlarm(Alarm a) {
-    a.resolve();
   }
 }
