@@ -35,7 +35,7 @@ public class Program {
   */
 
   public static void main(String[] args) throws IOException {
-    for (int i = 0; i < 100; i++) {
+    // for (int i = 0; i < 100; i++) {
       runSmallSchedule(true);
       Analyzer a = new Analyzer();
       a.analyzeData();
@@ -45,7 +45,7 @@ public class Program {
       // loadScheduleData("dataset_133.csv");
       // Simulator s = new Simulator();
       // s.runSimulation(constructionProject);
-    }
+    // }
   }
 
   public static int findLogName() {
