@@ -2,8 +2,9 @@ import java.io.IOException;
 
 import Data.DataGenerator;
 import Data.DataParser;
-import Data.Logger;
 import ScheduleComponents.ConstructionProject;
+import Simulation.Analyzer;
+import Simulation.Logger;
 import Simulation.Simulator;
 
 public class Program {
@@ -34,20 +35,27 @@ public class Program {
   */
 
   public static void main(String[] args) throws IOException {
-    // for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       runSmallSchedule(true);
-      int underscoreIndex = filePath.indexOf("_");
-      int fileNumber = 0;
-      try {
-        fileNumber = Integer.parseInt(filePath.substring(underscoreIndex+1, filePath.indexOf(".")));
-      } catch (NumberFormatException e) {}
-      Logger l = new Logger(fileNumber);
+      Analyzer a = new Analyzer();
+      a.analyzeData();
+      Logger l = new Logger(findLogName());
       Simulator s = new Simulator();
-      s.runSimulation(constructionProject, l);
+      s.runSimulation(constructionProject, l, a);
       // loadScheduleData("dataset_133.csv");
       // Simulator s = new Simulator();
       // s.runSimulation(constructionProject);
-    // }
+    }
+  }
+
+  public static int findLogName() {
+    int underscoreIndex = filePath.indexOf("_");
+    int fileNumber = 0;
+    try {
+      fileNumber = Integer.parseInt(filePath.substring(underscoreIndex+1, filePath.indexOf(".")));
+    } catch (NumberFormatException e) {}
+
+    return fileNumber;
   }
 
   public static void loadScheduleData(String filePath) throws NumberFormatException, IOException {
