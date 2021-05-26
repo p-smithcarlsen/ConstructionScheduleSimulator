@@ -70,6 +70,15 @@ public class Contractor {
     return workerDemand;
   }
 
+  public void addExtraWorkers(int extraWorkers) {
+    int earliestWorkDay = Integer.MAX_VALUE;
+    for (Task t : scheduledTasks) {
+      if (t.scheduledStart < earliestWorkDay) earliestWorkDay = t.scheduledStart;
+    }
+
+    workerDemand[earliestWorkDay] += extraWorkers;
+  }
+
   /**
    * Iterates over all tasks assigned to this contractor and assigns
    * workers to the tasks. A task will be considered if it is not 
@@ -93,7 +102,7 @@ public class Contractor {
     }
     if (sickWorkers > 0) {
       alarms.addDelays(new Alarm(today, scheduledTasks.get(0), trade, "Has sick workers : " + sickWorkers));
-      System.out.println(trade + " has " + sickWorkers + " sick workers!");
+      // System.out.println(trade + " has " + sickWorkers + " sick workers!");
       alreadySickWorkers = true;
     }
 
@@ -103,20 +112,8 @@ public class Contractor {
     Collections.sort(sortedTasks, new SortByWorkerShortage(today));
 
     for (Task t : sortedTasks) {
-      // if (t.scheduledWorkers[today] > 0 && availableWorkers == 0) {
-      //   System.out.printf("");
-      // }
       if (!t.isCritical) continue;
       if (t.isFinished() || !t.canBeStarted()) continue;
-
-      // int workersBehind = 0;
-      // for (int i = 0; i < today; i++) {
-      //   workersBehind += t.scheduledWorkers[i];
-      // }
-
-      // if (workersBehind > 0) {
-      //   System.out.printf("");
-      // }
 
       int assignedWorkers = 0;
       while (availableWorkers > 0 && assignedWorkers < t.scheduledWorkers[today]) {
@@ -126,20 +123,8 @@ public class Contractor {
     }
 
     for (Task t : sortedTasks) {
-      // if (t.scheduledWorkers[today] > t.workersAssigned && availableWorkers == 0) {
-      //   System.out.printf("");
-      // }
       if (t.isCritical) continue;
       if (t.isFinished() || !t.canBeStarted()) continue;
-
-      // int workersBehind = 0;
-      // for (int i = 0; i < today; i++) {
-      //   workersBehind += t.scheduledWorkers[i];
-      // }
-
-      // if (workersBehind > 0) {
-      //   System.out.printf("");
-      // }
 
       int assignedWorkers = 0;
       while (availableWorkers > 0 && assignedWorkers < t.scheduledWorkers[today]) {
@@ -148,155 +133,38 @@ public class Contractor {
       }
     }
 
-    if (availableWorkers > 0) {
-      while (workerDemand.length <= today+2) workerDemand = resizeArray(workerDemand, today*2);
-      workerDemand[today] -= availableWorkers;
-      workerDemand[today+1] += availableWorkers;
+    for (Task t : sortedTasks) {
+      if (alreadySickWorkers) continue;
+      int workerShortage = 0;
+      for (int i = 0; i < today; i++) {
+        workerShortage += t.scheduledWorkers[i];
+      }
+      if (workerShortage > 0 && t.scheduledWorkers[today] < t.workersAssigned) {
+        System.out.printf("");
+      }
     }
 
-
-
-
-    
-    // for (Task t : sortedTasks) {
-    //   if (!t.isFinished() && t.canBeStarted() && t.workerShortage > 0) {
-    //     int workersSupplied = 0;
-    //     while (workersSupplied < t.workerShortage && availableWorkers > 0) {
-    //       assignWorkers(t, 1, today);
-    //       workersSupplied++;
-    //     }
-    //   }
-    // }
-    // // Go through all critical tasks
-    // for (Task t : sortedTasks) {
-    //   if (!t.isCritical) continue;
-    //   if (!t.isFinished() && t.canBeStarted()) {
-    //     assignWorkers(today, t, alarms);
-    //   }
-    // }
-    // for (Task t : sortedTasks) {
-    //   if (t.isCritical) continue;
-    //   if (!t.isFinished() && t.canBeStarted()) {
-    //     assignWorkers(today, t, alarms);
-    //   }
-    // }
-
-    // // Re-assign workers, if tasks are not being finished on time
-    // for (Task t : sortedTasks) {
-    //   if (t.canBeStarted() && t.scheduledFinish == today+1) {
-    //     double progressTomorrow = t.progress + t.transformWorkersToProgress(t.workersAssigned);
-    //     while (progressTomorrow < 100) {
-    //       boolean move = false;
-    //       for (Task t2 : sortedTasks) {
-    //         if (t.equals(t2)) continue;
-    //         if (t2.workersAssigned > 0 && t2.scheduledFinish > today+1) {
-    //           t2.workersAssigned--;
-    //           t.workersAssigned++;
-    //           move = true;
-    //           System.out.println("Moving a worker from L" + t2.location + "T" + t2.id + " to L" + t.location + "T" + t.id);
-    //         }
-    //       }
-    //       if (!move) break;
-    //     }
-    //   }
-    // }
-
-    // while (availableWorkers > 0) {
-    //   // System.out.println(trade + " has " + availableWorkers + " idle workers!");
-    //   Task t = null;
-    //   int scheduledFinish = Integer.MAX_VALUE;
-    //   double progress = 100;
-    //   int nextTaskStart = Integer.MAX_VALUE;
-    //   for (Task t2 : sortedTasks) {
-    //     double t2Progress = t2.progress + t2.transformWorkersToProgress(t2.workersAssigned);
-    //     if (t2.scheduledStart < nextTaskStart) nextTaskStart = t2.scheduledStart;
-    //     if (!t2.isFinished() && t2.canBeStarted() && t2.scheduledFinish <= scheduledFinish && t2Progress < progress) {
-    //       scheduledFinish = t2.scheduledFinish;
-    //       progress = t2Progress;
-    //       t = t2;
-    //     }
-    //   }
-    //   if (t == null) {
-    //     System.out.println("Not enough work to be performed by " + trade + " worker!");
-    //     workerDemand[today]--;
-    //     workerDemand[nextTaskStart]++;
-        // System.out.println(trade + " not assigning an idle worker!");
-        // for (Task t3 : sortedTasks) {
-        //   double q = t3.getRemainingQuantity();
-        //   double p = t3.productionRate;
-        //   double missing = Math.ceil(q / p);
-        //   System.out.printf("L%dT%d: Scheduled %3d  - %3d  (progress = %f, %f)%n", t3.location, t3.id, t3.scheduledStart, t3.scheduledFinish, t3.progress, missing);
-        // }
-        // availableWorkers--;
-      // } else {
-        // assignWorkers(t, 1, today);
-        // System.out.println(trade + " assigned an extra worker to L" + t.location + "T" + t.id + "!");
-      // }
-    // }
+    if (availableWorkers > 0) {
+      for (Task t : scheduledTasks) {
+        if (!t.isFinished() && t.canBeStarted()) {
+          if (t.scheduledFinish <= today) {
+            double progressAfterToday = t.progress + t.transformWorkersToProgress(t.workersAssigned);
+            while (progressAfterToday < 100 && availableWorkers > 0) {
+              assignWorkers(t, 1, today);
+              progressAfterToday = t.progress + t.transformWorkersToProgress(t.workersAssigned);
+            }
+          }
+        }
+      }
+      if (availableWorkers > 0) {
+        while (workerDemand.length <= today+2) workerDemand = resizeArray(workerDemand, today*2);
+        workerDemand[today] -= availableWorkers;
+        workerDemand[today+1] += availableWorkers;
+      }
+    }
 
     return alreadySickWorkers;
   }
-
-  /**
-   * Assigns workers by finding the optimal number of workers for the given task
-   * and determining whether this number of workers is available today.
-   * 
-   * Every day, a worker has a chance of calling in sick. If workers call in sick 
-   * and the available worker amount is less than expected, an alarm will be created.
-   * @param day is the day, on which we want to assign workers
-   * @param t is the task, to which we want to assign workers
-   * @param alarms is the Alarm Manager, which is able to create alarms
-   * @param sickWorkers is the number of sick workers on the day
-   */
-  // private void assignWorkers(int day, Task t, AlarmManager alarms) {
-  //   // Find out whether we can supply a lower number of workers
-  //   // int w = 0;
-  //   double remainingQuantity = t.getRemainingQuantity();
-  //   double rate = (double) t.productionRate;
-  //   double optimalWorkers = (double) t.optimalWorkerCount;
-  //   int neededWorkers = (int) Math.ceil(remainingQuantity / rate * optimalWorkers);
-
-  //   int workersToBeAssigned = 0;
-  //   if (neededWorkers >= optimalWorkers) {
-  //     workersToBeAssigned = (int) optimalWorkers;
-  //     int assignedWorkers = t.workersAssigned;
-  //     if (workersToBeAssigned < 0 || availableWorkers < 0) {
-  //       System.out.printf("");
-  //     }
-
-  //     int extraWorkers = 0;
-  //     while (extraWorkers < t.workerShortage) {
-  //       extraWorkers++;
-  //     }
-  //     workersToBeAssigned += extraWorkers;
-  //     if (workersToBeAssigned < 0 || availableWorkers < 0) {
-  //       System.out.printf("");
-  //     }
-  //     while (workersToBeAssigned + assignedWorkers - 1 >= neededWorkers) {
-  //       workersToBeAssigned--;
-  //     }
-  //     if (workersToBeAssigned < 0 || availableWorkers < 0) {
-  //       System.out.printf("");
-  //     }
-  //   } else {
-  //     workersToBeAssigned = neededWorkers;
-  //     int assignedWorkers = t.workersAssigned;
-  //     if (workersToBeAssigned < 0 || availableWorkers < 0) {
-  //       System.out.printf("");
-  //     }
-
-  //     while (workersToBeAssigned + assignedWorkers > neededWorkers) {
-  //       workersToBeAssigned--;
-  //     }
-  //     if (workersToBeAssigned < 0 || availableWorkers < 0) {
-  //       System.out.printf("");
-  //     }
-  //   }
-
-
-  //   workersToBeAssigned = Math.min(workersToBeAssigned, availableWorkers);
-  //   assignWorkers(t, workersToBeAssigned, day);
-  // }
 
   private void assignWorkers(Task t, int w, int day) {
     // System.out.println(trade + " supplying " + w + " workers out of " + availableWorkers + " to L" + t.location + "T" + t.id + " (optimal: " + t.optimalWorkerCount + ")");
@@ -542,7 +410,7 @@ public class Contractor {
       prompt += "All tasks should still be able to be finished.";
     }
     prompt += "\nWriting '1' means supplying a worker tomorrow.";
-    System.err.println(prompt);
+    // System.err.println(prompt);
 
     int dayOfSupply = 0;
     for (int i = 0; i < workersMissing; i++) {
@@ -600,7 +468,7 @@ public class Contractor {
       workerDemand = newWorkerDemand;
     }
     workerDemand[day]++;
-    System.out.println(trade + ": added a worker at day " + day);
+    // System.out.println(trade + ": added a worker at day " + day);
   }
 
   public void alignSchedule(int today) {

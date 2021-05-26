@@ -102,11 +102,21 @@ public class ConstructionProject {
       for (Trade t : updatedSchedules.keySet()) {
         w.getContractor(t).workerDemand = updatedSchedules.get(t);
       }
-      w.printContractorsAndTasks(tomorrow-1);
       a.resolve();
     }
 
     tasks.calculateTimingsAndFloats(tomorrow);
+  }
+
+  public void alignTaskScheduledFinishes(int day) {
+    for (Task t : tasks.tasks) {
+      int latestWorkerSupply = 0;
+      for (int i = 0; i < t.scheduledWorkers.length; i++) {
+        if (t.scheduledWorkers[i] > 0 && i > latestWorkerSupply) {
+          t.scheduledFinish = i+1;
+        }
+      }
+    }
   }
 
   public void endOfDay() {

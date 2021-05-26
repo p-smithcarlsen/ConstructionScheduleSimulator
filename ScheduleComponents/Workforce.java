@@ -80,6 +80,12 @@ public class Workforce {
     return c.workerDemand;
   }
 
+  public void addExtraWorkers(Map<Trade, Integer> extraWorkerSupply) {
+    for (Trade t : extraWorkerSupply.keySet()) {
+      getContractor(t).addExtraWorkers(extraWorkerSupply.get(t));
+    }
+  }
+
   public void alignSchedules(int today) {
     for (Contractor c : contractors) {
       c.alignSchedule(today);

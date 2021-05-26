@@ -126,8 +126,8 @@ public class Task {
     if (this.progress < 0) {
       System.out.println("");
     }
-    System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %12s    (%3d  -  %3d)", 
-      trade.toString().substring(0, Math.min(12, trade.toString().length())), progress, location, id, isCritical ? "(Critical)" : "", scheduledStart, scheduledFinish));
+    // System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %12s    (%3d  -  %3d)", 
+      // trade.toString().substring(0, Math.min(12, trade.toString().length())), progress, location, id, isCritical ? "(Critical)" : "", scheduledStart, scheduledFinish));
     scheduledWorkers[day] -= workersAssigned;
   }
 

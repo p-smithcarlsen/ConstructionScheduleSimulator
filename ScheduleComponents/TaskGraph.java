@@ -149,12 +149,12 @@ public class TaskGraph {
       t.taskFloat = t.maximumTime - t.meanDuration;
       if (t.taskFloat == 0) {
         if (!t.isCritical) {
-          System.out.printf("L%dT%d was not critical but has just become critical!%n", t.location, t.id);
+          // System.out.printf("L%dT%d was not critical but has just become critical!%n", t.location, t.id);
         }
         t.isCritical = true;
       } else {
         if (t.isCritical) {
-          System.out.printf("L%dT%d was critial but is not anymore!%n", t.location, t.id);
+          // System.out.printf("L%dT%d was critial but is not anymore!%n", t.location, t.id);
         }
         t.isCritical = false;
       }
@@ -397,7 +397,7 @@ public class TaskGraph {
           }
 
           if (remainingQuantity > 0) { 
-            System.out.println(t.trade + " not finishing task L" + t.location + "T" + t.id + "!!");
+            // System.out.println(t.trade + " not finishing task L" + t.location + "T" + t.id + "!!");
             contractorSchedule[tomorrow]++;
             w.getContractor(t.trade).workerDemand[tomorrow]++;
           }
