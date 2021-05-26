@@ -12,28 +12,6 @@ public class Program {
   private static ConstructionProject constructionProject;
   public static String filePath;
 
-  /*
-  To-do:
-  - Make task durations probability distributions                                                           *
-  - Make tasks into node network
-      - Create algorithm to check for cycles                                                                *
-  - Make it possible to use "takt" in project                                                               **
-
-  - More variability in the projects possible to create (only repetitive/not repetitive)                    **
-      - How to implement layer 4 logic? Buffers in place fx
-      - Insert "special" dependencies as well? I.e. layer 5 logic, task 2.3 must be before task 3.1
-      - Have more tasks that do not depend on each other (i.e. can choose between two tasks to do first)
-      - A workable backlog (i.e. tasks that do not have predecessors - a little same as above)
-          - This also means that it makes sense to go on the critical path and only 
-            take free tasks whenever resources are available
-
-  - run 1000 (or many) times and save data for a database                                                   **
-  - include buffers in dependencies                                                                         **
-
-  For later:
-  - Include logic relationship in dependencies (F-S, F-F, S-S, S-F)
-  */
-
   public static void main(String[] args) throws IOException {
     // for (int i = 0; i < 100; i++) {
       runSmallSchedule(true);
