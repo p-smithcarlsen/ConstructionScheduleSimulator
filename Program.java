@@ -28,9 +28,10 @@ public class Program {
       Logger l = new Logger(findLogName());
       Simulator s = new Simulator();
       s.runSimulation(constructionProject, l, a, i > n/2 && i % 2 == 0);
+      // s.runSimulation(constructionProject, l, a, i > 500 && i % 2 == 0);
       a.successRateNoAddedWorkers();
       a.successRateWithAddedWorkers();
-      // i++;
+      i++;
     }
   }
 
@@ -85,32 +86,6 @@ public class Program {
     else { filePath = createDataset("Data/ScheduleData", 5, 5, false); }
     readDataIntoObjects(filePath);
   }
-  
-  /**
-   * Creates a small schedule (10 locations, 25 tasks per location), parses 
-   * the resulting data into objects and simulates the project.
-   * @throws NumberFormatException
-   * @throws IOException
-   */
-  // public static void runMediumSchedule(boolean repetitive) throws NumberFormatException, IOException {
-  //   filePath = "";
-  //   if (repetitive) { filePath = createDataset("Data/ScheduleData", 10, 25, true); }
-  //   else { filePath = createDataset("Data/ScheduleData", 10, 25, false); }
-  //   readDataIntoObjects(filePath);
-  // }
-
-  /**
-   * Creates a small schedule (25 locations, 60 tasks per location), parses 
-   * the resulting data into objects and simulates the project.
-   * @throws NumberFormatException
-   * @throws IOException
-   */
-  // public static void runLargeSchedule(boolean repetitive) throws NumberFormatException, IOException {
-  //   filePath = "";
-  //   if (repetitive) { filePath = createDataset("Data/ScheduleData", 25, 60, true); }
-  //   else { filePath = createDataset("Data/ScheduleData", 25, 60, false); }
-  //   readDataIntoObjects(filePath);
-  // }
 
   /**
    * Creates a dataset in the given dile directory. Number of locations and 

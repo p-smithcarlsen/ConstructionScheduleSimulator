@@ -177,12 +177,7 @@ public class Analyzer {
       }
     }
 
-    // double percentOfProjectsWithAddedWorkers = projectsWithAddedWorkers / ((double)projectsWithNoAddedWorkers + projectsWithAddedWorkers);
-    // double chanceOfFinishingOnTime = chanceOfSuccess + (percentOfProjectsWithAddedWorkers * (projectsOnTimeWithAddedWorkers / projectsWithAddedWorkers) * 100);
     double chanceOfFinishingOnTime = projectsOnTimeWithAddedWorkers / projectsWithAddedWorkers * 100;
-    if (chanceOfFinishingOnTime > 100.0) {
-      System.out.println("");
-    }
     if (Double.isNaN(chanceOfFinishingOnTime)) {
       System.out.printf("%nWe do not have enough data on adding workers to similar projects to know whether it will make a difference");
     } else {
@@ -208,7 +203,6 @@ public class Analyzer {
     }
 
     System.out.printf("Projects with no added workers: %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
-    // return success / all * 100;
   }
 
   public void successRateWithAddedWorkers() {
@@ -230,7 +224,6 @@ public class Analyzer {
     }
 
     System.out.printf("Projects with added workers:    %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
-    // return success / all * 100;
   }
 
   private int[] resize(int[] arr, int sz) {

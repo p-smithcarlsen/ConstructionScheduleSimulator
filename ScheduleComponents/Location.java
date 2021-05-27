@@ -7,7 +7,7 @@ public class Location {
   public int id;
   public String name;
   public Task currentTask;
-  public List<Task> tasks = new ArrayList<Task>();   // Turn into node network
+  public List<Task> tasks = new ArrayList<Task>();
   public int duration;
 
   public Location(String[] locationParameters) {

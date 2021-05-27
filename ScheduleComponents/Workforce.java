@@ -52,7 +52,6 @@ public class Workforce {
    * project.
    */
   public void updateContractorSchedules() {
-    // Align worker supply with tasks
     this.contractorSchedules = new HashMap<>();
     for (int i = 0; i < contractors.length; i++) {
       Contractor c = contractors[i];

@@ -1,8 +1,0 @@
-WorkerCount:Plumber=120
-WorkerCount:FlooringInstaller=240
-WorkerCount:RoofingMechanic=30
-ScheduledDeadline:Day=40
-ExtraWorkers:Plumber=3
-ExtraWorkers:FlooringInstaller=2
-ExtraWorkers:RoofingMechanic=1
-ProjectEnd:Day=40

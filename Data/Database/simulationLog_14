@@ -1,7 +1,10 @@
-WorkerCount:Glazier=35
-WorkerCount:Electrician=30
-WorkerCount:Painter=65
-WorkerCount:RoofingMechanic=30
-ScheduledDeadline:Day=22
-Delay:Trade=Painter,Day=8
-ProjectEnd:Day=22
+WorkerCount:Plumber=120
+WorkerCount:RoofingMechanic=60
+WorkerCount:Carpenter=120
+ScheduledDeadline:Day=28
+ExtraWorkers:Plumber=2
+ExtraWorkers:RoofingMechanic=1
+ExtraWorkers:Carpenter=1
+Delay:Trade=Carpenter,Day=2
+Delay:Trade=Carpenter,Day=26
+ProjectEnd:Day=30

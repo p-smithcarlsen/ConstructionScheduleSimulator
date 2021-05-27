@@ -15,7 +15,6 @@ public class Alarm {
     this.task = task;
     this.trade = trade;
     this.reason = reason;
-    // System.out.println(this);
   }
 
   /**

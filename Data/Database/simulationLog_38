@@ -1,9 +1,0 @@
-WorkerCount:Plumber=240
-WorkerCount:Painter=65
-WorkerCount:HVACTech=50
-ScheduledDeadline:Day=37
-Delay:Trade=Plumber,Day=1
-Delay:Trade=Plumber,Day=8
-Delay:Trade=Plumber,Day=9
-Delay:Trade=Painter,Day=27
-ProjectEnd:Day=39

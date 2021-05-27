@@ -148,14 +148,8 @@ public class TaskGraph {
       t.maximumTime = t.latestFinish - start;
       t.taskFloat = t.maximumTime - t.meanDuration;
       if (t.taskFloat == 0) {
-        if (!t.isCritical) {
-          // System.out.printf("L%dT%d was not critical but has just become critical!%n", t.location, t.id);
-        }
         t.isCritical = true;
       } else {
-        if (t.isCritical) {
-          // System.out.printf("L%dT%d was critial but is not anymore!%n", t.location, t.id);
-        }
         t.isCritical = false;
       }
     }
@@ -179,7 +173,6 @@ public class TaskGraph {
    * @return an updated map with contractor types and their worker schedules
    */
   public Map<Trade, int[]> determineScheduledTimings(Map<Trade, int[]> contractorSchedules, int tomorrow, Workforce w) {
-    // printIndices(tomorrow-1);
     Map<Trade, int[]> copiedSchedules = new HashMap<>();
     for (Entry<Trade, int[]> e : contractorSchedules.entrySet()) {
       copiedSchedules.put(e.getKey(), e.getValue().clone());
@@ -222,7 +215,6 @@ public class TaskGraph {
       }
     }
 
-    // reduceReschedules(wr);
     for (Trade t : contractorSchedules.keySet()) {
       for (WorkerReschedule r : wr) {
         if (r.trade.equals(t) && !r.implemented) {
@@ -321,7 +313,6 @@ public class TaskGraph {
     double remainingQuantity = 0;
     double production = 0;
     if (adj[t.location][t.id] == 0) {
-      // w.getContractor(t.trade).printScheduleAndTasks(resetTime-1);
       remainingQuantity = t.getRemainingQuantity();
       t.resetScheduledWorkers(resetTime);
       int i = t.scheduledStart;
@@ -397,7 +388,6 @@ public class TaskGraph {
           }
 
           if (remainingQuantity > 0) { 
-            // System.out.println(t.trade + " not finishing task L" + t.location + "T" + t.id + "!!");
             contractorSchedule[tomorrow]++;
             Contractor c = w.getContractor(t.trade);
             while (c.workerDemand.length <= tomorrow) {
@@ -413,7 +403,6 @@ public class TaskGraph {
 
         i++;
       }
-      // t.scheduledFinish = taskFinish+1;
       for (int u = 0; u < t.scheduledWorkers.length; u++) {
         if (t.scheduledWorkers[u] > 0) {
           t.scheduledFinish = u+1;
@@ -439,9 +428,6 @@ public class TaskGraph {
       contractorSchedule = copiedSchedules.get(t.trade);
     }
     
-    // scheduledFinish and copiedSchedules is used in the recursive calls of
-    // this function. The worker reschedules (wr) is used to collect the
-    // information found throughout the recursive calls.
     copiedSchedules.put(t.trade, contractorSchedule);
     return new Tuple(t.scheduledFinish, copiedSchedules, wr);
   }
@@ -628,25 +614,6 @@ public class TaskGraph {
       this.toDay = to;
       this.implemented = false;
     }
-
-    // public int[] implement(int[] contractorSchedule) {
-    //   while (toDay >= contractorSchedule.length) {
-    //     int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
-    //     for (int i = 0; i < contractorSchedule.length; i++) {
-    //       newContractorSchedule[i] = contractorSchedule[i];
-    //     }
-    //     contractorSchedule = newContractorSchedule;
-    //   }
-    //   contractorSchedule[fromDay]--;
-    //   contractorSchedule[toDay]++;
-    //   this.implemented = true;
-    //   System.out.println(this);
-    //   return contractorSchedule;
-    // }
-
-    // public boolean isImplemented() {
-    //   return this.implemented;
-    // }
 
     public String toString() {
       return trade + ": from " + fromDay + " to " + toDay;

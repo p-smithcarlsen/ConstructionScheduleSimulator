@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-// import java.util.Scanner;
 
 public class Contractor {
   public String id;
@@ -72,12 +71,6 @@ public class Contractor {
   }
 
   public void addExtraWorkers(int extraWorkers) {
-    // int earliestWorkDay = Integer.MAX_VALUE;
-    // for (Task t : scheduledTasks) {
-    //   if (t.scheduledStart < earliestWorkDay) earliestWorkDay = t.scheduledStart;
-    // }
-    
-    // workerDemand[earliestWorkDay] += extraWorkers;
     this.additionalWorkers = extraWorkers;
   }
 
@@ -101,13 +94,11 @@ public class Contractor {
     availableWorkers = workerDemand[today];
     if (sickWorkers > 0) {
       alarms.addDelays(new Alarm(today, scheduledTasks.get(0), trade, "Has sick workers : " + sickWorkers));
-      // System.out.println(trade + " has " + sickWorkers + " sick workers!");
       alreadySickWorkers = true;
     }
 
     List<Task> sortedTasks = new ArrayList<>();
     for (Task t : scheduledTasks) { if (!t.isFinished()) sortedTasks.add(t); }
-    // Collections.sort(sortedTasks, new SortByEarliestScheduledFinish());
     Collections.sort(sortedTasks, new SortByWorkerShortage(today));
 
     for (Task t : sortedTasks) {
@@ -161,7 +152,6 @@ public class Contractor {
   }
 
   private void assignWorkers(Task t, int w, int day) {
-    // System.out.println(trade + " supplying " + w + " workers out of " + availableWorkers + " to L" + t.location + "T" + t.id + " (optimal: " + t.optimalWorkerCount + ")");
     t.assignWorkers(w, day);
     availableWorkers -= w;
     workerDemand[day] -= w;
@@ -178,7 +168,6 @@ public class Contractor {
     int sickWorkers = 0;
     for (int i = 0; i < scheduledWorkers; i++) {
       if (r.nextInt(200) < 3) {
-        // workerDemand[day]--;
         sickWorkers++;
       }
     }
@@ -190,10 +179,8 @@ public class Contractor {
         workerDemand[day]--;
         return 1;
       }
-      // return 1;
     }
     return 0;
-    // return sickWorkers;
   }
 
   /**
@@ -216,9 +203,7 @@ public class Contractor {
       wf2.reschedules.forEach(r -> wf.addReschedule(r));
       wf2.delayedTasks.forEach(d -> wf.addDelayedTask(d));
       wf2.unfinishedTasks.forEach(u -> wf.addUnfinishedTask(t));
-      // System.out.println(Arrays.toString(wf.contractorSchedule));
       wf.contractorSchedule = wf2.contractorSchedule;
-      // System.out.println(Arrays.toString(wf.contractorSchedule));
       if (wf2.firstDelay < wf.firstDelay) wf.firstDelay = wf2.firstDelay;
       wf.workersNeeded += wf2.workersNeeded;
     }
@@ -231,9 +216,7 @@ public class Contractor {
       wf2.reschedules.forEach(r -> wf.addReschedule(r));
       wf2.delayedTasks.forEach(d -> wf.addDelayedTask(d));
       wf2.unfinishedTasks.forEach(u -> wf.addUnfinishedTask(t));
-      // System.out.println(Arrays.toString(wf.contractorSchedule));
       wf.contractorSchedule = wf2.contractorSchedule;
-      // System.out.println(Arrays.toString(wf.contractorSchedule));
       if (wf2.firstDelay < wf.firstDelay) wf.firstDelay = wf2.firstDelay;
       wf.workersNeeded += wf2.workersNeeded;
     }
@@ -268,7 +251,6 @@ public class Contractor {
     double optimalWorkers = t.optimalWorkerCount;
     double roundOff = 0;
     WorkerForecast wf = new WorkerForecast();
-    // List<WorkerReschedule> wr = new ArrayList<>();
     int[] understaffedDay = new int[currentWorkerSupply.length+2];
     int canBeStarted = Math.max(t.scheduledStart, today);
     for (int i = canBeStarted; i < understaffedDay.length; i++) understaffedDay[i] = (int) optimalWorkers;
@@ -357,7 +339,6 @@ public class Contractor {
     if (remainingQuantity > 0) {
       wf.addUnfinishedTask(t);
       int workersNeeded = (int) Math.ceil(remainingQuantity / production * optimalWorkers);
-      // System.out.println("Workers missing: " + workersNeeded);
       wf.workersNeeded += workersNeeded;
     }
 
@@ -420,24 +401,6 @@ public class Contractor {
     }
   }
 
-  // private int getResponse(int day, int worker) {
-  //   Scanner sc = new Scanner(System.in);  // Do not close - if you do, the program crashes :(
-  //   String resp = "";
-  //   int dayOfSupply = 0;
-  //   System.out.println("\n\nIn how many days can the contractor supply worker number " + (worker+1) + "?");
-  //   resp = sc.nextLine();
-  //   try {
-  //     int days = Integer.parseInt(resp);
-  //     if (days <= 0) throw new Exception("It is not possible to supply workers for today or earlier! Please try again...");
-  //     dayOfSupply = day + days - 1;
-  //   } catch (NumberFormatException e) {
-  //     System.out.println("I don't understand that number! Please try again...");
-  //   } catch (Exception e) {
-  //     System.out.println(e.getMessage());
-  //   }
-  //   return dayOfSupply;
-  // }
-
   private int getRandomResponse(int day, int worker, int daysLeftBeforeDelay) {
     int dayOfSupply = 0;
     if (daysLeftBeforeDelay > 1) {
@@ -468,7 +431,6 @@ public class Contractor {
       workerDemand = newWorkerDemand;
     }
     workerDemand[day]++;
-    // System.out.println(trade + ": added a worker at day " + day);
   }
 
   public void alignSchedule(int today) {
@@ -533,7 +495,6 @@ public class Contractor {
           }
         }
       }
-      // printScheduleAndTasks(today-1);
     }
 
     List<WorkerReschedule> reschedules = new ArrayList<>();
@@ -640,13 +601,6 @@ public class Contractor {
     }
   }
 
-  // private class SortByEarliestScheduledFinish implements Comparator<Task> {
-  //   @Override
-  //   public int compare(Task t1, Task t2) {
-  //     return t1.scheduledFinish - t2.scheduledFinish;
-  //   }
-  // }
-
   private class SortByWorkerShortage implements Comparator<Task> {
     private int day;
 
@@ -710,21 +664,6 @@ public class Contractor {
       this.toDay = to;
       this.implemented = false;
     }
-
-    // private int[] implement(int[] contractorSchedule) {
-    //   while (toDay >= contractorSchedule.length) {
-    //     int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
-    //     for (int i = 0; i < contractorSchedule.length; i++) {
-    //       newContractorSchedule[i] = contractorSchedule[i];
-    //     }
-    //     contractorSchedule = newContractorSchedule;
-    //   }
-    //   contractorSchedule[fromDay]--;
-    //   contractorSchedule[toDay]++;
-    //   this.implemented = true;
-    //   System.out.println(this);
-    //   return contractorSchedule;
-    // }
 
     public boolean isImplemented() {
       return this.implemented;

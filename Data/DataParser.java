@@ -83,11 +83,8 @@ public class DataParser {
       DataParser p = new DataParser();
       p.parseData("dataset_2.csv");
       Location[] locations = p.getLocations();
-      // Workforce workforce = p.getWorkforce();
 
       Arrays.stream(locations).forEach(l -> l.print());
-      System.out.println();
-      // workforce.print();
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }

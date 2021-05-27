@@ -91,7 +91,6 @@ public class DataGenerator {
       for (int j = 0; j < tasks.length; j++) {
         sb.append(createTask(j, i, tasks[j]));
       }
-      // System.out.println(sb.toString());
     }
 
     return sb.toString();

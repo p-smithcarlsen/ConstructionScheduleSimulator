@@ -15,7 +15,6 @@ public class Task {
   public int optimalWorkerCount;
   public int scheduledDuration;
   public int meanDuration;
-  public double standardDeviation;
   public int workersAssigned;
   public int productionRate;
   public double progress;
@@ -58,9 +57,7 @@ public class Task {
     this.productionRate = Integer.parseInt(taskParameters[6]);
     this.dependencies = taskParameters[7];
     
-    // Calculate expected duration
     this.meanDuration = (int)Math.ceil(this.quantity / this.productionRate);
-    // this.standardDeviation = 0.25;
   }
 
   public String getDependencies() {
@@ -106,7 +103,6 @@ public class Task {
   }
 
   public void assignExtraWorker(int workers, int day) {
-    System.out.println(trade + " supplied another worker to L" + location + "T" + id);
     this.workersAssigned += workers;
     workerShortage -= workers;
     if (progress + transformWorkersToProgress(workersAssigned) + 0.001 >= 100) workerShortage = 0;
@@ -122,12 +118,7 @@ public class Task {
   public void work(int day) {
     if (workersAssigned == 0) { return; }
     this.progress += transformWorkersToProgress(workersAssigned);
-    if (this.progress > 100) this.progress = 100;
-    if (this.progress < 0) {
-      System.out.println("");
-    }
-    // System.out.println(String.format("%12s has finished %6.1f%% of L%sT%s %12s    (%3d  -  %3d)", 
-      // trade.toString().substring(0, Math.min(12, trade.toString().length())), progress, location, id, isCritical ? "(Critical)" : "", scheduledStart, scheduledFinish));
+    if (this.progress > 100.0) this.progress = 100.0;
     scheduledWorkers[day] -= workersAssigned;
   }
 
@@ -144,9 +135,6 @@ public class Task {
     double contributionPerWorker = (double)productionRate / (double)optimalWorkerCount;
     double workerContribution = workers * contributionPerWorker;
     double progress = workerContribution / quantity * 100;
-    if (progress < 0) {
-      System.out.println("");
-    }
     return progress;
   }
 
@@ -168,7 +156,6 @@ public class Task {
     double remainingQuantity = (100 - progress) * quantity / 100;
     Double roundOff = Math.floor(remainingQuantity * 1000.0) / 1000.0;
     if (roundOff != remainingQuantity) { remainingQuantity = roundOff; }
-    // if (Math.abs(remainingQuantity % 1) < 0.000001) remainingQuantity = Math.round(remainingQuantity);
     return remainingQuantity;
   }
 
