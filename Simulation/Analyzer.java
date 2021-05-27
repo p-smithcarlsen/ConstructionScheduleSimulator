@@ -138,21 +138,25 @@ public class Analyzer {
     System.out.printf("%nBased on %d similar previous projects (similar combination" + 
       " of contractors), there is a %4.1f%% chance to finish on time.%n", similarProjects.size(), chanceOfSuccess);
 
+    boolean workersSick = false;
     for (SimulationLog l : similarProjects) {
       if (l.addedWorkers > 0) continue;
       for (Trade t : l.delays.keySet()) {
         if (!workersNeeded.containsKey(t)) continue;
         if (workersNeeded.containsKey(t)) {
           workersNeeded.put(t, workersNeeded.get(t) + ((l.delays.get(t).size() / (double)projectsPerContractor.get(t))));
+          if (workersNeeded.get(t) > 0.1) workersSick = true;
         } else {
           workersNeeded.put(t, (double)l.delays.get(t).size() / (double)projectsPerContractor.get(t));
         }
       }
     }
-    System.out.printf("According to these results, the following workers will be needed:%n");
-    for (Trade t : workersNeeded.keySet()) {
-      if (workersNeeded.get(t) > 0.1) {
-        System.out.printf("%30s: %3d%n", t, (int)Math.ceil(workersNeeded.get(t)));
+    if (workersSick) {
+      System.out.printf("According to the previous projects, the some contractors will encounter sick workers:%n");
+      for (Trade t : workersNeeded.keySet()) {
+        if (workersNeeded.get(t) > 0.1) {
+          System.out.printf("%30s: %3d%n", t, (int)Math.ceil(workersNeeded.get(t)));
+        }
       }
     }
 

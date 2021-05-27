@@ -1,0 +1,8 @@
+WorkerCount:Painter=65
+WorkerCount:Glazier=35
+WorkerCount:Carpenter=60
+WorkerCount:RoofingMechanic=30
+WorkerCount:Electrician=15
+ScheduledDeadline:Day=24
+Delay:Trade=Painter,Day=16
+ProjectEnd:Day=24

@@ -14,9 +14,9 @@ public class Program {
   public static String filePath;
 
   public static void main(String[] args) throws IOException {
-    resetScheduleDataAndLogs();
     System.out.println("Resetting database...");
-    int n = 1000;
+    resetScheduleDataAndLogs();
+    int n = 200;
     for (int i = 0; i < n; i++) {
       runSmallSchedule(true);
       Analyzer a = new Analyzer();
@@ -24,9 +24,6 @@ public class Program {
       Logger l = new Logger(findLogName());
       Simulator s = new Simulator();
       s.runSimulation(constructionProject, l, a, i >= n/2);
-      // loadScheduleData("dataset_133.csv");
-      // Simulator s = new Simulator();
-      // s.runSimulation(constructionProject);
     }
   }
 
@@ -75,12 +72,12 @@ public class Program {
    * @throws NumberFormatException
    * @throws IOException
    */
-  public static void runMediumSchedule(boolean repetitive) throws NumberFormatException, IOException {
-    filePath = "";
-    if (repetitive) { filePath = createDataset("Data/ScheduleData", 10, 25, true); }
-    else { filePath = createDataset("Data/ScheduleData", 10, 25, false); }
-    readDataIntoObjects(filePath);
-  }
+  // public static void runMediumSchedule(boolean repetitive) throws NumberFormatException, IOException {
+  //   filePath = "";
+  //   if (repetitive) { filePath = createDataset("Data/ScheduleData", 10, 25, true); }
+  //   else { filePath = createDataset("Data/ScheduleData", 10, 25, false); }
+  //   readDataIntoObjects(filePath);
+  // }
 
   /**
    * Creates a small schedule (25 locations, 60 tasks per location), parses 
@@ -88,12 +85,12 @@ public class Program {
    * @throws NumberFormatException
    * @throws IOException
    */
-  public static void runLargeSchedule(boolean repetitive) throws NumberFormatException, IOException {
-    filePath = "";
-    if (repetitive) { filePath = createDataset("Data/ScheduleData", 25, 60, true); }
-    else { filePath = createDataset("Data/ScheduleData", 25, 60, false); }
-    readDataIntoObjects(filePath);
-  }
+  // public static void runLargeSchedule(boolean repetitive) throws NumberFormatException, IOException {
+  //   filePath = "";
+  //   if (repetitive) { filePath = createDataset("Data/ScheduleData", 25, 60, true); }
+  //   else { filePath = createDataset("Data/ScheduleData", 25, 60, false); }
+  //   readDataIntoObjects(filePath);
+  // }
 
   /**
    * Creates a dataset in the given dile directory. Number of locations and 

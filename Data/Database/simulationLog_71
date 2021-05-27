@@ -1,0 +1,13 @@
+WorkerCount:CementOrConcreteFinisher=80
+WorkerCount:Painter=65
+WorkerCount:Glazier=35
+WorkerCount:InsulationWorker=45
+ScheduledDeadline:Day=26
+ExtraWorkers:CementOrConcreteFinisher=1
+ExtraWorkers:Painter=1
+ExtraWorkers:Glazier=1
+ExtraWorkers:InsulationWorker=1
+Delay:Trade=Painter,Day=4
+Delay:Trade=Painter,Day=6
+Delay:Trade=CementOrConcreteFinisher,Day=13
+ProjectEnd:Day=26

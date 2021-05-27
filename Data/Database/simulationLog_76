@@ -1,0 +1,14 @@
+WorkerCount:Painter=65
+WorkerCount:Glazier=35
+WorkerCount:Carpenter=60
+WorkerCount:RoofingMechanic=30
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=29
+ExtraWorkers:Painter=2
+ExtraWorkers:Glazier=0
+ExtraWorkers:Carpenter=1
+ExtraWorkers:RoofingMechanic=0
+ExtraWorkers:HVACTech=0
+Delay:Trade=Carpenter,Day=9
+Delay:Trade=RoofingMechanic,Day=20
+ProjectEnd:Day=29

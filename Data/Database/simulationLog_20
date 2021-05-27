@@ -1,0 +1,9 @@
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:FlooringInstaller=80
+WorkerCount:Painter=65
+WorkerCount:Plumber=120
+WorkerCount:Electrician=15
+ScheduledDeadline:Day=33
+Delay:Trade=Plumber,Day=8
+Delay:Trade=Painter,Day=28
+ProjectEnd:Day=33

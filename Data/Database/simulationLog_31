@@ -1,0 +1,11 @@
+WorkerCount:FlooringInstaller=80
+WorkerCount:Glazier=70
+WorkerCount:HVACTech=25
+WorkerCount:Electrician=15
+ScheduledDeadline:Day=33
+Delay:Trade=Glazier,Day=5
+Delay:Trade=FlooringInstaller,Day=12
+Delay:Trade=FlooringInstaller,Day=14
+Delay:Trade=FlooringInstaller,Day=20
+Delay:Trade=Glazier,Day=31
+ProjectEnd:Day=33

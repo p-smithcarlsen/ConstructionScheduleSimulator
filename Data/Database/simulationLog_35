@@ -1,0 +1,8 @@
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:FlooringInstaller=160
+WorkerCount:Carpenter=60
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=37
+Delay:Trade=HVACTech,Day=22
+Delay:Trade=Carpenter,Day=31
+ProjectEnd:Day=41
