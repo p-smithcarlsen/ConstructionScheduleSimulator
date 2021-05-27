@@ -629,24 +629,24 @@ public class TaskGraph {
       this.implemented = false;
     }
 
-    public int[] implement(int[] contractorSchedule) {
-      while (toDay >= contractorSchedule.length) {
-        int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
-        for (int i = 0; i < contractorSchedule.length; i++) {
-          newContractorSchedule[i] = contractorSchedule[i];
-        }
-        contractorSchedule = newContractorSchedule;
-      }
-      contractorSchedule[fromDay]--;
-      contractorSchedule[toDay]++;
-      this.implemented = true;
-      System.out.println(this);
-      return contractorSchedule;
-    }
+    // public int[] implement(int[] contractorSchedule) {
+    //   while (toDay >= contractorSchedule.length) {
+    //     int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
+    //     for (int i = 0; i < contractorSchedule.length; i++) {
+    //       newContractorSchedule[i] = contractorSchedule[i];
+    //     }
+    //     contractorSchedule = newContractorSchedule;
+    //   }
+    //   contractorSchedule[fromDay]--;
+    //   contractorSchedule[toDay]++;
+    //   this.implemented = true;
+    //   System.out.println(this);
+    //   return contractorSchedule;
+    // }
 
-    public boolean isImplemented() {
-      return this.implemented;
-    }
+    // public boolean isImplemented() {
+    //   return this.implemented;
+    // }
 
     public String toString() {
       return trade + ": from " + fromDay + " to " + toDay;

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
+// import java.util.Scanner;
 
 public class Contractor {
   public String id;
@@ -371,9 +371,9 @@ public class Contractor {
 
   public void askContractorForMoreManpower(int day, int firstDelay, int workersMissing, List<Task> delayedTasks, List<Task> unfinishedTasks) {
     if (firstDelay == Integer.MAX_VALUE) firstDelay = -1;
-    String prompt = "\n\n # To " + trade + ":\n" +
-      "You need to provide " + workersMissing + " more manpower (workers) from " +
-      "working overtime/weekends or by hiring more workers. \n";
+    // String prompt = "\n\n # To " + trade + ":\n" +
+      // "You need to provide " + workersMissing + " more manpower (workers) from " +
+      // "working overtime/weekends or by hiring more workers. \n";
     int daysLeftBeforeDelay = firstDelay - day+1;
     String delayedTask = "[";
     for (Task t : delayedTasks) {
@@ -381,14 +381,14 @@ public class Contractor {
     }
     delayedTask = delayedTask.substring(0, delayedTask.length()-1) + "]";
     if (daysLeftBeforeDelay <= 0) {
-      prompt += "There is not enough time to avoid a delay... \n";
+      // prompt += "There is not enough time to avoid a delay... \n";
     } else {
       if (delayedTask.length() > 1) {
-        prompt += "If the extra manpower is " +
-        "not provided in the next " + daysLeftBeforeDelay + " days, the following tasks will " +
-        "be delayed: " + delayedTask + ".\n";
+        // prompt += "If the extra manpower is " +
+        // "not provided in the next " + daysLeftBeforeDelay + " days, the following tasks will " +
+        // "be delayed: " + delayedTask + ".\n";
       } else {
-        prompt += "The extra manpower needs to be provided in the next " + daysLeftBeforeDelay + " days! \n";
+        // prompt += "The extra manpower needs to be provided in the next " + daysLeftBeforeDelay + " days! \n";
       }
     }
     if (unfinishedTasks.size() > 0) {
@@ -397,11 +397,11 @@ public class Contractor {
         unfinished += "L" + t.location + "T" + t.id + ";";
       }
       unfinished = unfinished.substring(0, unfinished.length()-1) + "]";
-      prompt += "There will not be enough manpower to finish the following tasks: " + unfinished;
+      // prompt += "There will not be enough manpower to finish the following tasks: " + unfinished;
     } else {
-      prompt += "All tasks should still be able to be finished.";
+      // prompt += "All tasks should still be able to be finished.";
     }
-    prompt += "\nWriting '1' means supplying a worker tomorrow.";
+    // prompt += "\nWriting '1' means supplying a worker tomorrow.";
     // System.err.println(prompt);
 
     int dayOfSupply = 0;
@@ -412,23 +412,23 @@ public class Contractor {
     }
   }
 
-  private int getResponse(int day, int worker) {
-    Scanner sc = new Scanner(System.in);  // Do not close - if you do, the program crashes :(
-    String resp = "";
-    int dayOfSupply = 0;
-    System.out.println("\n\nIn how many days can the contractor supply worker number " + (worker+1) + "?");
-    resp = sc.nextLine();
-    try {
-      int days = Integer.parseInt(resp);
-      if (days <= 0) throw new Exception("It is not possible to supply workers for today or earlier! Please try again...");
-      dayOfSupply = day + days - 1;
-    } catch (NumberFormatException e) {
-      System.out.println("I don't understand that number! Please try again...");
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
-    return dayOfSupply;
-  }
+  // private int getResponse(int day, int worker) {
+  //   Scanner sc = new Scanner(System.in);  // Do not close - if you do, the program crashes :(
+  //   String resp = "";
+  //   int dayOfSupply = 0;
+  //   System.out.println("\n\nIn how many days can the contractor supply worker number " + (worker+1) + "?");
+  //   resp = sc.nextLine();
+  //   try {
+  //     int days = Integer.parseInt(resp);
+  //     if (days <= 0) throw new Exception("It is not possible to supply workers for today or earlier! Please try again...");
+  //     dayOfSupply = day + days - 1;
+  //   } catch (NumberFormatException e) {
+  //     System.out.println("I don't understand that number! Please try again...");
+  //   } catch (Exception e) {
+  //     System.out.println(e.getMessage());
+  //   }
+  //   return dayOfSupply;
+  // }
 
   private int getRandomResponse(int day, int worker, int daysLeftBeforeDelay) {
     int dayOfSupply = 0;
@@ -629,12 +629,12 @@ public class Contractor {
     }
   }
 
-  private class SortByEarliestScheduledFinish implements Comparator<Task> {
-    @Override
-    public int compare(Task t1, Task t2) {
-      return t1.scheduledFinish - t2.scheduledFinish;
-    }
-  }
+  // private class SortByEarliestScheduledFinish implements Comparator<Task> {
+  //   @Override
+  //   public int compare(Task t1, Task t2) {
+  //     return t1.scheduledFinish - t2.scheduledFinish;
+  //   }
+  // }
 
   private class SortByWorkerShortage implements Comparator<Task> {
     private int day;
@@ -700,20 +700,20 @@ public class Contractor {
       this.implemented = false;
     }
 
-    private int[] implement(int[] contractorSchedule) {
-      while (toDay >= contractorSchedule.length) {
-        int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
-        for (int i = 0; i < contractorSchedule.length; i++) {
-          newContractorSchedule[i] = contractorSchedule[i];
-        }
-        contractorSchedule = newContractorSchedule;
-      }
-      contractorSchedule[fromDay]--;
-      contractorSchedule[toDay]++;
-      this.implemented = true;
-      System.out.println(this);
-      return contractorSchedule;
-    }
+    // private int[] implement(int[] contractorSchedule) {
+    //   while (toDay >= contractorSchedule.length) {
+    //     int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
+    //     for (int i = 0; i < contractorSchedule.length; i++) {
+    //       newContractorSchedule[i] = contractorSchedule[i];
+    //     }
+    //     contractorSchedule = newContractorSchedule;
+    //   }
+    //   contractorSchedule[fromDay]--;
+    //   contractorSchedule[toDay]++;
+    //   this.implemented = true;
+    //   System.out.println(this);
+    //   return contractorSchedule;
+    // }
 
     public boolean isImplemented() {
       return this.implemented;
