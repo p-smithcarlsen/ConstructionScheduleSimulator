@@ -34,7 +34,7 @@ public class Analyzer {
 
   public void analyzeData() {
     for (SimulationLog l : data) {
-      int projectDelay = l.projectEnd - l.scheduledDeadline;
+      int projectDelay = Math.max(l.projectEnd - l.scheduledDeadline, 0);
       while (projectDelay >= projectDelays.length) projectDelays = resize(projectDelays, projectDelays.length+2);
       projectDelays[projectDelay]++;
       projects++;
@@ -190,6 +190,47 @@ public class Analyzer {
     }
     
     return m;
+  }
+
+  public void successRateNoAddedWorkers() {
+    List<SimulationLog> logs = projectsByExtraWorkers.get(0);
+    if (logs == null || logs.size() == 0) return;
+
+    double all = 0;
+    double success = 0;
+    double totalDelay = 0;
+    for (SimulationLog l : logs) {
+      all++;
+      totalDelay += (l.projectEnd - l.scheduledDeadline);
+      if (l.projectEnd == l.scheduledDeadline) {
+        success++;
+      }
+    }
+
+    System.out.printf("Projects with no added workers: %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
+    // return success / all * 100;
+  }
+
+  public void successRateWithAddedWorkers() {
+    List<SimulationLog> logs = new ArrayList<>();
+    for (int i : projectsByExtraWorkers.keySet()) {
+      if (i > 0) logs.addAll(projectsByExtraWorkers.get(i));
+    }
+    if (logs == null || logs.size() == 0) return;
+
+    double all = 0;
+    double success = 0;
+    double totalDelay = 0;
+    for (SimulationLog l : logs) {
+      all++;
+      totalDelay += (l.projectEnd - l.scheduledDeadline);
+      if (l.projectEnd == l.scheduledDeadline) {
+        success++;
+      }
+    }
+
+    System.out.printf("Projects with added workers:    %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
+    // return success / all * 100;
   }
 
   private int[] resize(int[] arr, int sz) {

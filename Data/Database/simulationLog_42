@@ -1,9 +1,9 @@
-WorkerCount:Glazier=35
+WorkerCount:FlooringInstaller=80
+WorkerCount:Painter=65
+WorkerCount:HVACTech=50
 WorkerCount:RoofingMechanic=30
-WorkerCount:HVACTech=25
-WorkerCount:Electrician=30
-ScheduledDeadline:Day=20
-Delay:Trade=RoofingMechanic,Day=2
-Delay:Trade=Glazier,Day=7
-Delay:Trade=HVACTech,Day=12
-ProjectEnd:Day=25
+ScheduledDeadline:Day=30
+Delay:Trade=HVACTech,Day=1
+Delay:Trade=Painter,Day=7
+Delay:Trade=RoofingMechanic,Day=16
+ProjectEnd:Day=31

@@ -14,16 +14,23 @@ public class Program {
   public static String filePath;
 
   public static void main(String[] args) throws IOException {
+    System.out.println("Deleting class files...");
+    deleteClassFiles(".");
     System.out.println("Resetting database...");
     resetScheduleDataAndLogs();
-    int n = 200;
+    int n = 50;
     for (int i = 0; i < n; i++) {
+    // int i = 0;
+    // while (true) {
       runSmallSchedule(true);
       Analyzer a = new Analyzer();
       a.analyzeData();
       Logger l = new Logger(findLogName());
       Simulator s = new Simulator();
-      s.runSimulation(constructionProject, l, a, i >= n/2);
+      s.runSimulation(constructionProject, l, a, i > n/2 && i % 2 == 0);
+      a.successRateNoAddedWorkers();
+      a.successRateWithAddedWorkers();
+      // i++;
     }
   }
 
@@ -36,6 +43,19 @@ public class Program {
     dir = new File("Data/ScheduleData");
     for (File f : dir.listFiles()) {
       if (!f.isDirectory()) f.delete();
+    }
+  }
+
+  public static void deleteClassFiles(String dir) {
+    File ff = new File(dir);
+    for (File f : ff.listFiles()) {
+      if (f.getName().startsWith(".")) continue;
+      if (f.isDirectory()) {
+        deleteClassFiles(f.getAbsolutePath());
+      } else {
+        String name = f.getName();
+        if (name.endsWith(".class")) f.delete();
+      }
     }
   }
 

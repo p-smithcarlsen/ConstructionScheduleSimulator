@@ -17,6 +17,7 @@ public class Contractor {
   public List<Task> scheduledTasks;
   public int availableWorkers;
   public int sickWorkers;
+  public int additionalWorkers;
 
   public enum Trade {
     Carpenter,
@@ -71,12 +72,13 @@ public class Contractor {
   }
 
   public void addExtraWorkers(int extraWorkers) {
-    int earliestWorkDay = Integer.MAX_VALUE;
-    for (Task t : scheduledTasks) {
-      if (t.scheduledStart < earliestWorkDay) earliestWorkDay = t.scheduledStart;
-    }
-
-    workerDemand[earliestWorkDay] += extraWorkers;
+    // int earliestWorkDay = Integer.MAX_VALUE;
+    // for (Task t : scheduledTasks) {
+    //   if (t.scheduledStart < earliestWorkDay) earliestWorkDay = t.scheduledStart;
+    // }
+    
+    // workerDemand[earliestWorkDay] += extraWorkers;
+    this.additionalWorkers = extraWorkers;
   }
 
   /**
@@ -181,8 +183,14 @@ public class Contractor {
       }
     }
     if (sickWorkers > 0) {
-      workerDemand[day]--;
-      return 1;
+      if (additionalWorkers > 0) {
+        additionalWorkers--;
+        return 0;
+      } else {
+        workerDemand[day]--;
+        return 1;
+      }
+      // return 1;
     }
     return 0;
     // return sickWorkers;
@@ -481,7 +489,10 @@ public class Contractor {
         workersScheduled += t.scheduledWorkers[i];
       }
       while (workersScheduled < workersNeeded) {
-        if (t.scheduledWorkers.length <= today+2) resizeArray(t.scheduledWorkers, today+5);
+        if (t.scheduledWorkers.length <= today+5) resizeArray(t.scheduledWorkers, today+10);
+        if (today+1 > t.scheduledWorkers.length) {
+          System.out.println("");
+        }
         t.scheduledWorkers[today+1]++;
         t.scheduledFinish = today+2;
         sumByDay[today+1]++;
