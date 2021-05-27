@@ -26,7 +26,10 @@ public class Simulator {
    * @param constructionProject
    * @throws IOException
    */
-  public void runSimulation(ConstructionProject constructionProject, Logger l, Analyzer a) throws IOException {
+  public void runSimulation(ConstructionProject constructionProject, Logger l, Analyzer a, boolean addWorkers) throws IOException {
+    System.out.println("\n\n                            _______________                           ");
+    System.out.println("===========================/ PROJECT START \\===========================");
+    a.printDelayDistribution();
     // Find the critical path(s) in the tasks
     constructionProject.prepareLocations();
     // Hire contractors and delegate tasks to individual contractors
@@ -39,23 +42,15 @@ public class Simulator {
     // Check analyzer to see schedule warnings
     a.setScheduledDeadline(constructionProject.tasks.scheduledDeadline);
     Map<Trade, Integer> extraWorkerSupply = a.seeWarnings(workforce.contractors);
-    if (extraWorkerSupply != null) {
+    if (extraWorkerSupply != null && addWorkers) {
       workforce.addExtraWorkers(extraWorkerSupply);
       l.log(extraWorkerSupply);
     }
 
     while (true) {
       // Go through project day by day until all tasks are finished
-      System.err.printf("\n\n==========| day: % 3d |==========\n", day);
-      constructionProject.printStatus();
-      if (day >= constructionProject.tasks.scheduledDeadline && constructionProject.tasks.numberOfRemainingTasks() > 0) {
-        for (Task t : constructionProject.tasks.tasks) {
-          if (!t.isFinished()) {
-            workforce.getContractor(t.trade).printScheduleAndTasks(day);
-            t.print(2);
-          }
-        }
-      }
+      // System.err.printf("\n\n==========| day: % 3d |==========\n", day);
+      // constructionProject.printStatus();
       if (constructionProject.tasks.numberOfRemainingTasks() <= 0) {
         break;
       }
@@ -76,13 +71,16 @@ public class Simulator {
       }
 
       // Go to next day
-      workforce.alignSchedules(day+1);
+      workforce.alignSchedules(day);
+      // workforce.printContractorsAndTasks(day);
       endOfDay(workforce, constructionProject);
       day++;
       if (day > 100) break;
     }
     l.logProjectEnd(day);
     l.end();
+    System.out.println("\n\n===========================\\  PROJECT END  /===========================");
+    System.out.println("                            \\-------------/                           \n\n");
   }
 
   public void endOfDay(Workforce w, ConstructionProject cp) {

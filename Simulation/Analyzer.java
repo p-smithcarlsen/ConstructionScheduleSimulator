@@ -18,6 +18,8 @@ public class Analyzer {
   Map<Integer, List<SimulationLog>> projectsByExtraWorkers = new HashMap<>();
   Map<Integer, Integer> delaysByExtraWorkers = new HashMap<>();
   int estimatedDeadline;
+  int projects;
+  int[] projectDelays = new int[10];
   
   public Analyzer() throws IOException {
     File path = new File("Data/Database");
@@ -31,11 +33,9 @@ public class Analyzer {
   }
 
   public void analyzeData() {
-    int[] projectDelays = new int[10];
-    int projects = 0;
     for (SimulationLog l : data) {
       int projectDelay = l.projectEnd - l.scheduledDeadline;
-      while (projectDelay >= projectDelays.length) projectDelays = resize(projectDelays, projectDelays.length*2);
+      while (projectDelay >= projectDelays.length) projectDelays = resize(projectDelays, projectDelays.length+2);
       projectDelays[projectDelay]++;
       projects++;
 
@@ -52,9 +52,13 @@ public class Analyzer {
         delaysByExtraWorkers.put(l.addedWorkers, 1);
       }
     }
+  }
 
-    if (projects < 50) return;
-
+  public void printDelayDistribution() {
+    if (projects < 50) {
+      System.out.printf("%n%nWe do not have enough data to accurately create a delay distribution...%n%n");
+      return;
+    }
     System.out.printf("%n%n%n ## This is a graph based on all previous projects.%nIt displays the " +
       "delays the projects encountered and the accumulated percent of having maximum this amount of " + 
       "delay for a new construction project%n%n");
@@ -78,7 +82,7 @@ public class Analyzer {
   }
 
   public Map<Trade, Integer> seeWarnings(Contractor[] contractors) {
-    System.out.printf("%n%n%nYou are beginning a construction project with deadline in %d days.%n", estimatedDeadline);
+    System.out.printf("%nYou are beginning a construction project with deadline in %d days.%n", estimatedDeadline);
     Map<Trade, Double> workersNeeded = new HashMap<>();
     Map<Trade, Integer> projectsPerContractor = new HashMap<>();
     for (Contractor c : contractors) {
@@ -122,16 +126,18 @@ public class Analyzer {
       }
     }
 
+    // Not enough similar projects: return
     double chanceOfSuccess = (double)projectsWithNoDelays / (double)projectsWithNoAddedWorkers * 100.0;
-    if (!Double.isNaN(chanceOfSuccess)) {
-      System.out.printf("%nBased on %d similar previous projects (similar combination" + 
-      " of contractors), there is a %4.1f%% chance to finish on time.%n", similarProjects.size(), chanceOfSuccess);
-    } else {
-      System.out.printf("%nWe do not have enough similar projects to predict worker shortages...");
+    if (Double.isNaN(chanceOfSuccess)) {
+      System.out.printf("%nWe do not have enough similar projects to predict worker shortages...%n");
       return null;
     }
-
     
+    // Sufficient similar projects: calculate chance of finishing on time and
+    // how much adding extra workers have helped in the past
+    System.out.printf("%nBased on %d similar previous projects (similar combination" + 
+      " of contractors), there is a %4.1f%% chance to finish on time.%n", similarProjects.size(), chanceOfSuccess);
+
     for (SimulationLog l : similarProjects) {
       if (l.addedWorkers > 0) continue;
       for (Trade t : l.delays.keySet()) {
@@ -153,6 +159,30 @@ public class Analyzer {
     Map<Trade, Integer> m = new HashMap<>();
     for (Trade t : workersNeeded.keySet()) {
       m.put(t, workersNeeded.get(t) > 0.1 ? (int) Math.ceil(workersNeeded.get(t)) : 0);
+    }
+
+    // Find chance of finishing by deadline when adding workers
+    double projectsWithAddedWorkers = 0.0;
+    double projectsOnTimeWithAddedWorkers = 0.0;
+    for (SimulationLog l : similarProjects) {
+      if (l.addedWorkers > 0) {
+        projectsWithAddedWorkers++;
+        if (l.projectEnd == l.scheduledDeadline) {
+          projectsOnTimeWithAddedWorkers++;
+        }
+      }
+    }
+
+    // double percentOfProjectsWithAddedWorkers = projectsWithAddedWorkers / ((double)projectsWithNoAddedWorkers + projectsWithAddedWorkers);
+    // double chanceOfFinishingOnTime = chanceOfSuccess + (percentOfProjectsWithAddedWorkers * (projectsOnTimeWithAddedWorkers / projectsWithAddedWorkers) * 100);
+    double chanceOfFinishingOnTime = projectsOnTimeWithAddedWorkers / projectsWithAddedWorkers * 100;
+    if (chanceOfFinishingOnTime > 100.0) {
+      System.out.println("");
+    }
+    if (Double.isNaN(chanceOfFinishingOnTime)) {
+      System.out.printf("%nWe do not have enough data on adding workers to similar projects to know whether it will make a difference");
+    } else {
+      System.out.printf("%n%3d similar projects with added workers have finished on time in %4.1f%% of the cases!", (int) projectsWithAddedWorkers, chanceOfFinishingOnTime);
     }
     
     return m;

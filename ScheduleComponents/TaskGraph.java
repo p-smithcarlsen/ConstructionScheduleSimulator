@@ -228,7 +228,7 @@ public class TaskGraph {
         if (r.trade.equals(t) && !r.implemented) {
           int[] contractorSchedule = contractorSchedules.get(t);
           while (r.toDay >= contractorSchedule.length) {
-            int[] newContractorSchedule = new int[Math.max(contractorSchedule.length*2, r.toDay)];
+            int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, r.toDay)];
             for (int i = 0; i < contractorSchedule.length; i++) {
               newContractorSchedule[i] = contractorSchedule[i];
             }
@@ -327,13 +327,13 @@ public class TaskGraph {
       int i = t.scheduledStart;
       int taskFinish = 0;
       while (i >= contractorSchedule.length) {
-        int[] newContractorSchedule = new int[contractorSchedule.length*2];
+        int[] newContractorSchedule = new int[contractorSchedule.length+2];
         for (int j = 0; j < contractorSchedule.length; j++) {
           newContractorSchedule[j] = contractorSchedule[j];
         }
         contractorSchedule = newContractorSchedule;
       }
-      int[] shortStaffedDays = new int[contractorSchedule.length*2];
+      int[] shortStaffedDays = new int[contractorSchedule.length+2];
       for (int j = tomorrow; j < shortStaffedDays.length; j++) {
         shortStaffedDays[j] = t.optimalWorkerCount;
       }
@@ -399,7 +399,15 @@ public class TaskGraph {
           if (remainingQuantity > 0) { 
             // System.out.println(t.trade + " not finishing task L" + t.location + "T" + t.id + "!!");
             contractorSchedule[tomorrow]++;
-            w.getContractor(t.trade).workerDemand[tomorrow]++;
+            Contractor c = w.getContractor(t.trade);
+            while (c.workerDemand.length <= tomorrow) {
+              int[] newArr = new int[c.workerDemand.length+2];
+              for (int k = 0; k < c.workerDemand.length; k++) {
+                newArr[k] = c.workerDemand[k];
+              }
+              c.workerDemand = newArr;
+            }
+            c.workerDemand[tomorrow]++;
           }
         }
 
@@ -413,9 +421,6 @@ public class TaskGraph {
       }
       t.scheduledDuration = t.scheduledFinish - t.scheduledStart;
     }
-
-    // printTaskSchedule(t, resetTime-1);
-    // w.getContractor(t.trade).printScheduleAndTasks(resetTime-1);
 
     // Go through succeeding tasks and retrieve their worker reschedules
     adj[t.location][t.id] = 1;
@@ -626,7 +631,7 @@ public class TaskGraph {
 
     public int[] implement(int[] contractorSchedule) {
       while (toDay >= contractorSchedule.length) {
-        int[] newContractorSchedule = new int[Math.max(contractorSchedule.length*2, toDay)];
+        int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
         for (int i = 0; i < contractorSchedule.length; i++) {
           newContractorSchedule[i] = contractorSchedule[i];
         }

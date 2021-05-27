@@ -200,7 +200,7 @@ public class Task {
 
   public void scheduleWorkerAtDay(int day, int workers) {
     while (day >= scheduledWorkers.length) {
-      int[] newSchedule = new int[scheduledWorkers.length*2];
+      int[] newSchedule = new int[scheduledWorkers.length+2];
       for (int i = 0; i < scheduledWorkers.length; i++) {
         newSchedule[i] = scheduledWorkers[i];
       }

@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 
 import Data.DataGenerator;
@@ -13,17 +14,32 @@ public class Program {
   public static String filePath;
 
   public static void main(String[] args) throws IOException {
-    // for (int i = 0; i < 100; i++) {
+    resetScheduleDataAndLogs();
+    System.out.println("Resetting database...");
+    int n = 1000;
+    for (int i = 0; i < n; i++) {
       runSmallSchedule(true);
       Analyzer a = new Analyzer();
       a.analyzeData();
       Logger l = new Logger(findLogName());
       Simulator s = new Simulator();
-      s.runSimulation(constructionProject, l, a);
+      s.runSimulation(constructionProject, l, a, i >= n/2);
       // loadScheduleData("dataset_133.csv");
       // Simulator s = new Simulator();
       // s.runSimulation(constructionProject);
-    // }
+    }
+  }
+
+  public static void resetScheduleDataAndLogs() {
+    File dir = new File("Data/Database");
+    for (File f : dir.listFiles()) {
+      if (!f.isDirectory()) f.delete();
+    }
+
+    dir = new File("Data/ScheduleData");
+    for (File f : dir.listFiles()) {
+      if (!f.isDirectory()) f.delete();
+    }
   }
 
   public static int findLogName() {

@@ -97,9 +97,6 @@ public class Contractor {
     sickWorkers = 0;
     if (!alreadySickWorkers) sickWorkers = checkForSickWorkers(today, workerDemand[today], alarms);
     availableWorkers = workerDemand[today];
-    if (availableWorkers < 0) {
-      System.out.printf("");
-    }
     if (sickWorkers > 0) {
       alarms.addDelays(new Alarm(today, scheduledTasks.get(0), trade, "Has sick workers : " + sickWorkers));
       // System.out.println(trade + " has " + sickWorkers + " sick workers!");
@@ -133,21 +130,10 @@ public class Contractor {
       }
     }
 
-    for (Task t : sortedTasks) {
-      if (alreadySickWorkers) continue;
-      int workerShortage = 0;
-      for (int i = 0; i < today; i++) {
-        workerShortage += t.scheduledWorkers[i];
-      }
-      if (workerShortage > 0 && t.scheduledWorkers[today] < t.workersAssigned) {
-        System.out.printf("");
-      }
-    }
-
     if (availableWorkers > 0) {
       for (Task t : scheduledTasks) {
         if (!t.isFinished() && t.canBeStarted()) {
-          if (t.scheduledFinish <= today) {
+          if (t.scheduledFinish <= today+1) {
             double progressAfterToday = t.progress + t.transformWorkersToProgress(t.workersAssigned);
             while (progressAfterToday < 100 && availableWorkers > 0) {
               assignWorkers(t, 1, today);
@@ -157,9 +143,15 @@ public class Contractor {
         }
       }
       if (availableWorkers > 0) {
-        while (workerDemand.length <= today+2) workerDemand = resizeArray(workerDemand, today*2);
+        while (workerDemand.length <= today+2) workerDemand = resizeArray(workerDemand, today+5);
         workerDemand[today] -= availableWorkers;
         workerDemand[today+1] += availableWorkers;
+      }
+    }
+
+    for (Task t : scheduledTasks) {
+      if (t.scheduledFinish < today-2 && !t.isFinished()) {
+        workerDemand[today+2]++;
       }
     }
 
@@ -240,7 +232,7 @@ public class Contractor {
 
     for (WorkerReschedule r : wf.reschedules) {
       while (r.toDay >= workerDemand.length) {
-        int[] newWorkerDemand = new int[Math.max(workerDemand.length*2, r.toDay)];
+        int[] newWorkerDemand = new int[r.toDay+2];
         for (int i = 0; i < workerDemand.length; i++) {
           newWorkerDemand[i] = workerDemand[i];
         }
@@ -269,7 +261,7 @@ public class Contractor {
     double roundOff = 0;
     WorkerForecast wf = new WorkerForecast();
     // List<WorkerReschedule> wr = new ArrayList<>();
-    int[] understaffedDay = new int[currentWorkerSupply.length*2];
+    int[] understaffedDay = new int[currentWorkerSupply.length+2];
     int canBeStarted = Math.max(t.scheduledStart, today);
     for (int i = canBeStarted; i < understaffedDay.length; i++) understaffedDay[i] = (int) optimalWorkers;
     int day = t.scheduledStart;
@@ -481,31 +473,56 @@ public class Contractor {
 
     int[] sumByDay = new int[longestSchedule];
     for (Task t : scheduledTasks) {
+      double remainingQuantity = t.getRemainingQuantity();
+      double workersNeeded = remainingQuantity / (double) t.productionRate * (double) t.optimalWorkerCount;
+      double workersScheduled = 0;
       for (int i = today; i < t.scheduledWorkers.length; i++) {
         sumByDay[i] += t.scheduledWorkers[i];
+        workersScheduled += t.scheduledWorkers[i];
+      }
+      while (workersScheduled < workersNeeded) {
+        if (t.scheduledWorkers.length <= today+2) resizeArray(t.scheduledWorkers, today+5);
+        t.scheduledWorkers[today+1]++;
+        t.scheduledFinish = today+2;
+        sumByDay[today+1]++;
+        workersScheduled++;
       }
     }
-
-    System.out.printf("");
 
     int[] tooMany = new int[workerDemand.length];
     int surplus = 0;
     int[] tooFew = new int[workerDemand.length];
     int shortage = 0;
-    for (int i = 0; i < workerDemand.length; i++) {
-      while (sumByDay.length <= i+2) sumByDay = resizeArray(sumByDay, i*2);
+    for (int i = today; i < workerDemand.length; i++) {
+      while (sumByDay.length <= i+2) sumByDay = resizeArray(sumByDay, i+5);
       if (workerDemand[i] < sumByDay[i]) {
         tooFew[i] = sumByDay[i] - workerDemand[i];
-        surplus += tooFew[i];
+        shortage += tooFew[i];
       } else if (workerDemand[i] > sumByDay[i]) {
         tooMany[i] = workerDemand[i] - sumByDay[i];
-        shortage += tooMany[i];
+        surplus += tooMany[i];
       }
     }
 
-    if (surplus - shortage != 0) {
+    while (surplus - shortage != 0) {
+      if (surplus > shortage) {
+        for (int i = workerDemand.length-1; i >= today; i--) {
+          if (workerDemand[i] > sumByDay[i]) {
+            workerDemand[i]--;
+            surplus--;
+            break;
+          }
+        }
+      } else if (shortage > surplus) {
+        for (int i = workerDemand.length-1; i >= today; i--) {
+          if (workerDemand[i] < sumByDay[i]) {
+            workerDemand[i]++;
+            shortage--;
+            break;
+          }
+        }
+      }
       // printScheduleAndTasks(today-1);
-      System.out.printf("");
     }
 
     List<WorkerReschedule> reschedules = new ArrayList<>();
@@ -521,7 +538,6 @@ public class Contractor {
           }
         }
       }
-      // printScheduleAndTasks(today-1);
     }
 
     for (WorkerReschedule r : reschedules) {
@@ -542,19 +558,9 @@ public class Contractor {
         workerDemand[r.fromDay]--;
         workerDemand[r.toDay]++;
         r.implemented = true;
-        // for (Task t2 : scheduledTasks) {
-        //   if (t2.scheduledStart <= r.toDay && t2.scheduledFinish > r.toDay) {
-        //     t = t2;
-        //     t2.scheduledWorkers[r.fromDay]--;
-        //     t2.scheduledWorkers[r.toDay]++;
-        //     r.implemented = true;
-        //     break;
-        //   }
-        // }
         continue;
       }
     }
-    // printScheduleAndTasks(today-1);
   }
 
   public void printScheduleAndTasks(int day) {
@@ -639,11 +645,11 @@ public class Contractor {
     @Override
     public int compare(Task t1, Task t2) {
       int t1WorkerShortage = 0;
-      for (int i = 0; i <= day && i < t1.scheduledWorkers.length; i++) {
+      for (int i = 0; i < day && i < t1.scheduledWorkers.length; i++) {
         t1WorkerShortage += t1.scheduledWorkers[i];
       }
       int t2WorkerShortage = 0;
-      for (int i = 0; i <= day && i < t2.scheduledWorkers.length; i++) {
+      for (int i = 0; i < day && i < t2.scheduledWorkers.length; i++) {
         t2WorkerShortage += t2.scheduledWorkers[i];
       }
 
@@ -696,7 +702,7 @@ public class Contractor {
 
     private int[] implement(int[] contractorSchedule) {
       while (toDay >= contractorSchedule.length) {
-        int[] newContractorSchedule = new int[Math.max(contractorSchedule.length*2, toDay)];
+        int[] newContractorSchedule = new int[Math.max(contractorSchedule.length+2, toDay)];
         for (int i = 0; i < contractorSchedule.length; i++) {
           newContractorSchedule[i] = contractorSchedule[i];
         }
