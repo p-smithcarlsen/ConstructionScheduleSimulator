@@ -43,6 +43,7 @@ public class Analyzer {
         projectsByExtraWorkers.get(l.addedWorkers).add(l);
       } else {
         projectsByExtraWorkers.put(l.addedWorkers, new ArrayList<>());
+        projectsByExtraWorkers.get(l.addedWorkers).add(l);
       }
 
       if (projectDelay == 0) continue;
@@ -81,8 +82,8 @@ public class Analyzer {
     this.estimatedDeadline = deadline;
   }
 
-  public Map<Trade, Integer> seeWarnings(Contractor[] contractors) {
-    System.out.printf("%nYou are beginning a construction project with deadline in %d days.%n", estimatedDeadline);
+  public Map<Trade, Integer> seeWarnings(Contractor[] contractors, boolean printToConsole) {
+    if (printToConsole) System.out.printf("%n%nYou are beginning a construction project with deadline in %d days.%n", estimatedDeadline);
     Map<Trade, Double> workersNeeded = new HashMap<>();
     Map<Trade, Integer> projectsPerContractor = new HashMap<>();
     for (Contractor c : contractors) {
@@ -126,17 +127,19 @@ public class Analyzer {
       }
     }
 
-    // Not enough similar projects: return
-    double chanceOfSuccess = (double)projectsWithNoDelays / (double)projectsWithNoAddedWorkers * 100.0;
-    if (Double.isNaN(chanceOfSuccess)) {
-      System.out.printf("%nWe do not have enough similar projects to predict worker shortages...%n");
-      return null;
+    if (printToConsole) {
+      // Not enough similar projects: return
+      double chanceOfSuccess = (double)projectsWithNoDelays / (double)projectsWithNoAddedWorkers * 100.0;
+      if (Double.isNaN(chanceOfSuccess)) {
+        System.out.printf("%nWe do not have enough similar projects to predict worker shortages...%n");
+        return null;
+      }
+      
+      // Sufficient similar projects: calculate chance of finishing on time and
+      // how much adding extra workers have helped in the past
+      System.out.printf("%nBased on %d similar previous projects (similar combination" + 
+        " of contractors), there is a %4.1f%% chance to finish on time.%n", similarProjects.size(), chanceOfSuccess);
     }
-    
-    // Sufficient similar projects: calculate chance of finishing on time and
-    // how much adding extra workers have helped in the past
-    System.out.printf("%nBased on %d similar previous projects (similar combination" + 
-      " of contractors), there is a %4.1f%% chance to finish on time.%n", similarProjects.size(), chanceOfSuccess);
 
     boolean workersSick = false;
     for (SimulationLog l : similarProjects) {
@@ -151,7 +154,7 @@ public class Analyzer {
         }
       }
     }
-    if (workersSick) {
+    if (workersSick && printToConsole) {
       System.out.printf("According to the previous projects, the some contractors will encounter sick workers:%n");
       for (Trade t : workersNeeded.keySet()) {
         if (workersNeeded.get(t) > 0.1) {
@@ -177,11 +180,13 @@ public class Analyzer {
       }
     }
 
-    double chanceOfFinishingOnTime = projectsOnTimeWithAddedWorkers / projectsWithAddedWorkers * 100;
-    if (Double.isNaN(chanceOfFinishingOnTime)) {
-      System.out.printf("%nWe do not have enough data on adding workers to similar projects to know whether it will make a difference");
-    } else {
-      System.out.printf("%n%3d similar projects with added workers have finished on time in %4.1f%% of the cases!", (int) projectsWithAddedWorkers, chanceOfFinishingOnTime);
+    if (printToConsole) {
+      double chanceOfFinishingOnTime = projectsOnTimeWithAddedWorkers / projectsWithAddedWorkers * 100;
+      if (Double.isNaN(chanceOfFinishingOnTime)) {
+        System.out.printf("%nWe do not have enough data on adding workers to similar projects to know whether it will make a difference");
+      } else {
+        System.out.printf("%n%3d similar projects with added workers have finished on time in %4.1f%% of the cases!", (int) projectsWithAddedWorkers, chanceOfFinishingOnTime);
+      }
     }
     
     return m;
@@ -202,7 +207,7 @@ public class Analyzer {
       }
     }
 
-    System.out.printf("Projects with no added workers: %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
+    System.out.printf("    # Projects with no added workers: %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
   }
 
   public void successRateWithAddedWorkers() {
@@ -223,7 +228,7 @@ public class Analyzer {
       }
     }
 
-    System.out.printf("Projects with added workers:    %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
+    System.out.printf("    # Projects with added workers:    %5.0f project(s), %5.0f (%5.1f%%) within deadline (average delay: %5.1f days)...%n", all, success, success / all * 100, totalDelay / all);
   }
 
   private int[] resize(int[] arr, int sz) {

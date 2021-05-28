@@ -1,0 +1,9 @@
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:RoofingMechanic=60
+WorkerCount:Glazier=70
+ScheduledDeadline:Day=27
+ExtraWorkers:CementOrConcreteFinisher=2
+ExtraWorkers:RoofingMechanic=1
+ExtraWorkers:Glazier=1
+Delay:Trade=RoofingMechanic,Day=23
+ProjectEnd:Day=28

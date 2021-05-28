@@ -115,8 +115,9 @@ public class Task {
    * production (reflected in the workerContribution variable). After working the
    * task, the number of workers assigned is reset to 0.
    */
-  public void work(int day) {
-    if (workersAssigned == 0) { return; }
+  public void work(int day, boolean printToConsole) {
+    if (workersAssigned <= 0) { return; }
+    if (printToConsole) System.out.printf("%s supplying %d workers, moving progress from %5.1f%% to %5.1f%%%n", trade, workersAssigned, progress, Math.min(progress + transformWorkersToProgress(workersAssigned), 100.0));
     this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100.0) this.progress = 100.0;
     scheduledWorkers[day] -= workersAssigned;

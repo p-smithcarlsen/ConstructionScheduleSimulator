@@ -1,0 +1,7 @@
+WorkerCount:InsulationWorker=45
+WorkerCount:Painter=130
+WorkerCount:FlooringInstaller=80
+WorkerCount:Carpenter=60
+ScheduledDeadline:Day=36
+Delay:Trade=InsulationWorker,Day=23
+ProjectEnd:Day=37

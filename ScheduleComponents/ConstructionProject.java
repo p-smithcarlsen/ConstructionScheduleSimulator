@@ -61,13 +61,13 @@ public class ConstructionProject {
    * workers have been assigned for. Thus, the progress of the 
    * tasks will be incremented in this method. 
    */
-  public void work(int day) {
+  public void work(int day, boolean printToConsole) {
     for (Task t : tasks.tasks) {
-      t.work(day);
+      t.work(day, printToConsole);
     }
   }
 
-  public void analyseAlarms(List<Alarm> alarms, Workforce w, int tomorrow) {
+  public void analyseAlarms(List<Alarm> alarms, Workforce w, int tomorrow, boolean printToConsole, boolean manualInput) {
     // We know that there has been an undersupply of workers to a task, which
     // means that a task has progressed more slowly than expected. This means
     // that theere will be a higher need of workers at some point, maybe also a delay.
@@ -96,7 +96,7 @@ public class ConstructionProject {
       // We will compare the worker demand with the worker supply and determine 
       // when (if so) a task's latest finish will be pushed back
       Contractor delayedContractor = w.getContractor(a.trade);
-      delayedContractor.checkWorkerSupply(tomorrow);
+      delayedContractor.checkWorkerSupply(tomorrow, printToConsole, manualInput);
       // tasks.printTaskSchedules(tomorrow-1);
       Map<Trade, int[]> updatedSchedules = tasks.determineScheduledTimings(w.getContractorSchedule(), tomorrow, w);
       for (Trade t : updatedSchedules.keySet()) {

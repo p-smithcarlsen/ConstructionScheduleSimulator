@@ -1,0 +1,8 @@
+WorkerCount:Glazier=35
+WorkerCount:RoofingMechanic=90
+WorkerCount:FlooringInstaller=80
+ScheduledDeadline:Day=22
+ExtraWorkers:Glazier=1
+ExtraWorkers:RoofingMechanic=1
+ExtraWorkers:FlooringInstaller=2
+ProjectEnd:Day=22

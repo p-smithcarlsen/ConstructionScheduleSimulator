@@ -1,0 +1,17 @@
+WorkerCount:Plumber=120
+WorkerCount:HVACTech=25
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:Glazier=35
+WorkerCount:Painter=65
+ScheduledDeadline:Day=35
+Delay:Trade=Plumber,Day=5
+Delay:Trade=Plumber,Day=10
+Delay:Trade=Plumber,Day=15
+Delay:Trade=HVACTech,Day=17
+Delay:Trade=Glazier,Day=24
+Delay:Trade=CementOrConcreteFinisher,Day=25
+Delay:Trade=CementOrConcreteFinisher,Day=26
+Delay:Trade=CementOrConcreteFinisher,Day=29
+Delay:Trade=CementOrConcreteFinisher,Day=30
+Delay:Trade=Glazier,Day=32
+ProjectEnd:Day=42

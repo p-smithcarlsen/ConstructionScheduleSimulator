@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import Data.DataGenerator;
 import Data.DataParser;
@@ -13,26 +14,73 @@ public class Program {
   private static ConstructionProject constructionProject;
   public static String filePath;
 
+  // Readme file: introduction to project, run 1 simulation with manual input this way, run 1000 simulations without loggin this way...
+  // Make 2 intro functions
+  // Make it possible to turn off printing
+  // Write about NP-hardness and job scheduling? Relate to project? 
+  // Write carefully what code is doing - not trying to let it seem like it is doing something it is not (focus on functionality- not best practice)
+  // Write how we generate data
+  // Possible to have more locations and tasks
+
   public static void main(String[] args) throws IOException {
-    System.out.println("Deleting class files...");
-    deleteClassFiles(".");
-    System.out.println("Resetting database...");
+    if (args[0].equals("schedule")) {
+      if (args[1].equals("true")) {
+        simulateSchedule(true);
+      } else {
+        simulateSchedule(false);
+      }
+    } else if (args[0].equals("experiment")) {
+      int n = 0;
+      try {
+        n = Integer.parseInt(args[1]);
+      } catch (Exception e) {
+        System.out.println("Invalid input...");
+        return;
+      }
+      runExperiment(n);
+    } else {
+      System.out.println("Invalid input...");
+      return;
+    }
+  }
+
+  public static void simulateSchedule(boolean manualInput) throws IOException {
+    runSmallSchedule(true);
+    Analyzer a = new Analyzer();
+    a.analyzeData();
+    Logger l = new Logger(findLogName());
+    Simulator s = new Simulator();
+    s.runSimulation(constructionProject, l, a, true, true, manualInput);
+    a.successRateNoAddedWorkers();
+    a.successRateWithAddedWorkers();
+  }
+
+  public static void runExperiment(int n) throws IOException {
+    System.out.println("\n    # Database has been reset...\n");
     resetScheduleDataAndLogs();
-    int n = 1000;
+    Analyzer a = new Analyzer();
+    System.out.println("                 0" + " ".repeat(50) + "100");
+    System.out.printf("    # Progress:  |");
+    double progress = 0.0;
     for (int i = 0; i < n; i++) {
-    // int i = 0;
-    // while (true) {
+      if (((double) i+1) / (double) n * 100 > progress || i == n-1) {
+        if (i == n-1) {
+          System.out.printf("||%n%n");
+        } else {
+          System.out.printf("|");
+          progress += 2;
+        }
+      }
       runSmallSchedule(true);
-      Analyzer a = new Analyzer();
+      a = new Analyzer();
       a.analyzeData();
       Logger l = new Logger(findLogName());
       Simulator s = new Simulator();
-      s.runSimulation(constructionProject, l, a, i > n/2 && i % 2 == 0);
-      // s.runSimulation(constructionProject, l, a, i > 500 && i % 2 == 0);
-      a.successRateNoAddedWorkers();
-      a.successRateWithAddedWorkers();
-      // i++;
+      boolean addWorkers = i > n/4 && i % 2 == 0;
+      s.runSimulation(constructionProject, l, a, addWorkers, false, false);
     }
+    a.successRateNoAddedWorkers();
+    a.successRateWithAddedWorkers();
   }
 
   public static void resetScheduleDataAndLogs() {

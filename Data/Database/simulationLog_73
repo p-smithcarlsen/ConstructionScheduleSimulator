@@ -1,0 +1,11 @@
+WorkerCount:CementOrConcreteFinisher=80
+WorkerCount:Painter=130
+WorkerCount:Carpenter=60
+ScheduledDeadline:Day=28
+ExtraWorkers:CementOrConcreteFinisher=1
+ExtraWorkers:Painter=1
+ExtraWorkers:Carpenter=1
+Delay:Trade=Painter,Day=16
+Delay:Trade=Painter,Day=18
+Delay:Trade=CementOrConcreteFinisher,Day=22
+ProjectEnd:Day=34

@@ -1,0 +1,8 @@
+WorkerCount:CementOrConcreteFinisher=80
+WorkerCount:InsulationWorker=45
+WorkerCount:Electrician=30
+ScheduledDeadline:Day=20
+Delay:Trade=InsulationWorker,Day=4
+Delay:Trade=InsulationWorker,Day=5
+Delay:Trade=CementOrConcreteFinisher,Day=9
+ProjectEnd:Day=20

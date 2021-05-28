@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Contractor {
   public String id;
@@ -82,7 +83,7 @@ public class Contractor {
    * @param today is the day, on which we want to assign workers
    * @param alarms is the AlarmManager, able to create alarms
    */
-  public boolean assignWorkers(int today, AlarmManager alarms, boolean alreadySickWorkers) {
+  public boolean assignWorkers(int today, AlarmManager alarms, boolean alreadySickWorkers, boolean manualInput) {
     for (Task t : scheduledTasks) {
       if (workerDemand.length > t.scheduledWorkers.length) {
         t.resizeSchedule(workerDemand.length);
@@ -190,7 +191,7 @@ public class Contractor {
    * @param day is the given day, from which we want to estimate worker supply
    * @return true if worker schedule has been changed - false otherwise
    */
-  public void checkWorkerSupply(int day) {
+  public void checkWorkerSupply(int day, boolean printToConsole, boolean manualInput) {
     // Go through tasks, check how much their scheduled finishes will be delayed
     WorkerForecast wf = new WorkerForecast();
     wf.contractorSchedule = workerDemand.clone();
@@ -232,17 +233,8 @@ public class Contractor {
       workerDemand[r.fromDay]--;
       workerDemand[r.toDay]++;
     }
-    // Fix necessary worker reschedules!!
 
-    if (wf.workersNeeded > 1) {
-      System.out.printf("");
-    }
-
-    if (wf.workersNeeded == 0) {
-      System.out.printf("");
-    }
-
-    if (wf.delayedTasks.size() > 0 || wf.unfinishedTasks.size() > 0) askContractorForMoreManpower(day, wf.firstDelay, wf.workersNeeded, wf.delayedTasks, wf.unfinishedTasks);
+    if (wf.workersNeeded > 0 && (wf.delayedTasks.size() > 0 || wf.unfinishedTasks.size() > 0)) askContractorForMoreManpower(day, wf.firstDelay, wf.workersNeeded, wf.delayedTasks, wf.unfinishedTasks, printToConsole, manualInput);
   }
 
   private WorkerForecast forecastWorkerSupply(int today, Task t, int[] currentWorkerSupply) {
@@ -358,11 +350,11 @@ public class Contractor {
     return arr2;
   }
 
-  public void askContractorForMoreManpower(int day, int firstDelay, int workersMissing, List<Task> delayedTasks, List<Task> unfinishedTasks) {
+  public void askContractorForMoreManpower(int day, int firstDelay, int workersMissing, List<Task> delayedTasks, List<Task> unfinishedTasks, boolean printToConsole, boolean manualInput) {
     if (firstDelay == Integer.MAX_VALUE) firstDelay = -1;
-    // String prompt = "\n\n # To " + trade + ":\n" +
-      // "You need to provide " + workersMissing + " more manpower (workers) from " +
-      // "working overtime/weekends or by hiring more workers. \n";
+    String prompt = "\n\n # To " + trade + ":\n" +
+      "You need to provide " + workersMissing + " more manpower (workers) from " +
+      "working overtime/weekends or by hiring more workers. \n";
     int daysLeftBeforeDelay = firstDelay - day+1;
     String delayedTask = "[";
     for (Task t : delayedTasks) {
@@ -370,14 +362,14 @@ public class Contractor {
     }
     delayedTask = delayedTask.substring(0, delayedTask.length()-1) + "]";
     if (daysLeftBeforeDelay <= 0) {
-      // prompt += "There is not enough time to avoid a delay... \n";
+      prompt += "There is not enough time to avoid a delay... \n";
     } else {
       if (delayedTask.length() > 1) {
-        // prompt += "If the extra manpower is " +
-        // "not provided in the next " + daysLeftBeforeDelay + " days, the following tasks will " +
-        // "be delayed: " + delayedTask + ".\n";
+        prompt += "If the extra manpower is " +
+        "not provided in the next " + daysLeftBeforeDelay + " days, the following tasks will " +
+        "be delayed: " + delayedTask + ".\n";
       } else {
-        // prompt += "The extra manpower needs to be provided in the next " + daysLeftBeforeDelay + " days! \n";
+        prompt += "The extra manpower needs to be provided in the next " + daysLeftBeforeDelay + " days! \n";
       }
     }
     if (unfinishedTasks.size() > 0) {
@@ -386,19 +378,40 @@ public class Contractor {
         unfinished += "L" + t.location + "T" + t.id + ";";
       }
       unfinished = unfinished.substring(0, unfinished.length()-1) + "]";
-      // prompt += "There will not be enough manpower to finish the following tasks: " + unfinished;
+      prompt += "There will not be enough manpower to finish the following tasks: " + unfinished;
     } else {
-      // prompt += "All tasks should still be able to be finished.";
+      prompt += "All tasks should still be able to be finished.";
     }
-    // prompt += "\nWriting '1' means supplying a worker tomorrow.";
-    // System.err.println(prompt);
+    prompt += "\nWriting '1' means supplying a worker tomorrow.";
+    if (printToConsole) System.err.println(prompt);
 
     int dayOfSupply = 0;
     for (int i = 0; i < workersMissing; i++) {
-      // dayOfSupply = getResponse(day, i);
-      dayOfSupply = getRandomResponse(day, i, daysLeftBeforeDelay);
+      if (manualInput) {
+        dayOfSupply = getResponse(day, i);
+      } else {
+        dayOfSupply = getRandomResponse(day, i, daysLeftBeforeDelay);
+      }
       addWorkerToSchedule(dayOfSupply);
     }
+  }
+
+  private int getResponse(int day, int worker) {
+    Scanner sc = new Scanner(System.in);  // Do not close - if you do, the program crashes :(
+    String resp = "";
+    int dayOfSupply = 0;
+    System.out.println("\n\nIn how many days can the contractor supply worker number " + (worker+1) + "?");
+    resp = sc.nextLine();
+    try {
+      int days = Integer.parseInt(resp);
+      if (days <= 0) throw new Exception("It is not possible to supply workers for today or earlier! Please try again...");
+      dayOfSupply = day + days - 1;
+    } catch (NumberFormatException e) {
+      System.out.println("I don't understand that number! Please try again...");
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+    return dayOfSupply;
   }
 
   private int getRandomResponse(int day, int worker, int daysLeftBeforeDelay) {
@@ -451,10 +464,7 @@ public class Contractor {
         workersScheduled += t.scheduledWorkers[i];
       }
       while (workersScheduled < workersNeeded) {
-        if (t.scheduledWorkers.length <= today+5) resizeArray(t.scheduledWorkers, today+10);
-        if (today+1 > t.scheduledWorkers.length) {
-          System.out.println("");
-        }
+        while (t.scheduledWorkers.length <= today+5) t.scheduledWorkers = resizeArray(t.scheduledWorkers, today+10);
         t.scheduledWorkers[today+1]++;
         t.scheduledFinish = today+2;
         sumByDay[today+1]++;

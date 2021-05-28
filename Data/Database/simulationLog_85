@@ -1,0 +1,11 @@
+WorkerCount:Painter=130
+WorkerCount:Plumber=120
+WorkerCount:Electrician=15
+WorkerCount:FlooringInstaller=80
+ScheduledDeadline:Day=32
+ExtraWorkers:Painter=3
+ExtraWorkers:Plumber=2
+ExtraWorkers:Electrician=0
+ExtraWorkers:FlooringInstaller=2
+Delay:Trade=Plumber,Day=27
+ProjectEnd:Day=32

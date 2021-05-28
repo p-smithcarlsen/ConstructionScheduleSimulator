@@ -1,0 +1,8 @@
+WorkerCount:CementOrConcreteFinisher=120
+WorkerCount:Glazier=35
+WorkerCount:FlooringInstaller=80
+ScheduledDeadline:Day=29
+ExtraWorkers:CementOrConcreteFinisher=1
+ExtraWorkers:Glazier=1
+ExtraWorkers:FlooringInstaller=1
+ProjectEnd:Day=29

@@ -1,0 +1,10 @@
+WorkerCount:InsulationWorker=45
+WorkerCount:Plumber=240
+WorkerCount:Electrician=30
+ScheduledDeadline:Day=33
+Delay:Trade=Plumber,Day=0
+Delay:Trade=Plumber,Day=8
+Delay:Trade=Electrician,Day=9
+Delay:Trade=Plumber,Day=18
+Delay:Trade=InsulationWorker,Day=30
+ProjectEnd:Day=39

@@ -1,8 +1,10 @@
 package Simulation;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import ScheduleComponents.Alarm;
 import ScheduleComponents.ConstructionProject;
@@ -25,10 +27,12 @@ public class Simulator {
    * @param constructionProject
    * @throws IOException
    */
-  public void runSimulation(ConstructionProject constructionProject, Logger l, Analyzer a, boolean addWorkers) throws IOException {
-    System.out.println("\n\n                            _______________                           ");
-    System.out.println("===========================/ PROJECT START \\===========================");
-    a.printDelayDistribution();
+  public void runSimulation(ConstructionProject constructionProject, Logger l, Analyzer a, boolean addWorkers, boolean printToConsole, boolean manualInput) throws IOException {
+    if (printToConsole) {
+      System.out.println("\n\n                            _______________                           ");
+      System.out.println("===========================/ PROJECT START \\===========================");
+      a.printDelayDistribution();
+    }
     // Find the critical path(s) in the tasks
     constructionProject.prepareLocations();
     // Hire contractors and delegate tasks to individual contractors
@@ -40,24 +44,32 @@ public class Simulator {
 
     // Check analyzer to see schedule warnings
     a.setScheduledDeadline(constructionProject.tasks.scheduledDeadline);
-    Map<Trade, Integer> extraWorkerSupply = a.seeWarnings(workforce.contractors);
+    Map<Trade, Integer> extraWorkerSupply = a.seeWarnings(workforce.contractors, printToConsole);
     if (extraWorkerSupply != null && addWorkers) {
-      workforce.addExtraWorkers(extraWorkerSupply);
-      l.log(extraWorkerSupply);
+      // Ask to add extra workers or not
+      boolean addExtraWorkers = askUserToAddMoreWorkers();
+      System.out.println(addExtraWorkers);
+      if (addExtraWorkers) {
+        workforce.addExtraWorkers(extraWorkerSupply);
+        l.log(extraWorkerSupply);
+      }
     }
 
     while (true) {
       // Go through project day by day until all tasks are finished
-      // System.err.printf("\n\n==========| day: % 3d |==========\n", day);
+      if (printToConsole) {
+        System.err.printf("\n\n==========| day: % 3d |==========\n", day);
+        constructionProject.printStatus();
+      }
       if (constructionProject.tasks.numberOfRemainingTasks() <= 0) {
         break;
       }
       
       // Assign workers
-      workforce.assignWorkers(day);
+      workforce.assignWorkers(day, manualInput);
 
       // Work tasks
-      constructionProject.work(day);
+      constructionProject.work(day, printToConsole);
       constructionProject.alignTaskScheduledFinishes(day);
       constructionProject.tasks.scheduledDeadline();
       
@@ -65,7 +77,7 @@ public class Simulator {
       if (constructionProject.alarms.getUnresolvedAlarms().size() > 0) {
         List<Alarm> unresolved = constructionProject.alarms.getUnresolvedAlarms();
         l.log(unresolved);
-        constructionProject.analyseAlarms(unresolved, workforce, day+1);
+        constructionProject.analyseAlarms(unresolved, workforce, day+1, printToConsole, manualInput);
       }
 
       // Go to next day
@@ -76,8 +88,33 @@ public class Simulator {
     }
     l.logProjectEnd(day);
     l.end();
-    System.out.println("\n\n===========================\\  PROJECT END  /===========================");
-    System.out.println("                            \\-------------/                           \n\n");
+    
+    if (printToConsole) {
+      System.out.println("\n\n===========================\\  PROJECT END  /===========================");
+      System.out.println("                            \\-------------/                           \n\n");
+    }
+  }
+
+  public boolean askUserToAddMoreWorkers() {
+    Scanner sc = new Scanner(System.in);
+    System.out.println("\n\nDo you want to add extra workers to the schedule? (Y/N)");
+
+    boolean addWorkers = false;
+    try {
+      String resp = sc.nextLine();
+      if (resp.toLowerCase().equals("y")) {
+        addWorkers = true;
+      } else if (resp.toLowerCase().equals("n")) {
+        addWorkers = false;
+      } else {
+        throw new InputMismatchException("\nI didn't understand that... please try again!");
+      }
+      return addWorkers;
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      addWorkers = askUserToAddMoreWorkers();
+    } 
+    return false;
   }
 
   public void endOfDay(Workforce w, ConstructionProject cp) {

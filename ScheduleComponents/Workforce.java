@@ -143,10 +143,10 @@ public class Workforce {
    * in the given task. 
    * @param today is the given day, workers are being assigned
    */
-  public void assignWorkers(int today) {
+  public void assignWorkers(int today, boolean manualInput) {
     boolean sickWorkers = false;
     for (Contractor c : contractors)
-      sickWorkers = c.assignWorkers(today, delays, sickWorkers);
+      sickWorkers = c.assignWorkers(today, delays, sickWorkers, manualInput);
   }
 
   public void endOfDay() {

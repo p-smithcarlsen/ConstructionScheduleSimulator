@@ -1,0 +1,10 @@
+WorkerCount:Glazier=35
+WorkerCount:Plumber=120
+WorkerCount:Carpenter=120
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=32
+ExtraWorkers:Glazier=0
+ExtraWorkers:Plumber=4
+ExtraWorkers:Carpenter=2
+ExtraWorkers:HVACTech=1
+ProjectEnd:Day=32

@@ -1,0 +1,17 @@
+WorkerCount:Glazier=35
+WorkerCount:Painter=65
+WorkerCount:Electrician=15
+WorkerCount:Carpenter=60
+WorkerCount:FlooringInstaller=80
+ScheduledDeadline:Day=32
+ExtraWorkers:Glazier=1
+ExtraWorkers:Painter=0
+ExtraWorkers:Electrician=0
+ExtraWorkers:Carpenter=1
+ExtraWorkers:FlooringInstaller=1
+Delay:Trade=Carpenter,Day=7
+Delay:Trade=Painter,Day=18
+Delay:Trade=Electrician,Day=22
+Delay:Trade=Painter,Day=26
+Delay:Trade=Painter,Day=27
+ProjectEnd:Day=32
