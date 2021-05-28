@@ -28,6 +28,7 @@ public class Simulator {
   public void runSimulation(ConstructionProject constructionProject, Logger l, Analyzer a, boolean addWorkers) throws IOException {
     System.out.println("\n\n                            _______________                           ");
     System.out.println("===========================/ PROJECT START \\===========================");
+    a.printDelayDistribution();
     // Find the critical path(s) in the tasks
     constructionProject.prepareLocations();
     // Hire contractors and delegate tasks to individual contractors
