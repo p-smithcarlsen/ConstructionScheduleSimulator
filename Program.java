@@ -31,7 +31,7 @@ public class Program {
       // s.runSimulation(constructionProject, l, a, i > 500 && i % 2 == 0);
       a.successRateNoAddedWorkers();
       a.successRateWithAddedWorkers();
-      i++;
+      // i++;
     }
   }
 
