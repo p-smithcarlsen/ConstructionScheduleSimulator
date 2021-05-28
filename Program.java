@@ -18,7 +18,7 @@ public class Program {
     deleteClassFiles(".");
     System.out.println("Resetting database...");
     resetScheduleDataAndLogs();
-    int n = 50;
+    int n = 1000;
     for (int i = 0; i < n; i++) {
     // int i = 0;
     // while (true) {

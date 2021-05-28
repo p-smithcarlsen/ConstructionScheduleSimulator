@@ -1,10 +1,8 @@
-WorkerCount:InsulationWorker=45
-WorkerCount:FlooringInstaller=80
-WorkerCount:RoofingMechanic=60
+WorkerCount:Painter=130
 WorkerCount:Carpenter=60
-ScheduledDeadline:Day=31
-ExtraWorkers:InsulationWorker=2
-ExtraWorkers:FlooringInstaller=1
-ExtraWorkers:RoofingMechanic=0
-ExtraWorkers:Carpenter=1
-ProjectEnd:Day=31
+WorkerCount:RoofingMechanic=60
+ScheduledDeadline:Day=26
+ExtraWorkers:Painter=2
+ExtraWorkers:Carpenter=3
+ExtraWorkers:RoofingMechanic=1
+ProjectEnd:Day=26
