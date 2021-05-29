@@ -1,8 +1,10 @@
+WorkerCount:Plumber=120
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:HVACTech=25
+WorkerCount:Carpenter=60
 WorkerCount:Electrician=15
-WorkerCount:Glazier=35
-WorkerCount:RoofingMechanic=30
-WorkerCount:FlooringInstaller=160
-ScheduledDeadline:Day=34
-Delay:Trade=RoofingMechanic,Day=4
-Delay:Trade=RoofingMechanic,Day=13
-ProjectEnd:Day=35
+ScheduledDeadline:Day=26
+Delay:Trade=CementOrConcreteFinisher,Day=4
+Delay:Trade=Carpenter,Day=18
+Delay:Trade=Plumber,Day=21
+ProjectEnd:Day=30

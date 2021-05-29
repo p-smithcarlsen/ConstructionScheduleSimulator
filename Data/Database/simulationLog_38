@@ -1,8 +1,10 @@
 WorkerCount:Plumber=120
-WorkerCount:RoofingMechanic=60
-WorkerCount:HVACTech=25
+WorkerCount:CementOrConcreteFinisher=40
 WorkerCount:Painter=65
-ScheduledDeadline:Day=25
-Delay:Trade=Painter,Day=10
-Delay:Trade=RoofingMechanic,Day=12
-ProjectEnd:Day=26
+WorkerCount:InsulationWorker=45
+WorkerCount:Electrician=15
+ScheduledDeadline:Day=27
+Delay:Trade=CementOrConcreteFinisher,Day=1
+Delay:Trade=Plumber,Day=7
+Delay:Trade=Plumber,Day=10
+ProjectEnd:Day=27

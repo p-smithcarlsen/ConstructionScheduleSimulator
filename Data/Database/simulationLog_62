@@ -1,8 +1,10 @@
-WorkerCount:Glazier=35
-WorkerCount:Carpenter=60
-WorkerCount:CementOrConcreteFinisher=40
-WorkerCount:InsulationWorker=45
+WorkerCount:Plumber=120
 WorkerCount:FlooringInstaller=80
-ScheduledDeadline:Day=30
-Delay:Trade=FlooringInstaller,Day=12
-ProjectEnd:Day=30
+WorkerCount:Electrician=15
+WorkerCount:Glazier=70
+ScheduledDeadline:Day=38
+Delay:Trade=Plumber,Day=0
+Delay:Trade=Plumber,Day=1
+Delay:Trade=Glazier,Day=20
+Delay:Trade=FlooringInstaller,Day=33
+ProjectEnd:Day=47

@@ -1,6 +1,10 @@
-WorkerCount:Glazier=70
-WorkerCount:FlooringInstaller=240
-ScheduledDeadline:Day=44
-ExtraWorkers:Glazier=1
-ExtraWorkers:FlooringInstaller=2
-ProjectEnd:Day=44
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:HVACTech=25
+WorkerCount:Carpenter=120
+WorkerCount:RoofingMechanic=30
+ScheduledDeadline:Day=27
+ExtraWorkers:CementOrConcreteFinisher=1
+ExtraWorkers:HVACTech=1
+ExtraWorkers:Carpenter=1
+ExtraWorkers:RoofingMechanic=1
+ProjectEnd:Day=27

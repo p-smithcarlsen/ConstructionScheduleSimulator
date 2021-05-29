@@ -145,6 +145,7 @@ public class Contractor {
 
     for (Task t : scheduledTasks) {
       if (t.scheduledFinish < today-2 && !t.isFinished()) {
+        while (workerDemand.length <= today+2) workerDemand = resizeArray(workerDemand, today+5);
         workerDemand[today+2]++;
       }
     }
@@ -259,6 +260,7 @@ public class Contractor {
         workersOnDay = (int) workersNeeded;
       }
 
+      // if (currentWorkerSupply.length <= day+2) currentWorkerSupply = resizeArray(currentWorkerSupply, day+5);
       workersOnDay = Math.min(workersOnDay, currentWorkerSupply[day]);
 
       if (workersOnDay > 0 && remainingQuantity == t.getRemainingQuantity()) {
@@ -267,6 +269,7 @@ public class Contractor {
       }
 
       currentWorkerSupply[day] -= workersOnDay;
+      // if (understaffedDay.length <= day+2) understaffedDay = resizeArray(understaffedDay, day+5);
       understaffedDay[day] -= workersOnDay;
       remainingQuantity -= workersOnDay / optimalWorkers * production;
       roundOff = Math.floor(remainingQuantity * 1000.0) / 1000.0;

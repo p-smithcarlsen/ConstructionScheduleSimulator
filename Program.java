@@ -13,14 +13,6 @@ public class Program {
   private static ConstructionProject constructionProject;
   public static String filePath;
 
-  // Readme file: introduction to project, run 1 simulation with manual input this way, run 1000 simulations without loggin this way...
-  // Make 2 intro functions
-  // Make it possible to turn off printing
-  // Write about NP-hardness and job scheduling? Relate to project? 
-  // Write carefully what code is doing - not trying to let it seem like it is doing something it is not (focus on functionality- not best practice)
-  // Write how we generate data
-  // Possible to have more locations and tasks
-
   public static void main(String[] args) throws IOException {
     if (args[0].equals("schedule")) {
       if (args[1].equals("true")) {
@@ -61,13 +53,15 @@ public class Program {
     System.out.println("                 0" + " ".repeat(50) + "100%");
     System.out.printf("    # Progress:  |");
     double progress = 0.0;
+    int printed = 0;
     for (int i = 0; i < n; i++) {
-      if (((double) i+1) / (double) n * 100 > progress || i == n-1) {
-        if (i == n-1) {
-          System.out.printf("||%n%n");
-        } else {
+      progress = (double)(i+1) / (double)n * 100.0; 
+      if (i == n-1) {
+        System.out.printf("|".repeat((100-printed)/2) + "||%n%n");
+      } else if(progress > printed) {
+        while (progress > printed) {
           System.out.printf("|");
-          progress += 2;
+          printed += 2;
         }
       }
       runSmallSchedule(true);
@@ -129,8 +123,10 @@ public class Program {
    */
   public static void runSmallSchedule(boolean repetitive) throws NumberFormatException, IOException {
     filePath = "";
-    if (repetitive) { filePath = createDataset("Data/ScheduleData", 5, 5, true); }
-    else { filePath = createDataset("Data/ScheduleData", 5, 5, false); }
+    int locations = 5;
+    int tasksPerLocations = 5;
+    if (repetitive) { filePath = createDataset("Data/ScheduleData", locations, tasksPerLocations, true); }
+    else { filePath = createDataset("Data/ScheduleData", locations, tasksPerLocations, false); }
     readDataIntoObjects(filePath);
   }
 
