@@ -382,7 +382,7 @@ public class Contractor {
     } else {
       prompt += "All tasks should still be able to be finished.";
     }
-    prompt += "\nWriting '1' means supplying a worker tomorrow.";
+    prompt += "\nWriting '1' means supplying a worker tomorrow, which is the earliest possible.";
     if (printToConsole) System.err.println(prompt);
 
     int dayOfSupply = 0;
@@ -401,16 +401,28 @@ public class Contractor {
     String resp = "";
     int dayOfSupply = 0;
     System.out.println("\n\nIn how many days can the contractor supply worker number " + (worker+1) + "?");
-    resp = sc.nextLine();
-    try {
-      int days = Integer.parseInt(resp);
-      if (days <= 0) throw new Exception("It is not possible to supply workers for today or earlier! Please try again...");
-      dayOfSupply = day + days - 1;
-    } catch (NumberFormatException e) {
-      System.out.println("I don't understand that number! Please try again...");
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+
+    int days = 0;
+    while (days <= 0) {
+      resp = sc.nextLine();
+      try {
+        days = Integer.parseInt(resp);
+        if (days <= 0) throw new Exception();
+      } catch (Exception e) {
+        System.out.println("I don't understand that number! Please try again...");
+      }
     }
+    dayOfSupply = day + days - 1;
+
+    // try {
+    //   int days = Integer.parseInt(resp);
+    //   if (days <= 0) throw new Exception("It is not possible to supply workers for today or earlier! Please try again...");
+    //   dayOfSupply = day + days - 1;
+    // } catch (NumberFormatException e) {
+    //   System.out.println("I don't understand that number! Please try again...");
+    // } catch (Exception e) {
+    //   System.out.println(e.getMessage());
+    // }
     return dayOfSupply;
   }
 

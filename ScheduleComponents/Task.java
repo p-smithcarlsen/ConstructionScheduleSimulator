@@ -117,7 +117,8 @@ public class Task {
    */
   public void work(int day, boolean printToConsole) {
     if (workersAssigned <= 0) { return; }
-    if (printToConsole) System.out.printf("%s supplying %d workers, moving progress from %5.1f%% to %5.1f%%%n", trade, workersAssigned, progress, Math.min(progress + transformWorkersToProgress(workersAssigned), 100.0));
+    String tradeSubstring = trade.toString().substring(0, Math.min(trade.toString().length(), 25));
+    if (printToConsole) System.out.printf("%25s:  supplying %d workers, increasing progress from %5.1f%% to %5.1f%%%n", tradeSubstring, workersAssigned, progress, Math.min(progress + transformWorkersToProgress(workersAssigned), 100.0));
     this.progress += transformWorkersToProgress(workersAssigned);
     if (this.progress > 100.0) this.progress = 100.0;
     scheduledWorkers[day] -= workersAssigned;

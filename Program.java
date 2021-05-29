@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import Data.DataGenerator;
 import Data.DataParser;
@@ -59,7 +58,7 @@ public class Program {
     System.out.println("\n    # Database has been reset...\n");
     resetScheduleDataAndLogs();
     Analyzer a = new Analyzer();
-    System.out.println("                 0" + " ".repeat(50) + "100");
+    System.out.println("                 0" + " ".repeat(50) + "100%");
     System.out.printf("    # Progress:  |");
     double progress = 0.0;
     for (int i = 0; i < n; i++) {

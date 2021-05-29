@@ -47,9 +47,13 @@ public class Simulator {
     Map<Trade, Integer> extraWorkerSupply = a.seeWarnings(workforce.contractors, printToConsole);
     if (extraWorkerSupply != null && addWorkers) {
       // Ask to add extra workers or not
-      boolean addExtraWorkers = askUserToAddMoreWorkers();
-      System.out.println(addExtraWorkers);
-      if (addExtraWorkers) {
+      if (manualInput) {
+        boolean addExtraWorkers = askUserToAddMoreWorkers();
+        if (addExtraWorkers) {
+          workforce.addExtraWorkers(extraWorkerSupply);
+          l.log(extraWorkerSupply);
+        }
+      } else {
         workforce.addExtraWorkers(extraWorkerSupply);
         l.log(extraWorkerSupply);
       }
@@ -99,21 +103,20 @@ public class Simulator {
     Scanner sc = new Scanner(System.in);
     System.out.println("\n\nDo you want to add extra workers to the schedule? (Y/N)");
 
-    boolean addWorkers = false;
-    try {
-      String resp = sc.nextLine();
-      if (resp.toLowerCase().equals("y")) {
-        addWorkers = true;
-      } else if (resp.toLowerCase().equals("n")) {
-        addWorkers = false;
-      } else {
-        throw new InputMismatchException("\nI didn't understand that... please try again!");
-      }
-      return addWorkers;
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      addWorkers = askUserToAddMoreWorkers();
-    } 
+    String resp = "";
+    while (!resp.equals("y") && !resp.equals("n")) {
+      try {
+        resp = sc.nextLine().toLowerCase();
+        if (!resp.equals("y") && !resp.equals("n")) {
+          System.out.println("\nI didn't understand that... please try again!");
+        }
+        
+      } catch (Exception e) {
+        System.out.println(e.getMessage());
+      } 
+    }
+    // boolean addWorkers = false;
+    if (resp.equals("y")) return true;
     return false;
   }
 
