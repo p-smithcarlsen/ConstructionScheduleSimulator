@@ -1,8 +1,10 @@
-WorkerCount:HVACTech=25
+WorkerCount:Electrician=15
+WorkerCount:RoofingMechanic=30
 WorkerCount:Carpenter=60
-WorkerCount:Electrician=45
-ScheduledDeadline:Day=21
-ExtraWorkers:HVACTech=1
-ExtraWorkers:Carpenter=2
+WorkerCount:CementOrConcreteFinisher=80
+ScheduledDeadline:Day=22
 ExtraWorkers:Electrician=1
-ProjectEnd:Day=21
+ExtraWorkers:RoofingMechanic=2
+ExtraWorkers:Carpenter=1
+ExtraWorkers:CementOrConcreteFinisher=1
+ProjectEnd:Day=22

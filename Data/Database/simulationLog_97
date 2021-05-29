@@ -1,10 +1,9 @@
-WorkerCount:Plumber=120
-WorkerCount:CementOrConcreteFinisher=80
+WorkerCount:Electrician=30
 WorkerCount:Carpenter=120
-ScheduledDeadline:Day=30
-ExtraWorkers:Plumber=2
-ExtraWorkers:CementOrConcreteFinisher=2
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=23
+ExtraWorkers:Electrician=1
 ExtraWorkers:Carpenter=2
-Delay:Trade=Carpenter,Day=12
-Delay:Trade=Carpenter,Day=19
-ProjectEnd:Day=32
+ExtraWorkers:HVACTech=1
+Delay:Trade=Electrician,Day=22
+ProjectEnd:Day=27

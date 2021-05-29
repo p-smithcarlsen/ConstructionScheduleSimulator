@@ -1,8 +1,6 @@
-WorkerCount:HVACTech=25
-WorkerCount:Plumber=240
-WorkerCount:Glazier=70
-ScheduledDeadline:Day=34
-Delay:Trade=Plumber,Day=10
-Delay:Trade=Plumber,Day=26
-Delay:Trade=Glazier,Day=27
-ProjectEnd:Day=34
+WorkerCount:Electrician=15
+WorkerCount:Carpenter=60
+WorkerCount:InsulationWorker=135
+ScheduledDeadline:Day=26
+Delay:Trade=InsulationWorker,Day=12
+ProjectEnd:Day=26

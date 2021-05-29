@@ -10,7 +10,11 @@ project manager is able to affect the course of the project either
 by running the project with the minimum required workers or by 
 adding extra workers. The number of extra workers required is 
 determined by the logs of the previously simulated projects. If this
-option is chosen, additional logging is printed to the console.
+option is chosen, additional logging is printed to the console. If
+the database contains enough data (more than 50 previous project, 
+approximately), the program will create a probability distribution,
+showing the accumulated probability of finishing within a number
+of days after the set project deadline. 
 
 It is also possible to run an experiment, simulating a number of 
 construction projects. If this option is chosen, whether or not extra
