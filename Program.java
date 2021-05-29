@@ -42,8 +42,6 @@ public class Program {
     Logger l = new Logger(findLogName());
     Simulator s = new Simulator();
     s.runSimulation(constructionProject, l, a, true, true, manualInput);
-    a.successRateNoAddedWorkers();
-    a.successRateWithAddedWorkers();
   }
 
   public static void runExperiment(int n) throws IOException {
