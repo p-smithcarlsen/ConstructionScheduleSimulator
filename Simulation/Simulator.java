@@ -9,7 +9,7 @@ import java.util.Scanner;
 import ScheduleComponents.Alarm;
 import ScheduleComponents.ConstructionProject;
 import ScheduleComponents.Workforce;
-import ScheduleComponents.Contractor.Trade;
+import ScheduleComponents.Contractor.Trade; 
 
 public class Simulator {
 
@@ -34,7 +34,7 @@ public class Simulator {
       a.printDelayDistribution();
     }
     // Find the critical path(s) in the tasks
-    constructionProject.prepareLocations();
+    // constructionProject.prepareLocations();
     // Hire contractors and delegate tasks to individual contractors
     workforce = new Workforce(constructionProject.locations, constructionProject.alarms);
     l.log(workforce);
@@ -58,7 +58,7 @@ public class Simulator {
         l.log(extraWorkerSupply);
       }
     }
-
+    
     while (true) {
       // Go through project day by day until all tasks are finished
       if (printToConsole) {
@@ -123,5 +123,9 @@ public class Simulator {
   public void endOfDay(Workforce w, ConstructionProject cp) {
     w.endOfDay();
     cp.endOfDay();
+  }
+
+  public void prepareTimings(ConstructionProject constructionProject) {
+    constructionProject.prepareLocations();
   }
 }

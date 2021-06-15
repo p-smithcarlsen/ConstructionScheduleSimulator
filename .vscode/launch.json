@@ -13,6 +13,14 @@
         },
         {
             "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "vmArgs": "--module-path javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "Client",
+            "projectName": "ConstructionScheduleSimulator_f80c531b"
+        },
+        {
+            "type": "java",
             "name": "Launch DataGenerator",
             "request": "launch",
             "mainClass": "Data.DataGenerator",
