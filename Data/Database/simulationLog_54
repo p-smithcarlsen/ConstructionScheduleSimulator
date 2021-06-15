@@ -1,8 +1,0 @@
-WorkerCount:Plumber=120
-WorkerCount:CementOrConcreteFinisher=40
-WorkerCount:InsulationWorker=45
-WorkerCount:Electrician=15
-WorkerCount:Glazier=35
-ScheduledDeadline:Day=25
-Delay:Trade=Plumber,Day=18
-ProjectEnd:Day=26

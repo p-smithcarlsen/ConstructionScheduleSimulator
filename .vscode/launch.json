@@ -6,8 +6,17 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "Client",
+            "projectName": "ConstructionScheduleSimulator_6406f253"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
             "console": "integratedTerminal",
             "mainClass": "${file}"
         },
@@ -15,6 +24,7 @@
             "type": "java",
             "name": "Launch DataGenerator",
             "request": "launch",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "Data.DataGenerator",
             "projectName": "ConstructionScheduleSimulator_f80c531b"
         },
@@ -22,6 +32,7 @@
             "type": "java",
             "name": "Launch DataParser",
             "request": "launch",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "Data.DataParser",
             "projectName": "ConstructionScheduleSimulator_f80c531b"
         },
@@ -29,6 +40,7 @@
             "type": "java",
             "name": "Launch Program",
             "request": "launch",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "Program",
             "projectName": "ConstructionScheduleSimulator_f80c531b"
         }

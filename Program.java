@@ -8,32 +8,41 @@ import Simulation.Analyzer;
 import Simulation.Logger;
 import Simulation.Simulator;
 
+import javafx.scene.chart.LineChart;
+
+
 public class Program {
 
   private static ConstructionProject constructionProject;
   public static String filePath;
+  static LineChart<Number,Number> chart;
 
-  public static void main(String[] args) throws IOException {
-    if (args[0].equals("schedule")) {
-      if (args[1].equals("true")) {
-        simulateSchedule(true);
-      } else {
-        simulateSchedule(false);
-      }
-    } else if (args[0].equals("experiment")) {
-      int n = 0;
-      try {
-        n = Integer.parseInt(args[1]);
-      } catch (Exception e) {
-        System.out.println("Invalid input...");
-        return;
-      }
-      runExperiment(n);
-    } else {
-      System.out.println("Invalid input...");
-      return;
-    }
+  public Program(LineChart<Number,Number> chart) {
+    Program.chart = chart;
   }
+
+  // public static void main(String[] args) throws IOException {
+  //   Application.launch(Client.class);
+  //   if (args[0].equals("schedule")) {
+  //     if (args[1].equals("true")) {
+  //       simulateSchedule(true);
+  //     } else {
+  //       simulateSchedule(false);
+  //     }
+  //   } else if (args[0].equals("experiment")) {
+  //     int n = 0;
+  //     try {
+  //       n = Integer.parseInt(args[1]);
+  //     } catch (Exception e) {
+  //       System.out.println("Invalid input...");
+  //       return;
+  //     }
+  //     runExperiment(n);
+  //   } else {
+  //     System.out.println("Invalid input...");
+  //     return;
+  //   }
+  // }
 
   public static void simulateSchedule(boolean manualInput) throws IOException {
     runSmallSchedule(true);
@@ -41,6 +50,8 @@ public class Program {
     a.analyzeData();
     Logger l = new Logger(findLogName());
     Simulator s = new Simulator();
+    s.prepareTimings(constructionProject);
+    Client.setUpChart(constructionProject, chart);
     s.runSimulation(constructionProject, l, a, true, true, manualInput);
   }
 

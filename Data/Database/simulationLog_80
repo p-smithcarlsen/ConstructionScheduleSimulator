@@ -1,8 +1,0 @@
-WorkerCount:InsulationWorker=45
-WorkerCount:Glazier=140
-ScheduledDeadline:Day=31
-Delay:Trade=Glazier,Day=8
-Delay:Trade=InsulationWorker,Day=9
-Delay:Trade=Glazier,Day=11
-Delay:Trade=InsulationWorker,Day=13
-ProjectEnd:Day=32

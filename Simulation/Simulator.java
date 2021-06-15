@@ -124,4 +124,8 @@ public class Simulator {
     w.endOfDay();
     cp.endOfDay();
   }
+
+  public void prepareTimings(ConstructionProject constructionProject) {
+    constructionProject.prepareLocations();
+  }
 }

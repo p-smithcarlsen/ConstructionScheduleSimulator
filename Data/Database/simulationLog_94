@@ -1,7 +1,0 @@
-WorkerCount:CementOrConcreteFinisher=80
-WorkerCount:RoofingMechanic=30
-WorkerCount:Carpenter=60
-WorkerCount:InsulationWorker=45
-ScheduledDeadline:Day=22
-Delay:Trade=InsulationWorker,Day=8
-ProjectEnd:Day=22
