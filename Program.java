@@ -69,7 +69,7 @@ public class Program {
 
   public static void simulateNextDay() throws IOException{
     sim.simulateDay(log,ana,true,true,true);
-    Client.checkDif(constructionProject, chart);
+    Client.checkDif(constructionProject, chart, sim.getDayCount());
   }
 
   public static void prepareTheProject() throws NumberFormatException, IOException {

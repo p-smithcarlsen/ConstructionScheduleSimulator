@@ -95,6 +95,10 @@ public class SimulateDayByDay {
     day++;
   }
 
+  public int getDayCount(){
+    return day;
+  }
+
   public void endProject(Logger l, boolean printToConsole) throws IOException {
     l.logProjectEnd(day);
     l.end();

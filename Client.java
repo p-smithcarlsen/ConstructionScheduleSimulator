@@ -142,12 +142,12 @@ public class Client extends Application{
         return series;
     }
 
-    public static void checkDif(ConstructionProject project, LineChart<Number,Number> chart) {
+    public static void checkDif(ConstructionProject project, LineChart<Number,Number> chart, int day) {
         Task temp;
 
         for (int i = 0; i < 25; i++) {
             temp = project.tasks.getTasks().get(i);
-            if(temp.scheduledFinish != temp.earliestFinish) {
+            if(temp.scheduledFinish != temp.earliestFinish && temp.scheduledFinish >= day) {
                 chart.getData().get(i).getData().remove(1);
                 chart.getData().get(i).getData().add(new XYChart.Data<Number,Number>(temp.scheduledFinish,temp.location+1));
                 temp.earliestFinish = temp.scheduledFinish;
