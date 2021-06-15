@@ -1,8 +1,0 @@
-WorkerCount:Glazier=35
-WorkerCount:RoofingMechanic=60
-WorkerCount:CementOrConcreteFinisher=80
-ScheduledDeadline:Day=23
-ExtraWorkers:Glazier=1
-ExtraWorkers:RoofingMechanic=1
-ExtraWorkers:CementOrConcreteFinisher=1
-ProjectEnd:Day=23

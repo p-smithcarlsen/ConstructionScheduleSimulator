@@ -1,7 +1,0 @@
-WorkerCount:Glazier=35
-WorkerCount:Plumber=120
-WorkerCount:Electrician=15
-WorkerCount:InsulationWorker=90
-ScheduledDeadline:Day=26
-Delay:Trade=Glazier,Day=10
-ProjectEnd:Day=26

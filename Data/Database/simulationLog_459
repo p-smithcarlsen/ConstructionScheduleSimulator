@@ -1,9 +1,0 @@
-WorkerCount:Glazier=70
-WorkerCount:FlooringInstaller=80
-WorkerCount:CementOrConcreteFinisher=80
-ScheduledDeadline:Day=35
-ExtraWorkers:Glazier=1
-ExtraWorkers:FlooringInstaller=2
-ExtraWorkers:CementOrConcreteFinisher=1
-Delay:Trade=Glazier,Day=27
-ProjectEnd:Day=35

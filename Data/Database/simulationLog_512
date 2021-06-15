@@ -1,8 +1,0 @@
-WorkerCount:Electrician=45
-WorkerCount:CementOrConcreteFinisher=40
-WorkerCount:RoofingMechanic=30
-ScheduledDeadline:Day=19
-ExtraWorkers:Electrician=1
-ExtraWorkers:CementOrConcreteFinisher=1
-ExtraWorkers:RoofingMechanic=1
-ProjectEnd:Day=19

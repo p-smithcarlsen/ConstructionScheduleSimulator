@@ -1,6 +1,0 @@
-WorkerCount:Electrician=60
-WorkerCount:HVACTech=25
-ScheduledDeadline:Day=17
-ExtraWorkers:Electrician=1
-ExtraWorkers:HVACTech=1
-ProjectEnd:Day=17

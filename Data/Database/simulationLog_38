@@ -1,7 +1,0 @@
-WorkerCount:Carpenter=60
-WorkerCount:Painter=130
-WorkerCount:HVACTech=50
-ScheduledDeadline:Day=28
-Delay:Trade=Painter,Day=15
-Delay:Trade=Carpenter,Day=21
-ProjectEnd:Day=29

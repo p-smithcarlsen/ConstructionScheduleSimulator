@@ -1,8 +1,0 @@
-WorkerCount:Glazier=35
-WorkerCount:FlooringInstaller=160
-WorkerCount:HVACTech=50
-ScheduledDeadline:Day=40
-ExtraWorkers:Glazier=1
-ExtraWorkers:FlooringInstaller=2
-ExtraWorkers:HVACTech=1
-ProjectEnd:Day=40

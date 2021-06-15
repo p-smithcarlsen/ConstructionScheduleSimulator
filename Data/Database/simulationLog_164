@@ -1,7 +1,0 @@
-WorkerCount:Glazier=35
-WorkerCount:Painter=65
-WorkerCount:FlooringInstaller=80
-WorkerCount:CementOrConcreteFinisher=80
-ScheduledDeadline:Day=31
-Delay:Trade=Painter,Day=4
-ProjectEnd:Day=31

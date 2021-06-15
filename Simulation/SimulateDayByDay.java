@@ -10,6 +10,7 @@ import ScheduleComponents.ConstructionProject;
 import ScheduleComponents.Workforce;
 import ScheduleComponents.Contractor.Trade; 
 
+
 public class SimulateDayByDay {
 
   public ConstructionProject c;
@@ -91,6 +92,7 @@ public class SimulateDayByDay {
     // Go to next day
     workforce.alignSchedules(day);
     endOfDay(workforce, c);
+    day++;
   }
 
   public void endProject(Logger l, boolean printToConsole) throws IOException {

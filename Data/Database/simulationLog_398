@@ -1,8 +1,0 @@
-WorkerCount:Glazier=70
-WorkerCount:Painter=65
-WorkerCount:HVACTech=25
-WorkerCount:Electrician=15
-ScheduledDeadline:Day=25
-Delay:Trade=HVACTech,Day=1
-Delay:Trade=Painter,Day=23
-ProjectEnd:Day=34

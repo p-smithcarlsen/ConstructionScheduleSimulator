@@ -1,8 +1,0 @@
-WorkerCount:Glazier=35
-WorkerCount:FlooringInstaller=160
-WorkerCount:Painter=65
-WorkerCount:Electrician=15
-ScheduledDeadline:Day=34
-Delay:Trade=FlooringInstaller,Day=6
-Delay:Trade=FlooringInstaller,Day=32
-ProjectEnd:Day=34

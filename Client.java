@@ -22,7 +22,8 @@ public class Client extends Application{
 
     Program program;
     static LineChart<Number,Number> chart;
-    int dayCount = 0;
+    static TreeMap<String,XYChart.Series<Number,Number>> plots;
+    int dayCount = 1;
 
     static String red = "255, 51, 51";
     static String blue = "51, 51, 255";
@@ -37,7 +38,7 @@ public class Client extends Application{
         BorderPane box = new BorderPane();
         HBox hbox = addHBox();
         chart = addLineChart();
-        chart.setAnimated(false);
+        // chart.setAnimated(false);
         chart.setLegendVisible(false);
         box.setTop(hbox);
         box.setCenter(chart);
@@ -86,7 +87,7 @@ public class Client extends Application{
         buttonStart.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                try {
-                Program.simulateScheduleDaybyDay(true);
+                Program.simulateScheduleDaybyDay(false);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -98,6 +99,22 @@ public class Client extends Application{
         buttonNextDay.setText("Next Day");
         buttonNextDay.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                if (dayCount > 1) {
+                    chart.getData().remove(chart.getData().size()-1);
+                }
+                try {
+                    Program.simulateNextDay();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                XYChart.Series<Number, Number> day = new XYChart.Series<Number, Number>();
+                day.setName("day");
+                day.getData().add(new XYChart.Data<Number,Number>(dayCount, 0));
+                day.getData().add(new XYChart.Data<Number,Number>(dayCount, 5));
+                dayCount++;
+                chart.getData().add(day);
+                assignColor(day, 5);
             }
         });
         hbox.getChildren().addAll(buttonExperiment, buttonSimulate, buttonStart,buttonNextDay);
@@ -127,9 +144,37 @@ public class Client extends Application{
         return series;
     }
 
+    public static void checkDif(ConstructionProject project, LineChart<Number,Number> chart) {
+        Task temp;
+
+        for (int i = 0; i < 5; i++) {
+            temp = project.tasks.getTasks().get(i);
+            if (temp.earliestFinish != temp.scheduledFinish) {
+                changeSchedule(i,chart,temp);
+                temp.earliestFinish = temp.scheduledFinish;
+            }
+        for (int j = i + 5; j < 25; j = j + 5) {
+            temp = project.tasks.getTasks().get(j);
+            if (temp.earliestFinish != temp.scheduledFinish) {
+                changeSchedule(j,chart,temp);
+                temp.earliestFinish = temp.scheduledFinish;
+                temp.earliestStart = temp.scheduledStart;
+                }
+            }            
+        }
+    }
+
+    public static void changeSchedule(int x, LineChart<Number,Number> chart, Task temp) {
+        chart.getData().get(x-1).getData().remove(0);
+        chart.getData().get(x-1).getData().remove(0);
+        chart.getData().get(x-1).getData().add(new XYChart.Data<Number,Number>(temp.scheduledStart,temp.location));
+        chart.getData().get(x-1).getData().add(new XYChart.Data<Number,Number>(temp.scheduledFinish,temp.location+1));
+        // assignColor(chart.getData().get(x-1), 6);
+    }
+
     public static void setUpChart(ConstructionProject project, LineChart<Number,Number> chart) {
             Task temp;
-            TreeMap<String,XYChart.Series<Number,Number>> plots = new TreeMap<>();
+            plots = new TreeMap<>();
 
             for (int i = 0; i < 5; i++) {
                 temp = project.tasks.getTasks().get(i);
@@ -150,7 +195,6 @@ public class Client extends Application{
                     chart.getData().add(series2);
                     assignColor(series2, i);
                 }
-                
             }
         }
 

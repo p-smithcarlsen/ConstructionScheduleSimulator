@@ -1,8 +1,0 @@
-WorkerCount:Electrician=30
-WorkerCount:Carpenter=120
-WorkerCount:FlooringInstaller=80
-ScheduledDeadline:Day=28
-ExtraWorkers:Electrician=1
-ExtraWorkers:Carpenter=2
-ExtraWorkers:FlooringInstaller=2
-ProjectEnd:Day=28

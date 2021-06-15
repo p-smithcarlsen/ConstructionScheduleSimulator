@@ -1,8 +1,0 @@
-WorkerCount:Plumber=240
-WorkerCount:HVACTech=25
-WorkerCount:CementOrConcreteFinisher=80
-ScheduledDeadline:Day=36
-ExtraWorkers:Plumber=2
-ExtraWorkers:HVACTech=1
-ExtraWorkers:CementOrConcreteFinisher=1
-ProjectEnd:Day=36

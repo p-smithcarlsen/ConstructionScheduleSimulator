@@ -1,8 +1,0 @@
-WorkerCount:CementOrConcreteFinisher=80
-WorkerCount:Glazier=70
-WorkerCount:Carpenter=60
-ScheduledDeadline:Day=27
-ExtraWorkers:CementOrConcreteFinisher=1
-ExtraWorkers:Glazier=1
-ExtraWorkers:Carpenter=2
-ProjectEnd:Day=27

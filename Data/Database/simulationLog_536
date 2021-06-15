@@ -1,7 +1,0 @@
-WorkerCount:CementOrConcreteFinisher=160
-WorkerCount:Carpenter=60
-ScheduledDeadline:Day=26
-ExtraWorkers:CementOrConcreteFinisher=1
-ExtraWorkers:Carpenter=2
-Delay:Trade=CementOrConcreteFinisher,Day=16
-ProjectEnd:Day=26

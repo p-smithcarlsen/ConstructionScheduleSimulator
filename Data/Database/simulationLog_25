@@ -1,7 +1,0 @@
-WorkerCount:Carpenter=60
-WorkerCount:Glazier=35
-WorkerCount:FlooringInstaller=160
-WorkerCount:HVACTech=25
-ScheduledDeadline:Day=37
-Delay:Trade=HVACTech,Day=24
-ProjectEnd:Day=40

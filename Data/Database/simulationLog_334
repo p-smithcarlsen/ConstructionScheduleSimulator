@@ -1,6 +1,0 @@
-WorkerCount:Carpenter=60
-WorkerCount:Painter=65
-WorkerCount:Electrician=30
-WorkerCount:InsulationWorker=45
-ScheduledDeadline:Day=21
-ProjectEnd:Day=21

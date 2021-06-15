@@ -1,7 +1,0 @@
-WorkerCount:Electrician=30
-WorkerCount:HVACTech=25
-WorkerCount:InsulationWorker=45
-WorkerCount:CementOrConcreteFinisher=40
-ScheduledDeadline:Day=22
-Delay:Trade=CementOrConcreteFinisher,Day=12
-ProjectEnd:Day=23

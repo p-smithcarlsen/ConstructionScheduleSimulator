@@ -17,6 +17,9 @@ public class Program {
   private static ConstructionProject constructionProject;
   public static String filePath;
   static LineChart<Number,Number> chart;
+  public static SimulateDayByDay sim;
+  public static Logger log;
+  public static Analyzer ana;
 
   public Program(LineChart<Number,Number> chart) {
     Program.chart = chart;
@@ -57,21 +60,22 @@ public class Program {
   }
 
   public static void simulateScheduleDaybyDay(boolean manualInput) throws IOException {
-    Analyzer a = new Analyzer(); 
-    a.analyzeData();
-    Logger l = new Logger(findLogName());
-    SimulateDayByDay s = new SimulateDayByDay(constructionProject);
-    s.createInitialSchedule(l, a, true, true, manualInput);
-    while (!s.isFinished()) {
-      s.simulateDay(l, a, true, true, manualInput);
-    }
-    s.endProject(l, true);
+    ana = new Analyzer(); 
+    ana.analyzeData();
+    log = new Logger(findLogName());
+    sim.createInitialSchedule(log, ana, true, true, manualInput);
+    // s.endProject(log, true);
+  }
+
+  public static void simulateNextDay() throws IOException{
+    sim.simulateDay(log,ana,true,true,true);
+    Client.checkDif(constructionProject, chart);
   }
 
   public static void prepareTheProject() throws NumberFormatException, IOException {
     runSmallSchedule(true);
-    Simulator s = new Simulator();
-    s.prepareTimings(constructionProject);
+    sim = new SimulateDayByDay(constructionProject);
+    sim.prepareTimings(constructionProject);
     Client.setUpChart(constructionProject, chart);
   }
 

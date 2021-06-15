@@ -1,9 +1,0 @@
-WorkerCount:FlooringInstaller=80
-WorkerCount:HVACTech=25
-WorkerCount:Electrician=30
-WorkerCount:InsulationWorker=45
-ScheduledDeadline:Day=24
-Delay:Trade=HVACTech,Day=2
-Delay:Trade=FlooringInstaller,Day=14
-Delay:Trade=FlooringInstaller,Day=18
-ProjectEnd:Day=26

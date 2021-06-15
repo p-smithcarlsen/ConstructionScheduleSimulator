@@ -1,9 +1,0 @@
-WorkerCount:Painter=130
-WorkerCount:Electrician=15
-WorkerCount:InsulationWorker=90
-ScheduledDeadline:Day=27
-Delay:Trade=Painter,Day=6
-Delay:Trade=InsulationWorker,Day=8
-Delay:Trade=InsulationWorker,Day=16
-Delay:Trade=InsulationWorker,Day=21
-ProjectEnd:Day=27

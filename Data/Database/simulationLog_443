@@ -1,7 +1,0 @@
-WorkerCount:Glazier=70
-WorkerCount:FlooringInstaller=240
-ScheduledDeadline:Day=44
-ExtraWorkers:Glazier=1
-ExtraWorkers:FlooringInstaller=2
-Delay:Trade=Glazier,Day=37
-ProjectEnd:Day=44
