@@ -1,6 +1,5 @@
 
 import java.io.IOException;
-import java.util.TreeMap;
 
 import ScheduleComponents.ConstructionProject;
 import ScheduleComponents.Task;
@@ -22,7 +21,6 @@ public class Client extends Application{
 
     Program program;
     static LineChart<Number,Number> chart;
-    static TreeMap<String,XYChart.Series<Number,Number>> plots;
     int dayCount = 1;
 
     static String red = "255, 51, 51";
@@ -38,7 +36,7 @@ public class Client extends Application{
         BorderPane box = new BorderPane();
         HBox hbox = addHBox();
         chart = addLineChart();
-        // chart.setAnimated(false);
+        chart.setAnimated(false);
         chart.setLegendVisible(false);
         box.setTop(hbox);
         box.setCenter(chart);
@@ -147,54 +145,28 @@ public class Client extends Application{
     public static void checkDif(ConstructionProject project, LineChart<Number,Number> chart) {
         Task temp;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 25; i++) {
             temp = project.tasks.getTasks().get(i);
-            if (temp.earliestFinish != temp.scheduledFinish) {
-                changeSchedule(i,chart,temp);
+            if(temp.scheduledFinish != temp.earliestFinish) {
+                chart.getData().get(i).getData().remove(1);
+                chart.getData().get(i).getData().add(new XYChart.Data<Number,Number>(temp.scheduledFinish,temp.location+1));
                 temp.earliestFinish = temp.scheduledFinish;
+                assignColor(chart.getData().get(i), 6);
             }
-        for (int j = i + 5; j < 25; j = j + 5) {
-            temp = project.tasks.getTasks().get(j);
-            if (temp.earliestFinish != temp.scheduledFinish) {
-                changeSchedule(j,chart,temp);
-                temp.earliestFinish = temp.scheduledFinish;
-                temp.earliestStart = temp.scheduledStart;
-                }
-            }            
         }
     }
 
-    public static void changeSchedule(int x, LineChart<Number,Number> chart, Task temp) {
-        chart.getData().get(x-1).getData().remove(0);
-        chart.getData().get(x-1).getData().remove(0);
-        chart.getData().get(x-1).getData().add(new XYChart.Data<Number,Number>(temp.scheduledStart,temp.location));
-        chart.getData().get(x-1).getData().add(new XYChart.Data<Number,Number>(temp.scheduledFinish,temp.location+1));
-        // assignColor(chart.getData().get(x-1), 6);
-    }
 
     public static void setUpChart(ConstructionProject project, LineChart<Number,Number> chart) {
             Task temp;
-            plots = new TreeMap<>();
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 25; i++) {
                 temp = project.tasks.getTasks().get(i);
-                XYChart.Series<Number,Number> series = new XYChart.Series<Number,Number>();
-                series.setName("crew " + (i+1) + "-" + temp.activity);
+                XYChart.Series<Number, Number> series = new XYChart.Series<Number,Number>();
                 series.getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
                 series.getData().add(new XYChart.Data<Number,Number>(temp.earliestFinish, temp.location+1));
-                plots.put(series.getName(),series);
                 chart.getData().add(series);
-                assignColor(series, i);
-
-                for (int j = i + 5; j < 25; j = j + 5) {
-                    temp = project.tasks.getTasks().get(j);
-                    XYChart.Series<Number,Number> series2 = new XYChart.Series<Number,Number>();
-                    series2.setName("crew " + (i+1) + "-" + temp.activity);
-                    series2.getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
-                    series2.getData().add(new XYChart.Data<Number,Number>(temp.earliestFinish, temp.location+1));
-                    chart.getData().add(series2);
-                    assignColor(series2, i);
-                }
+                assignColor(series, i%5);
             }
         }
 
