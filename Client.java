@@ -38,9 +38,9 @@ public class Client extends Application{
         HBox hbox = addHBox();
         chart = addLineChart();
         chart.setAnimated(false);
+        chart.setLegendVisible(false);
         box.setTop(hbox);
         box.setCenter(chart);
-        // addStackPane(hbox);
         Scene scene = new Scene(box, 1600, 500);
         primaryStage.setTitle("LBMS");
         primaryStage.setScene(scene);
@@ -66,23 +66,31 @@ public class Client extends Application{
                 }
             }
         });
-
     
-        Button buttonSimulate = new Button("Simulate");
+        Button buttonSimulate = new Button("Prepare Setup");
         buttonSimulate.setPrefSize(100, 20);
         buttonSimulate.setText("Simulate");
         buttonSimulate.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 try {
-                    chart.getData().removeAll();
-                    Program.simulateSchedule(true);
-                    dayCount = 0;
-
-
-                } catch (IOException e) {
+                    Program.prepareTheProject();
+                } catch (NumberFormatException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+            }
+        });
+        Button buttonStart = new Button("Start");
+        buttonStart.setPrefSize(100, 20);
+        buttonStart.setText("Start");
+        buttonStart.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+               try {
+                Program.simulateScheduleDaybyDay(true);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             }
         });
         Button buttonNextDay = new Button("Next Day");
@@ -90,19 +98,9 @@ public class Client extends Application{
         buttonNextDay.setText("Next Day");
         buttonNextDay.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                if (dayCount > 0) {
-                    chart.getData().remove(25);
-                }
-                XYChart.Series<Number, Number> day = new XYChart.Series<Number, Number>();
-                day.setName("day");
-                day.getData().add(new XYChart.Data<Number,Number>(dayCount, 0));
-                day.getData().add(new XYChart.Data<Number,Number>(dayCount, 5));
-                dayCount++;
-                chart.getData().add(day);
-                assignColor(day, 5);
             }
         });
-        hbox.getChildren().addAll(buttonExperiment, buttonSimulate, buttonNextDay);
+        hbox.getChildren().addAll(buttonExperiment, buttonSimulate, buttonStart,buttonNextDay);
         return hbox;
     }
 
@@ -125,20 +123,6 @@ public class Client extends Application{
         series.getData().add(new XYChart.Data<Number, Number>(3.0, 3.0));
         series.getData().add(new XYChart.Data<Number, Number>(4.0, 5.0));
         series.getData().add(new XYChart.Data<Number, Number>(5.0, 3.0));
-
-        return series;
-    }
-
-    public XYChart.Series<Number, Number> addSeries2() {
-        XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-
-        series.setName("L2");
-
-        series.getData().add(new XYChart.Data<Number, Number>(1.0, 3.0));
-        series.getData().add(new XYChart.Data<Number, Number>(2.0, 4.0));
-        series.getData().add(new XYChart.Data<Number, Number>(3.0, 5.0));
-        series.getData().add(new XYChart.Data<Number, Number>(4.0, 2.0));
-        series.getData().add(new XYChart.Data<Number, Number>(5.0, 45.0));
 
         return series;
     }
@@ -168,9 +152,6 @@ public class Client extends Application{
                 }
                 
             }
-            // for (String Task : plots.keySet()) {
-            //     chart.getData().add(plots.get(Task));
-            // }
         }
 
         public static void assignColor(XYChart.Series<Number,Number> series, int num){

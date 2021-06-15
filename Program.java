@@ -6,6 +6,7 @@ import Data.DataParser;
 import ScheduleComponents.ConstructionProject;
 import Simulation.Analyzer;
 import Simulation.Logger;
+import Simulation.SimulateDayByDay;
 import Simulation.Simulator;
 
 import javafx.scene.chart.LineChart;
@@ -53,6 +54,21 @@ public class Program {
     s.prepareTimings(constructionProject);
     Client.setUpChart(constructionProject, chart);
     s.runSimulation(constructionProject, l, a, true, true, manualInput);
+  }
+
+  public static void simulateScheduleDaybyDay(boolean manualInput) throws IOException {
+    Analyzer a = new Analyzer(); 
+    a.analyzeData();
+    Logger l = new Logger(findLogName());
+    SimulateDayByDay s = new SimulateDayByDay();
+    s.runSimulation(constructionProject, l, a, true, true, manualInput);
+  }
+
+  public static void prepareTheProject() throws NumberFormatException, IOException {
+    runSmallSchedule(true);
+    Simulator s = new Simulator();
+    s.prepareTimings(constructionProject);
+    Client.setUpChart(constructionProject, chart);
   }
 
   public static void runExperiment(int n) throws IOException {
