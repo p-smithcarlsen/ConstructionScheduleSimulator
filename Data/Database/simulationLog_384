@@ -1,0 +1,9 @@
+WorkerCount:Glazier=35
+WorkerCount:InsulationWorker=45
+WorkerCount:CementOrConcreteFinisher=120
+ScheduledDeadline:Day=25
+Delay:Trade=CementOrConcreteFinisher,Day=10
+Delay:Trade=CementOrConcreteFinisher,Day=11
+Delay:Trade=CementOrConcreteFinisher,Day=12
+Delay:Trade=Glazier,Day=21
+ProjectEnd:Day=30

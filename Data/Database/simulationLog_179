@@ -1,0 +1,9 @@
+WorkerCount:FlooringInstaller=80
+WorkerCount:InsulationWorker=45
+WorkerCount:CementOrConcreteFinisher=120
+ScheduledDeadline:Day=27
+ExtraWorkers:FlooringInstaller=2
+ExtraWorkers:InsulationWorker=1
+ExtraWorkers:CementOrConcreteFinisher=1
+Delay:Trade=InsulationWorker,Day=18
+ProjectEnd:Day=27

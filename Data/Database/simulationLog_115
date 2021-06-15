@@ -1,0 +1,11 @@
+WorkerCount:Glazier=35
+WorkerCount:Plumber=240
+WorkerCount:RoofingMechanic=30
+WorkerCount:CementOrConcreteFinisher=40
+ScheduledDeadline:Day=31
+Delay:Trade=Plumber,Day=4
+Delay:Trade=Glazier,Day=6
+Delay:Trade=RoofingMechanic,Day=18
+Delay:Trade=Plumber,Day=25
+Delay:Trade=Plumber,Day=36
+ProjectEnd:Day=41

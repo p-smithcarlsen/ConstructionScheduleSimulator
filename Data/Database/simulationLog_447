@@ -1,0 +1,8 @@
+WorkerCount:Glazier=70
+WorkerCount:Painter=65
+WorkerCount:HVACTech=50
+ScheduledDeadline:Day=28
+ExtraWorkers:Glazier=1
+ExtraWorkers:Painter=2
+ExtraWorkers:HVACTech=1
+ProjectEnd:Day=28

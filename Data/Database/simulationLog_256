@@ -1,0 +1,9 @@
+WorkerCount:Plumber=120
+WorkerCount:FlooringInstaller=80
+WorkerCount:RoofingMechanic=30
+WorkerCount:HVACTech=50
+ScheduledDeadline:Day=29
+Delay:Trade=HVACTech,Day=5
+Delay:Trade=HVACTech,Day=15
+Delay:Trade=Plumber,Day=23
+ProjectEnd:Day=30

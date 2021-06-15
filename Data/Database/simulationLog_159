@@ -1,0 +1,8 @@
+WorkerCount:Carpenter=120
+WorkerCount:Glazier=70
+WorkerCount:Electrician=15
+ScheduledDeadline:Day=26
+ExtraWorkers:Carpenter=1
+ExtraWorkers:Glazier=1
+ExtraWorkers:Electrician=1
+ProjectEnd:Day=26

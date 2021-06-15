@@ -1,0 +1,11 @@
+WorkerCount:Glazier=35
+WorkerCount:Plumber=120
+WorkerCount:Painter=65
+WorkerCount:Electrician=15
+WorkerCount:InsulationWorker=45
+ScheduledDeadline:Day=35
+Delay:Trade=Glazier,Day=12
+Delay:Trade=Plumber,Day=16
+Delay:Trade=Painter,Day=27
+Delay:Trade=Painter,Day=30
+ProjectEnd:Day=43

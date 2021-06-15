@@ -1,0 +1,7 @@
+WorkerCount:Glazier=70
+WorkerCount:HVACTech=25
+WorkerCount:InsulationWorker=90
+ScheduledDeadline:Day=27
+Delay:Trade=InsulationWorker,Day=6
+Delay:Trade=Glazier,Day=17
+ProjectEnd:Day=27

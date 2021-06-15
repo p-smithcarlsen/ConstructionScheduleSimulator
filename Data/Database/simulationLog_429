@@ -1,0 +1,12 @@
+WorkerCount:Plumber=480
+WorkerCount:RoofingMechanic=30
+ScheduledDeadline:Day=44
+ExtraWorkers:Plumber=2
+ExtraWorkers:RoofingMechanic=1
+Delay:Trade=Plumber,Day=19
+Delay:Trade=Plumber,Day=24
+Delay:Trade=Plumber,Day=26
+Delay:Trade=Plumber,Day=33
+Delay:Trade=Plumber,Day=34
+Delay:Trade=Plumber,Day=42
+ProjectEnd:Day=45

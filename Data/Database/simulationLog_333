@@ -1,0 +1,8 @@
+WorkerCount:Painter=130
+WorkerCount:Electrician=45
+ScheduledDeadline:Day=20
+ExtraWorkers:Painter=2
+ExtraWorkers:Electrician=1
+Delay:Trade=Painter,Day=8
+Delay:Trade=Painter,Day=11
+ProjectEnd:Day=20

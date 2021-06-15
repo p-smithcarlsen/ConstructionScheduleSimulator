@@ -4,6 +4,7 @@ import java.util.TreeMap;
 
 import ScheduleComponents.ConstructionProject;
 import ScheduleComponents.Task;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,12 +24,20 @@ public class Client extends Application{
     static LineChart<Number,Number> chart;
     int dayCount = 0;
 
+    static String red = "255, 51, 51";
+    static String blue = "51, 51, 255";
+    static String yellow = "255, 255, 51";
+    static String orange = "255, 165, 0";
+    static String green = "51, 255, 51";
+    static String black = "0, 0, 0";
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         BorderPane box = new BorderPane();
         HBox hbox = addHBox();
         chart = addLineChart();
+        chart.setAnimated(false);
         box.setTop(hbox);
         box.setCenter(chart);
         // addStackPane(hbox);
@@ -82,7 +91,7 @@ public class Client extends Application{
         buttonNextDay.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (dayCount > 0) {
-                    chart.getData().remove(5);
+                    chart.getData().remove(25);
                 }
                 XYChart.Series<Number, Number> day = new XYChart.Series<Number, Number>();
                 day.setName("day");
@@ -90,12 +99,10 @@ public class Client extends Application{
                 day.getData().add(new XYChart.Data<Number,Number>(dayCount, 5));
                 dayCount++;
                 chart.getData().add(day);
+                assignColor(day, 5);
             }
         });
-
-
         hbox.getChildren().addAll(buttonExperiment, buttonSimulate, buttonNextDay);
-    
         return hbox;
     }
 
@@ -147,24 +154,62 @@ public class Client extends Application{
                 series.getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
                 series.getData().add(new XYChart.Data<Number,Number>(temp.earliestFinish, temp.location+1));
                 plots.put(series.getName(),series);
+                chart.getData().add(series);
+                assignColor(series, i);
+
                 for (int j = i + 5; j < 25; j = j + 5) {
                     temp = project.tasks.getTasks().get(j);
-                    series.getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
-                    series.getData().add(new XYChart.Data<Number,Number>(temp.earliestFinish, temp.location+1));
-                    // if (j > 9 && j < 15) {
-                    //     plots.get("crew " + (i+1) + "-" + temp.activity).getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
-                    //     plots.get("crew " + (i+1) + "-" + temp.activity).getData().add(new XYChart.Data<Number,Number>(temp.earliestFinish, 3));
-                    // } else if (j > 19) {
-                    //     plots.get("crew " + (i+1) + "-" + temp.activity).getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
-                    //     plots.get("crew " + (i+1) + "-" + temp.activity).getData().add(new XYChart.Data<Number,Number>(temp.earliestFinish, 5));
-                    // } else {
-                    //     plots.get("crew " + (i+1) + "-" + temp.activity).getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
-                    // }
+                    XYChart.Series<Number,Number> series2 = new XYChart.Series<Number,Number>();
+                    series2.setName("crew " + (i+1) + "-" + temp.activity);
+                    series2.getData().add(new XYChart.Data<Number,Number>(temp.earliestStart, temp.location));
+                    series2.getData().add(new XYChart.Data<Number,Number>(temp.earliestFinish, temp.location+1));
+                    chart.getData().add(series2);
+                    assignColor(series2, i);
                 }
+                
             }
-            for (String Task : plots.keySet()) {
-                chart.getData().add(plots.get(Task));
+            // for (String Task : plots.keySet()) {
+            //     chart.getData().add(plots.get(Task));
+            // }
+        }
+
+        public static void assignColor(XYChart.Series<Number,Number> series, int num){
+                    String dotColor = setDotColor(num);
+                    String lineColor = setLineColor(num);
+                    series.getNode().setStyle("-fx-stroke: rgba(" + lineColor + ", 1.0);");
+                    for (XYChart.Data<Number, Number> entry : series.getData()) {      
+                        entry.getNode().setStyle("-fx-background-color: " + dotColor + ", white;\n"
+                            + "    -fx-background-insets: 0, 2;\n"
+                            + "    -fx-background-radius: 5px;\n"
+                            + "    -fx-padding: 5px;");
+                    }
+        }
+
+
+        public static String setDotColor(int num) {
+            String col = "black";
+            switch (num) {
+                case 0: col = "red"; break;
+                case 1: col = "blue"; break;
+                case 2: col = "yellow"; break;
+                case 3: col = "orange"; break;
+                case 4: col = "green"; break;
+                case 5: col = "black"; break;
             }
+            return col;
+        }
+
+        public static String setLineColor(int num) {
+            String col = black;
+            switch (num) {
+                case 0: col = red; break;
+                case 1: col = blue; break;
+                case 2: col = yellow; break;
+                case 3: col = orange; break;
+                case 4: col = green; break;
+                case 5: col = black; break;
+            }
+            return col;
         }
 
     public static void main(String[] args) {

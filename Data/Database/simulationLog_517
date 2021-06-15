@@ -1,0 +1,12 @@
+WorkerCount:Electrician=15
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:FlooringInstaller=160
+WorkerCount:RoofingMechanic=30
+ScheduledDeadline:Day=26
+ExtraWorkers:Electrician=1
+ExtraWorkers:CementOrConcreteFinisher=1
+ExtraWorkers:FlooringInstaller=1
+ExtraWorkers:RoofingMechanic=1
+Delay:Trade=RoofingMechanic,Day=2
+Delay:Trade=RoofingMechanic,Day=3
+ProjectEnd:Day=26

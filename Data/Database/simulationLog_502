@@ -1,0 +1,12 @@
+WorkerCount:Electrician=15
+WorkerCount:Glazier=35
+WorkerCount:Painter=65
+WorkerCount:InsulationWorker=45
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=25
+ExtraWorkers:Electrician=1
+ExtraWorkers:Glazier=1
+ExtraWorkers:Painter=2
+ExtraWorkers:InsulationWorker=2
+ExtraWorkers:HVACTech=1
+ProjectEnd:Day=25

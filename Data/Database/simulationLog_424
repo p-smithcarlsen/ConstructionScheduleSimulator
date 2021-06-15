@@ -1,0 +1,6 @@
+WorkerCount:Plumber=120
+WorkerCount:Electrician=45
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=22
+Delay:Trade=HVACTech,Day=7
+ProjectEnd:Day=22

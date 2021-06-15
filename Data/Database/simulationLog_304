@@ -1,0 +1,8 @@
+WorkerCount:FlooringInstaller=80
+WorkerCount:Painter=65
+WorkerCount:HVACTech=50
+WorkerCount:Electrician=15
+ScheduledDeadline:Day=28
+Delay:Trade=FlooringInstaller,Day=6
+Delay:Trade=Painter,Day=14
+ProjectEnd:Day=31

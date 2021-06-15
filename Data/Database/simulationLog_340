@@ -1,0 +1,11 @@
+WorkerCount:Plumber=240
+WorkerCount:FlooringInstaller=80
+WorkerCount:Painter=65
+WorkerCount:InsulationWorker=45
+ScheduledDeadline:Day=40
+Delay:Trade=Plumber,Day=17
+Delay:Trade=Plumber,Day=22
+Delay:Trade=InsulationWorker,Day=25
+Delay:Trade=Plumber,Day=37
+Delay:Trade=Plumber,Day=40
+ProjectEnd:Day=44

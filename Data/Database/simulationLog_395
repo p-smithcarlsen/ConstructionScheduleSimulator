@@ -1,0 +1,13 @@
+WorkerCount:Glazier=35
+WorkerCount:Plumber=120
+WorkerCount:Painter=65
+WorkerCount:HVACTech=25
+WorkerCount:CementOrConcreteFinisher=40
+ScheduledDeadline:Day=32
+ExtraWorkers:Glazier=1
+ExtraWorkers:Plumber=2
+ExtraWorkers:Painter=2
+ExtraWorkers:HVACTech=1
+ExtraWorkers:CementOrConcreteFinisher=1
+Delay:Trade=CementOrConcreteFinisher,Day=10
+ProjectEnd:Day=39

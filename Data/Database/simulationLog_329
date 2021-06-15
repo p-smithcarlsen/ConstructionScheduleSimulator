@@ -1,0 +1,6 @@
+WorkerCount:FlooringInstaller=80
+WorkerCount:Electrician=60
+ScheduledDeadline:Day=20
+ExtraWorkers:FlooringInstaller=2
+ExtraWorkers:Electrician=1
+ProjectEnd:Day=20

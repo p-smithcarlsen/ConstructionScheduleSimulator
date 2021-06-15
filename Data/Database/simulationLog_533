@@ -1,0 +1,9 @@
+WorkerCount:FlooringInstaller=80
+WorkerCount:Electrician=45
+WorkerCount:RoofingMechanic=30
+ScheduledDeadline:Day=20
+ExtraWorkers:FlooringInstaller=2
+ExtraWorkers:Electrician=1
+ExtraWorkers:RoofingMechanic=1
+Delay:Trade=RoofingMechanic,Day=12
+ProjectEnd:Day=21

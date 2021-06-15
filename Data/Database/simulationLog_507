@@ -1,0 +1,10 @@
+WorkerCount:InsulationWorker=90
+WorkerCount:Painter=65
+WorkerCount:CementOrConcreteFinisher=40
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=27
+ExtraWorkers:InsulationWorker=1
+ExtraWorkers:Painter=2
+ExtraWorkers:CementOrConcreteFinisher=1
+ExtraWorkers:HVACTech=1
+ProjectEnd:Day=27

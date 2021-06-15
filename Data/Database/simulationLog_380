@@ -1,0 +1,9 @@
+WorkerCount:Glazier=35
+WorkerCount:FlooringInstaller=160
+WorkerCount:Electrician=15
+WorkerCount:InsulationWorker=45
+ScheduledDeadline:Day=35
+Delay:Trade=Glazier,Day=1
+Delay:Trade=FlooringInstaller,Day=20
+Delay:Trade=InsulationWorker,Day=23
+ProjectEnd:Day=35

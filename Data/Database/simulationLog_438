@@ -1,0 +1,10 @@
+WorkerCount:Carpenter=60
+WorkerCount:RoofingMechanic=30
+WorkerCount:Electrician=15
+WorkerCount:HVACTech=25
+WorkerCount:CementOrConcreteFinisher=40
+ScheduledDeadline:Day=20
+Delay:Trade=Electrician,Day=1
+Delay:Trade=HVACTech,Day=2
+Delay:Trade=Electrician,Day=3
+ProjectEnd:Day=20

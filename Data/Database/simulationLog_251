@@ -1,0 +1,13 @@
+WorkerCount:Carpenter=120
+WorkerCount:RoofingMechanic=30
+WorkerCount:Electrician=15
+WorkerCount:InsulationWorker=45
+ScheduledDeadline:Day=23
+ExtraWorkers:Carpenter=1
+ExtraWorkers:RoofingMechanic=1
+ExtraWorkers:Electrician=1
+ExtraWorkers:InsulationWorker=1
+Delay:Trade=Carpenter,Day=11
+Delay:Trade=Carpenter,Day=12
+Delay:Trade=Carpenter,Day=13
+ProjectEnd:Day=23

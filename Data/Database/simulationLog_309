@@ -1,0 +1,11 @@
+WorkerCount:Carpenter=120
+WorkerCount:Painter=130
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=31
+ExtraWorkers:Carpenter=1
+ExtraWorkers:Painter=1
+ExtraWorkers:HVACTech=1
+Delay:Trade=Painter,Day=8
+Delay:Trade=Carpenter,Day=16
+Delay:Trade=Carpenter,Day=17
+ProjectEnd:Day=31

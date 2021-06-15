@@ -1,0 +1,10 @@
+WorkerCount:FlooringInstaller=160
+WorkerCount:HVACTech=25
+WorkerCount:InsulationWorker=45
+WorkerCount:CementOrConcreteFinisher=40
+ScheduledDeadline:Day=36
+ExtraWorkers:FlooringInstaller=1
+ExtraWorkers:HVACTech=1
+ExtraWorkers:InsulationWorker=1
+ExtraWorkers:CementOrConcreteFinisher=1
+ProjectEnd:Day=36

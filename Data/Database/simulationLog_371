@@ -1,0 +1,12 @@
+WorkerCount:RoofingMechanic=30
+WorkerCount:FlooringInstaller=80
+WorkerCount:Painter=65
+WorkerCount:HVACTech=25
+WorkerCount:Electrician=15
+ScheduledDeadline:Day=29
+ExtraWorkers:RoofingMechanic=1
+ExtraWorkers:FlooringInstaller=1
+ExtraWorkers:Painter=1
+ExtraWorkers:HVACTech=0
+ExtraWorkers:Electrician=1
+ProjectEnd:Day=29

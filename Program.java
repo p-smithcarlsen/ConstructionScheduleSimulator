@@ -79,6 +79,7 @@ public class Program {
       Logger l = new Logger(findLogName());
       Simulator s = new Simulator();
       boolean addWorkers = i > n/4 && i % 2 == 0;
+      s.prepareTimings(constructionProject);
       s.runSimulation(constructionProject, l, a, addWorkers, false, false);
     }
     a.successRateNoAddedWorkers();

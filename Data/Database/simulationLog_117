@@ -1,0 +1,9 @@
+WorkerCount:Carpenter=60
+WorkerCount:Electrician=30
+WorkerCount:InsulationWorker=90
+ScheduledDeadline:Day=24
+Delay:Trade=Carpenter,Day=2
+Delay:Trade=InsulationWorker,Day=9
+Delay:Trade=Electrician,Day=12
+Delay:Trade=Electrician,Day=18
+ProjectEnd:Day=26

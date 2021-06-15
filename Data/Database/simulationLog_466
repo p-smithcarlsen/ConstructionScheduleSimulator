@@ -1,0 +1,6 @@
+WorkerCount:FlooringInstaller=160
+WorkerCount:InsulationWorker=45
+WorkerCount:CementOrConcreteFinisher=80
+ScheduledDeadline:Day=36
+Delay:Trade=CementOrConcreteFinisher,Day=19
+ProjectEnd:Day=36

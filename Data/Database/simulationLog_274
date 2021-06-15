@@ -1,0 +1,5 @@
+WorkerCount:RoofingMechanic=30
+WorkerCount:HVACTech=50
+WorkerCount:Electrician=30
+ScheduledDeadline:Day=21
+ProjectEnd:Day=21

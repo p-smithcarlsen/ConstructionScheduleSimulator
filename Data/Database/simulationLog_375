@@ -1,0 +1,12 @@
+WorkerCount:Glazier=35
+WorkerCount:Plumber=240
+WorkerCount:FlooringInstaller=80
+WorkerCount:Painter=65
+ScheduledDeadline:Day=44
+ExtraWorkers:Glazier=1
+ExtraWorkers:Plumber=2
+ExtraWorkers:FlooringInstaller=1
+ExtraWorkers:Painter=2
+Delay:Trade=Plumber,Day=24
+Delay:Trade=Plumber,Day=30
+ProjectEnd:Day=45

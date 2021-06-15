@@ -1,0 +1,10 @@
+WorkerCount:HVACTech=50
+WorkerCount:Painter=65
+WorkerCount:FlooringInstaller=80
+WorkerCount:Plumber=120
+ScheduledDeadline:Day=37
+ExtraWorkers:HVACTech=1
+ExtraWorkers:Painter=1
+ExtraWorkers:FlooringInstaller=1
+ExtraWorkers:Plumber=2
+ProjectEnd:Day=37

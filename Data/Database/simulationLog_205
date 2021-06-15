@@ -1,0 +1,11 @@
+WorkerCount:Carpenter=60
+WorkerCount:Glazier=70
+WorkerCount:Plumber=120
+WorkerCount:CementOrConcreteFinisher=40
+ScheduledDeadline:Day=37
+ExtraWorkers:Carpenter=1
+ExtraWorkers:Glazier=1
+ExtraWorkers:Plumber=2
+ExtraWorkers:CementOrConcreteFinisher=1
+Delay:Trade=Plumber,Day=11
+ProjectEnd:Day=37

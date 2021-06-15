@@ -1,0 +1,9 @@
+WorkerCount:Carpenter=60
+WorkerCount:Glazier=105
+WorkerCount:HVACTech=25
+ScheduledDeadline:Day=31
+ExtraWorkers:Carpenter=1
+ExtraWorkers:Glazier=1
+ExtraWorkers:HVACTech=1
+Delay:Trade=Glazier,Day=20
+ProjectEnd:Day=31
