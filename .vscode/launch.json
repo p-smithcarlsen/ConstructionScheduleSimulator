@@ -6,8 +6,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "console": "integratedTerminal",
+            "mainClass": "Client",
+            "projectName": "ConstructionScheduleSimulator_6406f253"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
             "console": "integratedTerminal",
             "mainClass": "${file}"
         },
@@ -15,7 +25,8 @@
             "type": "java",
             "name": "Launch Client",
             "request": "launch",
-            "vmArgs": "--module-path javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "vmArgs": "--module-path C:/JavaFX/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "console": "integratedTerminal",
             "mainClass": "Client",
             "projectName": "ConstructionScheduleSimulator_f80c531b"
         },

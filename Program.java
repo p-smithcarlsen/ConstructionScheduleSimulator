@@ -60,8 +60,12 @@ public class Program {
     Analyzer a = new Analyzer(); 
     a.analyzeData();
     Logger l = new Logger(findLogName());
-    SimulateDayByDay s = new SimulateDayByDay();
-    s.runSimulation(constructionProject, l, a, true, true, manualInput);
+    SimulateDayByDay s = new SimulateDayByDay(constructionProject);
+    s.createInitialSchedule(l, a, true, true, manualInput);
+    while (!s.isFinished()) {
+      s.simulateDay(l, a, true, true, manualInput);
+    }
+    s.endProject(l, true);
   }
 
   public static void prepareTheProject() throws NumberFormatException, IOException {
