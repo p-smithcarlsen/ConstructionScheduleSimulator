@@ -16,6 +16,7 @@ public class SimulateDayByDay {
   public ConstructionProject c;
   public Workforce workforce;
   public int day = 0;
+  public boolean delayHappen = false;
 
   public SimulateDayByDay(ConstructionProject constructionProject) {
     this.c = constructionProject;
@@ -87,12 +88,23 @@ public class SimulateDayByDay {
       List<Alarm> unresolved = c.alarms.getUnresolvedAlarms();
       l.log(unresolved);
       c.analyseAlarms(unresolved, workforce, day+1, printToConsole, manualInput);
+      delayHappen = true;
     }
 
     // Go to next day
     workforce.alignSchedules(day);
     endOfDay(workforce, c);
     day++;
+  }
+
+  public boolean getDelayHappen(){
+    return delayHappen;
+  }
+
+  public void setDelayHappen(){
+    if (delayHappen) {
+      delayHappen = false;
+    }
   }
 
   public int getDayCount(){
